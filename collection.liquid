@@ -1,0 +1,98 @@
+{% comment %}
+  Studio Sivad - Collection Template
+  Displays collection of products with filtering and sorting
+{% endcomment %}
+
+<div class="collection-page">
+  <div class="container">
+    
+    <!-- Collection Header -->
+    <div class="collection-header">
+      <h1 class="collection-title">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="collection-description">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+      
+      <div class="collection-meta">
+        <span class="product-count">
+          {{ collection.products_count }} 
+          {% if collection.products_count == 1 %}product{% else %}products{% endif %}
+        </span>
+      </div>
+    </div>
+
+    <!-- Filters and Sort -->
+    <div class="collection-toolbar">
+      <div class="filter-sort-controls">
+        <div class="sort-by">
+          <label for="sort-select">Sort by:</label>
+          <select id="sort-select" onchange="sortCollection(this.value)">
+            <option value="manual">Featured</option>
+            <option value="best-selling">Best Selling</option>
+            <option value="title-ascending">A-Z</option>
+            <option value="title-descending">Z-A</option>
+            <option value="price-ascending">Price: Low to High</option>
+            <option value="price-descending">Price: High to Low</option>
+            <option value="created-ascending">Oldest First</option>
+            <option value="created-descending">Newest First</option>
+          </select>
+        </div>
+        
+        <div class="view-toggle">
+          <button class="view-btn grid-view active" onclick="setView('grid')" title="Grid View">
+            ⊞
+          </button>
+          <button class="view-btn list-view" onclick="setView('list')" title="List View">
+            ☰
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    {% if collection.products.size > 0 %}
+      <div class="products-container grid-layout" id="products-container">
+        {% for product in collection.products %}
+          <div class="product-item" data-product-id="{{ product.id }}">
+            
+            <!-- Product Image -->
+            <div class="product-image-container">
+              <a href="{{ product.url }}" class="product-link">
+                {% if product.featured_media %}
+                  <img src="{{ product.featured_media | image_url: width: 400 }}" 
+                       alt="{{ product.title }}" 
+                       class="product-image"
+                       loading="lazy">
+                  
+                  {% if product.media.size > 1 %}
+                    <img src="{{ product.media[1] | image_url: width: 400 }}" 
+                         alt="{{ product.title }}" 
+                         class="product-image-hover"
+                         loading="lazy">
+                  {% endif %}
+                {% else %}
+                  <div class="product-placeholder">
+                    <svg width="200" height="200" viewBox="0 0 200 200" fill="#ddd">
+                      <rect width="200" height="200" fill="currentColor"/>
+                    </svg>
+                  </div>
+                {% endif %}
+              </a>
+              
+              <!-- Product Badges -->
+              <div class="product-badges">
+                {% if product.compare_at_price > product.price %}
+                  <span class="badge sale-badge">Sale</span>
+                {% endif %}
+                
+                {% if product.metafields.custom.drop_status == 'live' %}
+                  <span class="badge live-badge">Live Drop</span>
+                {% elsif product.metafields.custom.drop_status == 'upcoming' %}
+                  <span class="badge upcoming-badge">Upcoming</span>
+                {% endif %}
+                
+                {% unless product.available %}
+                  <span class="badge sold-out-badge">Sold Out</span>
+                {% endun}

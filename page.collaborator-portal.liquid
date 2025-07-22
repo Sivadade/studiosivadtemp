@@ -1,0 +1,5497 @@
+<div class="ai-metric">
+              <div class="ai-metric-value">5 days</div>
+              <div class="ai-metric-label">Time Remaining</div>
+            </div>
+          </div>
+
+          <div class="recommendations-list">
+            <div class="recommendation-card">
+              <div class="recommendation-header">
+                <div class="recommendation-type">Pricing Strategy</div>
+                <div class="recommendation-urgency urgency-high">High Priority</div>
+              </div>
+              <h4 class="recommendation-title">Apply Flash Discount to Boost Allocation</h4>
+              <p class="recommendation-description">
+                Your current allocation is at 47% with 5 days remaining. AI analysis suggests a 15% flash discount for 48 hours could increase allocation to 85% and generate an additional $1,200 in revenue.
+              </p>
+              <div class="recommendation-actions">
+                <button class="action-btn" onclick="implementDiscount()">Create Discount</button>
+                <button class="action-btn secondary" onclick="viewDetails()">View Analysis</button>
+              </div>
+            </div>
+
+            <div class="recommendation-card">
+              <div class="recommendation-header">
+                <div class="recommendation-type">Product Mix</div>
+                <div class="recommendation-urgency urgency-medium">Medium Priority</div>
+              </div>
+              <h4 class="recommendation-title">Add Complementary Product</h4>
+              <p class="recommendation-description">
+                Based on customer behavior, 67% of hoodie buyers also purchase accessories. Consider adding a matching beanie or cap to increase average order value by $24.
+              </p>
+              <div class="recommendation-actions">
+                <button class="action-btn" onclick="addProduct()">Add Product</button>
+                <button class="action-btn secondary" onclick="seeData()">See Data</button>
+              </div>
+            </div>
+
+            <div class="recommendation-card">
+              <div class="recommendation-header">
+                <div class="recommendation-type">Timeline</div>
+                <div class="recommendation-urgency urgency-low">Low Priority</div>
+              </div>
+              <h4 class="recommendation-title">Consider Extension</h4>
+              <p class="recommendation-description">
+                Current momentum suggests extending the drop by 3 days could capture an additional 15-20% allocation. Monitor daily performance before deciding.
+              </p>
+              <div class="recommendation-actions">
+                <button class="action-btn" onclick="extendDrop()">Extend Drop</button>
+                <button class="action-btn secondary" onclick="setReminder()">Set Reminder</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marketing AI -->
+        <div class="ai-content" id="marketing-ai">
+          <div class="ai-overview">
+            <div class="ai-metric">
+              <div class="ai-metric-value">32K</div>
+              <div class="ai-metric-label">TikTok Views</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">4.8%</div>
+              <div class="ai-metric-label">Social Conversion</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">247</div>
+              <div class="ai-metric-label">Daily Reservations</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">8:30 PM</div>
+              <div class="ai-metric-label">Peak Engagement</div>
+            </div>
+          </div>
+
+          <div class="recommendations-list">
+            <div class="recommendation-card">
+              <div class="recommendation-header">
+                <div class="recommendation-type">Content Strategy</div>
+                <div class="recommendation-urgency urgency-high">High Priority</div>
+              </div>
+              <h4 class="recommendation-title">Post TikTok Behind-the-Scenes</h4>
+              <p class="recommendation-description">
+                Post behind-the-scenes content at 7:30 PM today for maximum reach. AI predicts 35-50K views and 12% conversion lift based on your audience patterns.
+              </p>
+              <div class="recommendation-actions">
+                <button class="action-btn" onclick="schedulePost()">Schedule Post</button>
+                <button class="action-btn secondary" onclick="generateScript()">Generate Script</button>
+              </div>
+            </div>
+
+            <div class="recommendation-card">
+              <div class="recommendation-header">
+                <div class="recommendation-type">Instagram Stories</div>
+                <div class="recommendation-urgency urgency-medium">Medium Priority</div>
+              </div>
+              <h4 class="recommendation-title">User-Generated Content Campaign</h4>
+              <p class="recommendation-description">
+                Share customer photos wearing your pieces. Stories with UGC generate 23% higher engagement and 8% better conversion for your brand.
+              </p>
+              <div class="recommendation-actions">
+                <button class="action-btn" onclick="createUGC()">Create Story</button>
+                <button class="action-btn secondary" onclick="findPhotos()">Find Photos</button>
+              </div>
+            </div>
+
+            <div class="recommendation-card">
+              <div class="recommendation-header">
+                <div class="recommendation-type">Twitter Engagement</div>
+                <div class="recommendation-urgency urgency-medium">Medium Priority</div>
+              </div>
+              <h4 class="recommendation-title">Drop Scarcity Update</h4>
+              <p class="recommendation-description">
+                Tweet about allocation progress at 3 PM. "Only 53 spots left!" messaging drives 15% higher click-through rates for your audience.
+              </p>
+              <div class="recommendation-actions">
+                <button class="action-btn" onclick="tweetUpdate()">Tweet Now</button>
+                <button class="action-btn secondary" onclick="scheduleTweet()">Schedule</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Assets Tab -->
+    <div class="tab-pane" id="assets-tab">
+      <div class="upload-section">
+        <h2 class="section-title">Brand Assets</h2>
+        
+        <div class="upload-zone" id="upload-zone">
+          <div class="upload-icon">📁</div>
+          <div class="upload-text">Drag & drop files here or click to browse</div>
+          <div class="upload-hint">PNG, JPG, MP4 up to 10MB</div>
+          <input type="file" id="file-input" multiple accept="image/*,video/*" style="display: none;">
+        </div>
+
+        <div class="asset-grid" id="asset-grid">
+          <!-- Sample assets -->
+          <div class="asset-item">
+            <div class="asset-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+              Logo.png
+            </div>
+            <div class="asset-overlay">
+              <div class="asset-actions">
+                <button class="asset-action" title="Edit">✏️</button>
+                <button class="asset-action" title="Download">⬇️</button>
+                <button class="asset-action" title="Delete">🗑️</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="asset-item">
+            <div class="asset-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+              Product_1.jpg
+            </div>
+            <div class="asset-overlay">
+              <div class="asset-actions">
+                <button class="asset-action" title="Edit">✏️</button>
+                <button class="asset-action" title="Download">⬇️</button>
+                <button class="asset-action" title="Delete">🗑️</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="asset-item">
+            <div class="asset-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+              Behind_Scenes.mp4
+            </div>
+            <div class="asset-overlay">
+              <div class="asset-actions">
+                <button class="asset-action" title="Edit">✏️</button>
+                <button class="asset-action" title="Download">⬇️</button>
+                <button class="asset-action" title="Delete">🗑️</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="asset-item">
+            <div class="asset-image" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+              Lifestyle_1.jpg
+            </div>
+            <div class="asset-overlay">
+              <div class="asset-actions">
+                <button class="asset-action" title="Edit">✏️</button>
+                <button class="asset-action" title="Download">⬇️</button>
+                <button class="asset-action" title="Delete">🗑️</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div class="tab-pane" id="analytics-tab">
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Analytics</h3>
+            <select class="form-input" style="width: auto;">
+              <option>Last 7 days</option>
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="detailed-revenue-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Traffic Sources</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="traffic-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Customer Demographics</h3>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; padding: 1rem;">
+          <div>
+            <h4>Age Groups</h4>
+            <div style="display: grid; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span>18-24</span><span>42%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>25-34</span><span>38%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>35-44</span><span>15%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>45+</span><span>5%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h4>Location</h4>
+            <div style="display: grid; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span>United States</span><span>67%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Canada</span><span>18%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>United Kingdom</span><span>8%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Other</span><span>7%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h4>Device</h4>
+            <div style="display: grid; gap: 0.5rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span>Mobile</span><span>78%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Desktop</span><span>19%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span>Tablet</span><span>3%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="tab-pane" id="settings-tab">
+      <div class="settings-section">
+        <h2 class="section-title">Store Settings</h2>
+        
+        <form class="settings-form" id="settings-form">
+          <div class="form-group">
+            <label class="form-label">Store Name</label>
+            <input type="text" class="form-input" value="{{ settings.store_title | default: shop.name }}" name="store_title">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Collaborator Name</label>
+            <input type="text" class="form-input" value="{{ collaborator_name }}" name="collaborator_name">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">About Text</label>
+            <textarea class="form-input form-textarea" name="about_text" placeholder="Tell your story...">{{ settings.about_text }}</textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Social Media Handles</label>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+              <input type="text" class="form-input" placeholder="Instagram handle" value="{{ settings.instagram_handle }}" name="instagram_handle">
+              <input type="text" class="form-input" placeholder="TikTok handle" value="{{ settings.tiktok_handle }}" name="tiktok_handle">
+              <input type="text" class="form-input" placeholder="Twitter handle" value="{{ settings.twitter_handle }}" name="twitter_handle">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Brand Colors</label>
+            <div class="color-picker-group">
+              <div class="color-picker">
+                <label>Primary Color</label>
+                <input type="color" class="color-input" value="{{ settings.primary_color | default: '#000000' }}" name="primary_color">
+              </div>
+              <div class="color-picker">
+                <label>Secondary Color</label>
+                <input type="color" class="color-input" value="{{ settings.secondary_color | default: '#333333' }}" name="secondary_color">
+              </div>
+              <div class="color-picker">
+                <label>Accent Color</label>
+                <input type="color" class="color-input" value="{{ settings.accent_color | default: '#007bff' }}" name="accent_color">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Revenue Split</label>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+              <div>
+                <label>Collaborator %</label>
+                <input type="number" class="form-input" value="{{ settings.collaborator_revenue_split | default: 42.5 }}" name="collaborator_split" min="0" max="100" step="0.1">
+              </div>
+              <div>
+                <label>Studio Sivad %</label>
+                <input type="number" class="form-input" value="{{ settings.studio_revenue_split | default: 42.5 }}" name="studio_split" min="0" max="100" step="0.1">
+              </div>
+              <div>
+                <label>Designer %</label>
+                <input type="number" class="form-input" value="{{ settings.designer_revenue_split | default: 15 }}" name="designer_split" min="0" max="100" step="0.1">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">💾 Save Settings</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Collaborator Portal JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const collaboratorPortal = new CollaboratorPortalManager();
+  });
+
+  class CollaboratorPortalManager {
+    constructor() {
+      this.currentTab = 'overview';
+      this.currentAI = 'strategist';
+      this.init();
+    }
+
+    init() {
+      this.initializeTabs();
+      this.initializeAIToggle();
+      this.initializeCharts();
+      this.initializeFileUpload();
+      this.initializeSettings();
+      this.loadPortalData();
+    }
+
+    initializeTabs() {
+      const navTabs = document.querySelectorAll('.nav-tab');
+      const tabPanes = document.querySelectorAll('.tab-pane');
+
+      navTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetTab = tab.dataset.tab;
+          
+          // Remove active classes
+          navTabs.forEach(t => t.classList.remove('active'));
+          tabPanes.forEach(pane => pane.classList.remove('active'));
+          
+          // Add active classes
+          tab.classList.add('active');
+          document.getElementById(targetTab + '-tab').classList.add('active');
+          
+          this.currentTab = targetTab;
+          this.onTabChange(targetTab);
+        });
+      });
+    }
+
+    initializeAIToggle() {
+      const aiToggleBtns = document.querySelectorAll('.ai-toggle-btn');
+      const aiContents = document.querySelectorAll('.ai-content');
+
+      aiToggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetAI = btn.dataset.ai;
+          
+          // Remove active classes
+          aiToggleBtns.forEach(b => b.classList.remove('active'));
+          aiContents.forEach(content => content.classList.remove('active'));
+          
+          // Add active classes
+          btn.classList.add('active');
+          document.getElementById(targetAI + '-ai').classList.add('active');
+          
+          this.currentAI = targetAI;
+        });
+      });
+    }
+
+    initializeCharts() {
+      // Revenue Chart
+      const revenueCtx = document.getElementById('revenue-chart');
+      if (revenueCtx) {
+        new Chart(revenueCtx, {
+          type: 'line',
+          data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+              label: 'Revenue',
+              data: [1200, 1900, 3000, 2100],
+              borderColor: '#000',
+              backgroundColor: 'rgba(0, 0, 0, 0.1)',
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return '{% comment %}
+  Studio Sivad - Collaborator Portal Template
+  Complete dashboard for collaborators with AI recommendations
+  Version: 1.0.0
+{% endcomment %}
+
+{% comment %} Access Control {% endcomment %}
+{% unless customer and customer.tags contains 'collaborator' %}
+  {% assign redirect_url = '/account/login' %}
+  <script>
+    alert('Access denied. Please log in with a collaborator account.');
+    window.location.href = '{{ redirect_url }}';
+  </script>
+  {% break %}
+{% endunless %}
+
+{%- liquid
+  assign collaborator_name = settings.collaborator_name | default: customer.first_name | default: 'Creator'
+  assign total_earnings = customer.metafields.custom.total_earnings | default: 0
+  assign total_orders = customer.metafields.custom.total_orders | default: 0
+  assign conversion_rate = customer.metafields.custom.conversion_rate | default: 0
+  assign social_followers = customer.metafields.custom.social_followers | default: 0
+-%}
+
+<!-- Collaborator Portal Styles -->
+<style>
+  .collaborator-portal {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 2rem 0;
+  }
+
+  .portal-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .portal-header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-info h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .header-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover, #333);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid var(--primary-color, #000);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  /* Dashboard Navigation */
+  .dashboard-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .nav-tab {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav-tab:hover {
+    color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .nav-tab.active {
+    color: var(--primary-color, #000);
+    border-bottom-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  /* Tab Content */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Dashboard Overview */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-change {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .metric-change.positive {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .metric-change.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  /* Charts and Analytics */
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+
+  /* Active Drops */
+  .drops-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .drop-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .drop-card:hover {
+    border-color: var(--primary-color, #000);
+    transform: translateY(-2px);
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+
+  .drop-content {
+    padding: 1rem;
+  }
+
+  .drop-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .drop-progress {
+    margin-bottom: 1rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* AI Recommendations */
+  .ai-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .ai-toggle-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color, #000);
+  }
+
+  .ai-content {
+    display: none;
+  }
+
+  .ai-content.active {
+    display: block;
+  }
+
+  .ai-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-metric {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .ai-metric-value {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-metric-label {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .recommendations-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .recommendation-card {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color, #000);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .recommendation-header {
+    display: flex;
+    justify-content: between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .recommendation-type {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .recommendation-urgency {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .urgency-high {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  .urgency-medium {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+  }
+
+  .urgency-low {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .recommendation-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .recommendation-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    background: var(--primary-hover, #333);
+  }
+
+  .action-btn.secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid #ddd;
+  }
+
+  .action-btn.secondary:hover {
+    border-color: var(--primary-color, #000);
+  }
+
+  /* Asset Upload */
+  .upload-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .upload-zone {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .upload-zone.dragover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-hint {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .asset-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .asset-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .asset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .asset-item:hover .asset-overlay {
+    opacity: 1;
+  }
+
+  .asset-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .asset-action {
+    background: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Settings */
+  .settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .settings-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .form-input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #000);
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .color-picker-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .color-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .analytics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portal-container {
+      padding: 0 1rem;
+    }
+
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+    }
+
+    .nav-tab {
+      text-align: left;
+      border-bottom: none;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-tab.active {
+      border-bottom: none;
+      border-left-color: var(--primary-color, #000);
+    }
+
+    .overview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .drops-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Collaborator Portal HTML -->
+<div class="collaborator-portal">
+  <div class="portal-container">
+    
+    <!-- Portal Header -->
+    <div class="portal-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1>Welcome back, {{ collaborator_name }}!</h1>
+          <p class="header-subtitle">Manage your drops, track performance, and grow your brand</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="btn btn-secondary" onclick="exportData()">
+            📊 Export Data
+          </a>
+          <a href="/collections/all" class="btn btn-primary">
+            🚀 View Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Navigation -->
+    <div class="dashboard-nav">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="overview">📈 Overview</button>
+        <button class="nav-tab" data-tab="drops">🛍️ My Drops</button>
+        <button class="nav-tab" data-tab="ai-insights">🤖 AI Insights</button>
+        <button class="nav-tab" data-tab="assets">📁 Assets</button>
+        <button class="nav-tab" data-tab="analytics">📊 Analytics</button>
+        <button class="nav-tab" data-tab="settings">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <!-- Overview Tab -->
+    <div class="tab-pane active" id="overview-tab">
+      <div class="overview-grid">
+        <div class="metric-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-value">${{ total_earnings | money_without_currency }}</div>
+          <div class="metric-label">Total Earnings</div>
+          <div class="metric-change positive">+12.5% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📦</div>
+          <div class="metric-value">{{ total_orders }}</div>
+          <div class="metric-label">Total Orders</div>
+          <div class="metric-change positive">+8.3% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-value">{{ conversion_rate }}%</div>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-change positive">+2.1% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-value">{{ social_followers | divided_by: 1000 }}K</div>
+          <div class="metric-label">Followers</div>
+          <div class="metric-change positive">+5.7% this month</div>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Trend</h3>
+            <select class="form-input" style="width: auto;">
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Last year</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenue-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Top Products</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="products-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="drops-section">
+        <h2 class="section-title">
+          Recent Activity
+          <a href="#" class="btn btn-secondary btn-sm">View All</a>
+        </h2>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>New order received</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Courtside Confidence Hoodie - Size L</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">$89.00</div>
+              <div style="font-size: 0.8rem; color: #666;">2 min ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>Drop milestone reached</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Training Essentials reached 75% allocation</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">75%</div>
+              <div style="font-size: 0.8rem; color: #666;">1 hour ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>AI recommendation</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Post Instagram story for 15% conversion boost</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">📱</div>
+              <div style="font-size: 0.8rem; color: #666;">3 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Drops Tab -->
+    <div class="tab-pane" id="drops-tab">
+      <div class="drops-section">
+        <h2 class="section-title">
+          Active Drops
+          <a href="#" class="btn btn-primary">🚀 Create New Drop</a>
+        </h2>
+        
+        <div class="drops-grid">
+          {% for product in collections.all.products limit: 6 %}
+            {%- liquid
+              assign allocation_target = product.metafields.custom.allocation_target | default: 100
+              assign current_reservations = product.metafields.custom.current_reservations | default: 0
+              assign allocation_percentage = 0
+              if allocation_target > 0
+                assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+              endif
+            -%}
+            
+            <div class="drop-card">
+              <div class="drop-image">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 300 | image_tag: 
+                     alt: product.title, 
+                     loading: 'lazy' }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                    {{ product.title }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="drop-content">
+                <h3 class="drop-title">{{ product.title }}</h3>
+                
+                <div class="drop-meta">
+                  <span>From ${{ product.price_min | money_without_currency }}</span>
+                  <span>{{ current_reservations }} orders</span>
+                </div>
+                
+                <div class="drop-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ allocation_percentage }}%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span>{{ allocation_percentage | round: 1 }}% filled</span>
+                    <span>{{ current_reservations }}/{{ allocation_target }}</span>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <a href="{{ product.url }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 0.5rem;">View</a>
+                  <button class="btn btn-primary" style="flex: 1;" onclick="editDrop('{{ product.id }}')">Edit</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights Tab -->
+    <div class="tab-pane" id="ai-insights-tab">
+      <div class="ai-section">
+        <h2 class="section-title">AI-Powered Insights</h2>
+        
+        <div class="ai-toggle">
+          <button class="ai-toggle-btn active" data-ai="strategist">🎯 Drop Strategist</button>
+          <button class="ai-toggle-btn" data-ai="marketing">📱 Marketing AI</button>
+        </div>
+
+        <!-- Drop Strategist AI -->
+        <div class="ai-content active" id="strategist-ai">
+          <div class="ai-overview">
+            <div class="ai-metric">
+              <div class="ai-metric-value">47%</div>
+              <div class="ai-metric-label">Allocation Progress</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">$2,847</div>
+              <div class="ai-metric-label">Projected Revenue</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">3.2%</div>
+              <div class="ai-metric-label">Conversion Rate</div>
+            </div>
+            <div class="ai-metric">
+              <div + value.toLocaleString();
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Products Chart
+      const productsCtx = document.getElementById('products-chart');
+      if (productsCtx) {
+        new Chart(productsCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Hoodies', 'T-Shirts', 'Accessories'],
+            datasets: [{
+              data: [45, 35, 20],
+              backgroundColor: ['#000', '#333', '#666']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        });
+      }
+
+      // Traffic Chart (Analytics tab)
+      const trafficCtx = document.getElementById('traffic-chart');
+      if (trafficCtx) {
+        new Chart(trafficCtx, {
+          type: 'pie',
+          data: {
+            labels: ['Social Media', 'Direct', 'Search', 'Referral'],
+            datasets: [{
+              data: [40, 30, 20, 10],
+              backgroundColor: ['#000', '#333', '#666', '#999']
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        });
+      }
+
+      // Detailed Revenue Chart (Analytics tab)
+      const detailedRevenueCtx = document.getElementById('detailed-revenue-chart');
+      if (detailedRevenueCtx) {
+        new Chart(detailedRevenueCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+              label: 'Daily Revenue',
+              data: [320, 450, 380, 420, 520, 680, 590],
+              backgroundColor: '#000'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return '{% comment %}
+  Studio Sivad - Collaborator Portal Template
+  Complete dashboard for collaborators with AI recommendations
+  Version: 1.0.0
+{% endcomment %}
+
+{% comment %} Access Control {% endcomment %}
+{% unless customer and customer.tags contains 'collaborator' %}
+  {% assign redirect_url = '/account/login' %}
+  <script>
+    alert('Access denied. Please log in with a collaborator account.');
+    window.location.href = '{{ redirect_url }}';
+  </script>
+  {% break %}
+{% endunless %}
+
+{%- liquid
+  assign collaborator_name = settings.collaborator_name | default: customer.first_name | default: 'Creator'
+  assign total_earnings = customer.metafields.custom.total_earnings | default: 0
+  assign total_orders = customer.metafields.custom.total_orders | default: 0
+  assign conversion_rate = customer.metafields.custom.conversion_rate | default: 0
+  assign social_followers = customer.metafields.custom.social_followers | default: 0
+-%}
+
+<!-- Collaborator Portal Styles -->
+<style>
+  .collaborator-portal {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 2rem 0;
+  }
+
+  .portal-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .portal-header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-info h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .header-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover, #333);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid var(--primary-color, #000);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  /* Dashboard Navigation */
+  .dashboard-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .nav-tab {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav-tab:hover {
+    color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .nav-tab.active {
+    color: var(--primary-color, #000);
+    border-bottom-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  /* Tab Content */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Dashboard Overview */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-change {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .metric-change.positive {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .metric-change.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  /* Charts and Analytics */
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+
+  /* Active Drops */
+  .drops-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .drop-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .drop-card:hover {
+    border-color: var(--primary-color, #000);
+    transform: translateY(-2px);
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+
+  .drop-content {
+    padding: 1rem;
+  }
+
+  .drop-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .drop-progress {
+    margin-bottom: 1rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* AI Recommendations */
+  .ai-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .ai-toggle-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color, #000);
+  }
+
+  .ai-content {
+    display: none;
+  }
+
+  .ai-content.active {
+    display: block;
+  }
+
+  .ai-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-metric {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .ai-metric-value {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-metric-label {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .recommendations-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .recommendation-card {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color, #000);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .recommendation-header {
+    display: flex;
+    justify-content: between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .recommendation-type {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .recommendation-urgency {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .urgency-high {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  .urgency-medium {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+  }
+
+  .urgency-low {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .recommendation-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .recommendation-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    background: var(--primary-hover, #333);
+  }
+
+  .action-btn.secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid #ddd;
+  }
+
+  .action-btn.secondary:hover {
+    border-color: var(--primary-color, #000);
+  }
+
+  /* Asset Upload */
+  .upload-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .upload-zone {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .upload-zone.dragover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-hint {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .asset-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .asset-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .asset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .asset-item:hover .asset-overlay {
+    opacity: 1;
+  }
+
+  .asset-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .asset-action {
+    background: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Settings */
+  .settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .settings-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .form-input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #000);
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .color-picker-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .color-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .analytics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portal-container {
+      padding: 0 1rem;
+    }
+
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+    }
+
+    .nav-tab {
+      text-align: left;
+      border-bottom: none;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-tab.active {
+      border-bottom: none;
+      border-left-color: var(--primary-color, #000);
+    }
+
+    .overview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .drops-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Collaborator Portal HTML -->
+<div class="collaborator-portal">
+  <div class="portal-container">
+    
+    <!-- Portal Header -->
+    <div class="portal-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1>Welcome back, {{ collaborator_name }}!</h1>
+          <p class="header-subtitle">Manage your drops, track performance, and grow your brand</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="btn btn-secondary" onclick="exportData()">
+            📊 Export Data
+          </a>
+          <a href="/collections/all" class="btn btn-primary">
+            🚀 View Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Navigation -->
+    <div class="dashboard-nav">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="overview">📈 Overview</button>
+        <button class="nav-tab" data-tab="drops">🛍️ My Drops</button>
+        <button class="nav-tab" data-tab="ai-insights">🤖 AI Insights</button>
+        <button class="nav-tab" data-tab="assets">📁 Assets</button>
+        <button class="nav-tab" data-tab="analytics">📊 Analytics</button>
+        <button class="nav-tab" data-tab="settings">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <!-- Overview Tab -->
+    <div class="tab-pane active" id="overview-tab">
+      <div class="overview-grid">
+        <div class="metric-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-value">${{ total_earnings | money_without_currency }}</div>
+          <div class="metric-label">Total Earnings</div>
+          <div class="metric-change positive">+12.5% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📦</div>
+          <div class="metric-value">{{ total_orders }}</div>
+          <div class="metric-label">Total Orders</div>
+          <div class="metric-change positive">+8.3% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-value">{{ conversion_rate }}%</div>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-change positive">+2.1% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-value">{{ social_followers | divided_by: 1000 }}K</div>
+          <div class="metric-label">Followers</div>
+          <div class="metric-change positive">+5.7% this month</div>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Trend</h3>
+            <select class="form-input" style="width: auto;">
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Last year</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenue-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Top Products</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="products-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="drops-section">
+        <h2 class="section-title">
+          Recent Activity
+          <a href="#" class="btn btn-secondary btn-sm">View All</a>
+        </h2>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>New order received</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Courtside Confidence Hoodie - Size L</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">$89.00</div>
+              <div style="font-size: 0.8rem; color: #666;">2 min ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>Drop milestone reached</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Training Essentials reached 75% allocation</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">75%</div>
+              <div style="font-size: 0.8rem; color: #666;">1 hour ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>AI recommendation</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Post Instagram story for 15% conversion boost</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">📱</div>
+              <div style="font-size: 0.8rem; color: #666;">3 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Drops Tab -->
+    <div class="tab-pane" id="drops-tab">
+      <div class="drops-section">
+        <h2 class="section-title">
+          Active Drops
+          <a href="#" class="btn btn-primary">🚀 Create New Drop</a>
+        </h2>
+        
+        <div class="drops-grid">
+          {% for product in collections.all.products limit: 6 %}
+            {%- liquid
+              assign allocation_target = product.metafields.custom.allocation_target | default: 100
+              assign current_reservations = product.metafields.custom.current_reservations | default: 0
+              assign allocation_percentage = 0
+              if allocation_target > 0
+                assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+              endif
+            -%}
+            
+            <div class="drop-card">
+              <div class="drop-image">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 300 | image_tag: 
+                     alt: product.title, 
+                     loading: 'lazy' }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                    {{ product.title }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="drop-content">
+                <h3 class="drop-title">{{ product.title }}</h3>
+                
+                <div class="drop-meta">
+                  <span>From ${{ product.price_min | money_without_currency }}</span>
+                  <span>{{ current_reservations }} orders</span>
+                </div>
+                
+                <div class="drop-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ allocation_percentage }}%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span>{{ allocation_percentage | round: 1 }}% filled</span>
+                    <span>{{ current_reservations }}/{{ allocation_target }}</span>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <a href="{{ product.url }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 0.5rem;">View</a>
+                  <button class="btn btn-primary" style="flex: 1;" onclick="editDrop('{{ product.id }}')">Edit</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights Tab -->
+    <div class="tab-pane" id="ai-insights-tab">
+      <div class="ai-section">
+        <h2 class="section-title">AI-Powered Insights</h2>
+        
+        <div class="ai-toggle">
+          <button class="ai-toggle-btn active" data-ai="strategist">🎯 Drop Strategist</button>
+          <button class="ai-toggle-btn" data-ai="marketing">📱 Marketing AI</button>
+        </div>
+
+        <!-- Drop Strategist AI -->
+        <div class="ai-content active" id="strategist-ai">
+          <div class="ai-overview">
+            <div class="ai-metric">
+              <div class="ai-metric-value">47%</div>
+              <div class="ai-metric-label">Allocation Progress</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">$2,847</div>
+              <div class="ai-metric-label">Projected Revenue</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">3.2%</div>
+              <div class="ai-metric-label">Conversion Rate</div>
+            </div>
+            <div class="ai-metric">
+              <div + value.toLocaleString();
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    initializeFileUpload() {
+      const uploadZone = document.getElementById('upload-zone');
+      const fileInput = document.getElementById('file-input');
+      const assetGrid = document.getElementById('asset-grid');
+
+      if (!uploadZone || !fileInput) return;
+
+      uploadZone.addEventListener('click', () => fileInput.click());
+
+      uploadZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadZone.classList.add('dragover');
+      });
+
+      uploadZone.addEventListener('dragleave', () => {
+        uploadZone.classList.remove('dragover');
+      });
+
+      uploadZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadZone.classList.remove('dragover');
+        
+        const files = Array.from(e.dataTransfer.files);
+        this.handleFileUpload(files);
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        this.handleFileUpload(files);
+      });
+    }
+
+    handleFileUpload(files) {
+      files.forEach(file => {
+        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+          // In a real implementation, you'd upload to your server
+          this.addAssetToGrid(file.name, file.type);
+        }
+      });
+    }
+
+    addAssetToGrid(fileName, fileType) {
+      const assetGrid = document.getElementById('asset-grid');
+      const assetItem = document.createElement('div');
+      assetItem.className = 'asset-item';
+      
+      const isVideo = fileType.startsWith('video/');
+      const bgColor = isVideo ? '#e74c3c' : '#3498db';
+      
+      assetItem.innerHTML = `
+        <div class="asset-image" style="background: ${bgColor}; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem;">
+          ${fileName}
+        </div>
+        <div class="asset-overlay">
+          <div class="asset-actions">
+            <button class="asset-action" title="Edit" onclick="editAsset('${fileName}')">✏️</button>
+            <button class="asset-action" title="Download" onclick="downloadAsset('${fileName}')">⬇️</button>
+            <button class="asset-action" title="Delete" onclick="deleteAsset('${fileName}')">🗑️</button>
+          </div>
+        </div>
+      `;
+      
+      assetGrid.appendChild(assetItem);
+    }
+
+    initializeSettings() {
+      const settingsForm = document.getElementById('settings-form');
+      if (!settingsForm) return;
+
+      settingsForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.saveSettings();
+      });
+
+      // Revenue split auto-calculation
+      const splits = settingsForm.querySelectorAll('input[name$="_split"]');
+      splits.forEach(input => {
+        input.addEventListener('input', () => {
+          this.validateRevenueSplits();
+        });
+      });
+    }
+
+    validateRevenueSplits() {
+      const collaboratorSplit = parseFloat(document.querySelector('input[name="collaborator_split"]').value) || 0;
+      const studioSplit = parseFloat(document.querySelector('input[name="studio_split"]').value) || 0;
+      const designerSplit = parseFloat(document.querySelector('input[name="designer_split"]').value) || 0;
+      
+      const total = collaboratorSplit + studioSplit + designerSplit;
+      
+      if (total !== 100) {
+        // Auto-adjust studio split to make total 100%
+        const newStudioSplit = 100 - collaboratorSplit - designerSplit;
+        document.querySelector('input[name="studio_split"]').value = newStudioSplit.toFixed(1);
+      }
+    }
+
+    saveSettings() {
+      const formData = new FormData(document.getElementById('settings-form'));
+      const settings = Object.fromEntries(formData);
+      
+      // In a real implementation, this would save to Shopify
+      console.log('Saving settings:', settings);
+      
+      this.showNotification('Settings saved successfully!', 'success');
+    }
+
+    loadPortalData() {
+      // Simulate loading data
+      this.animateMetrics();
+    }
+
+    animateMetrics() {
+      const metricValues = document.querySelectorAll('.metric-value');
+      
+      metricValues.forEach(metric => {
+        const text = metric.textContent;
+        const number = parseFloat(text.replace(/[^0-9.]/g, ''));
+        
+        if (!isNaN(number)) {
+          this.animateValue(metric, 0, number, 1500, text);
+        }
+      });
+    }
+
+    animateValue(element, start, end, duration, originalText) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const currentValue = Math.floor(progress * (end - start) + start);
+        
+        // Format based on original text
+        if (originalText.includes('{% comment %}
+  Studio Sivad - Collaborator Portal Template
+  Complete dashboard for collaborators with AI recommendations
+  Version: 1.0.0
+{% endcomment %}
+
+{% comment %} Access Control {% endcomment %}
+{% unless customer and customer.tags contains 'collaborator' %}
+  {% assign redirect_url = '/account/login' %}
+  <script>
+    alert('Access denied. Please log in with a collaborator account.');
+    window.location.href = '{{ redirect_url }}';
+  </script>
+  {% break %}
+{% endunless %}
+
+{%- liquid
+  assign collaborator_name = settings.collaborator_name | default: customer.first_name | default: 'Creator'
+  assign total_earnings = customer.metafields.custom.total_earnings | default: 0
+  assign total_orders = customer.metafields.custom.total_orders | default: 0
+  assign conversion_rate = customer.metafields.custom.conversion_rate | default: 0
+  assign social_followers = customer.metafields.custom.social_followers | default: 0
+-%}
+
+<!-- Collaborator Portal Styles -->
+<style>
+  .collaborator-portal {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 2rem 0;
+  }
+
+  .portal-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .portal-header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-info h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .header-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover, #333);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid var(--primary-color, #000);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  /* Dashboard Navigation */
+  .dashboard-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .nav-tab {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav-tab:hover {
+    color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .nav-tab.active {
+    color: var(--primary-color, #000);
+    border-bottom-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  /* Tab Content */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Dashboard Overview */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-change {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .metric-change.positive {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .metric-change.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  /* Charts and Analytics */
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+
+  /* Active Drops */
+  .drops-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .drop-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .drop-card:hover {
+    border-color: var(--primary-color, #000);
+    transform: translateY(-2px);
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+
+  .drop-content {
+    padding: 1rem;
+  }
+
+  .drop-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .drop-progress {
+    margin-bottom: 1rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* AI Recommendations */
+  .ai-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .ai-toggle-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color, #000);
+  }
+
+  .ai-content {
+    display: none;
+  }
+
+  .ai-content.active {
+    display: block;
+  }
+
+  .ai-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-metric {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .ai-metric-value {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-metric-label {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .recommendations-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .recommendation-card {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color, #000);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .recommendation-header {
+    display: flex;
+    justify-content: between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .recommendation-type {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .recommendation-urgency {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .urgency-high {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  .urgency-medium {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+  }
+
+  .urgency-low {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .recommendation-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .recommendation-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    background: var(--primary-hover, #333);
+  }
+
+  .action-btn.secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid #ddd;
+  }
+
+  .action-btn.secondary:hover {
+    border-color: var(--primary-color, #000);
+  }
+
+  /* Asset Upload */
+  .upload-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .upload-zone {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .upload-zone.dragover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-hint {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .asset-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .asset-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .asset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .asset-item:hover .asset-overlay {
+    opacity: 1;
+  }
+
+  .asset-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .asset-action {
+    background: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Settings */
+  .settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .settings-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .form-input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #000);
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .color-picker-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .color-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .analytics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portal-container {
+      padding: 0 1rem;
+    }
+
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+    }
+
+    .nav-tab {
+      text-align: left;
+      border-bottom: none;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-tab.active {
+      border-bottom: none;
+      border-left-color: var(--primary-color, #000);
+    }
+
+    .overview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .drops-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Collaborator Portal HTML -->
+<div class="collaborator-portal">
+  <div class="portal-container">
+    
+    <!-- Portal Header -->
+    <div class="portal-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1>Welcome back, {{ collaborator_name }}!</h1>
+          <p class="header-subtitle">Manage your drops, track performance, and grow your brand</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="btn btn-secondary" onclick="exportData()">
+            📊 Export Data
+          </a>
+          <a href="/collections/all" class="btn btn-primary">
+            🚀 View Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Navigation -->
+    <div class="dashboard-nav">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="overview">📈 Overview</button>
+        <button class="nav-tab" data-tab="drops">🛍️ My Drops</button>
+        <button class="nav-tab" data-tab="ai-insights">🤖 AI Insights</button>
+        <button class="nav-tab" data-tab="assets">📁 Assets</button>
+        <button class="nav-tab" data-tab="analytics">📊 Analytics</button>
+        <button class="nav-tab" data-tab="settings">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <!-- Overview Tab -->
+    <div class="tab-pane active" id="overview-tab">
+      <div class="overview-grid">
+        <div class="metric-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-value">${{ total_earnings | money_without_currency }}</div>
+          <div class="metric-label">Total Earnings</div>
+          <div class="metric-change positive">+12.5% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📦</div>
+          <div class="metric-value">{{ total_orders }}</div>
+          <div class="metric-label">Total Orders</div>
+          <div class="metric-change positive">+8.3% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-value">{{ conversion_rate }}%</div>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-change positive">+2.1% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-value">{{ social_followers | divided_by: 1000 }}K</div>
+          <div class="metric-label">Followers</div>
+          <div class="metric-change positive">+5.7% this month</div>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Trend</h3>
+            <select class="form-input" style="width: auto;">
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Last year</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenue-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Top Products</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="products-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="drops-section">
+        <h2 class="section-title">
+          Recent Activity
+          <a href="#" class="btn btn-secondary btn-sm">View All</a>
+        </h2>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>New order received</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Courtside Confidence Hoodie - Size L</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">$89.00</div>
+              <div style="font-size: 0.8rem; color: #666;">2 min ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>Drop milestone reached</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Training Essentials reached 75% allocation</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">75%</div>
+              <div style="font-size: 0.8rem; color: #666;">1 hour ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>AI recommendation</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Post Instagram story for 15% conversion boost</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">📱</div>
+              <div style="font-size: 0.8rem; color: #666;">3 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Drops Tab -->
+    <div class="tab-pane" id="drops-tab">
+      <div class="drops-section">
+        <h2 class="section-title">
+          Active Drops
+          <a href="#" class="btn btn-primary">🚀 Create New Drop</a>
+        </h2>
+        
+        <div class="drops-grid">
+          {% for product in collections.all.products limit: 6 %}
+            {%- liquid
+              assign allocation_target = product.metafields.custom.allocation_target | default: 100
+              assign current_reservations = product.metafields.custom.current_reservations | default: 0
+              assign allocation_percentage = 0
+              if allocation_target > 0
+                assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+              endif
+            -%}
+            
+            <div class="drop-card">
+              <div class="drop-image">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 300 | image_tag: 
+                     alt: product.title, 
+                     loading: 'lazy' }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                    {{ product.title }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="drop-content">
+                <h3 class="drop-title">{{ product.title }}</h3>
+                
+                <div class="drop-meta">
+                  <span>From ${{ product.price_min | money_without_currency }}</span>
+                  <span>{{ current_reservations }} orders</span>
+                </div>
+                
+                <div class="drop-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ allocation_percentage }}%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span>{{ allocation_percentage | round: 1 }}% filled</span>
+                    <span>{{ current_reservations }}/{{ allocation_target }}</span>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <a href="{{ product.url }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 0.5rem;">View</a>
+                  <button class="btn btn-primary" style="flex: 1;" onclick="editDrop('{{ product.id }}')">Edit</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights Tab -->
+    <div class="tab-pane" id="ai-insights-tab">
+      <div class="ai-section">
+        <h2 class="section-title">AI-Powered Insights</h2>
+        
+        <div class="ai-toggle">
+          <button class="ai-toggle-btn active" data-ai="strategist">🎯 Drop Strategist</button>
+          <button class="ai-toggle-btn" data-ai="marketing">📱 Marketing AI</button>
+        </div>
+
+        <!-- Drop Strategist AI -->
+        <div class="ai-content active" id="strategist-ai">
+          <div class="ai-overview">
+            <div class="ai-metric">
+              <div class="ai-metric-value">47%</div>
+              <div class="ai-metric-label">Allocation Progress</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">$2,847</div>
+              <div class="ai-metric-label">Projected Revenue</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">3.2%</div>
+              <div class="ai-metric-label">Conversion Rate</div>
+            </div>
+            <div class="ai-metric">
+              <div)) {
+          element.textContent = '{% comment %}
+  Studio Sivad - Collaborator Portal Template
+  Complete dashboard for collaborators with AI recommendations
+  Version: 1.0.0
+{% endcomment %}
+
+{% comment %} Access Control {% endcomment %}
+{% unless customer and customer.tags contains 'collaborator' %}
+  {% assign redirect_url = '/account/login' %}
+  <script>
+    alert('Access denied. Please log in with a collaborator account.');
+    window.location.href = '{{ redirect_url }}';
+  </script>
+  {% break %}
+{% endunless %}
+
+{%- liquid
+  assign collaborator_name = settings.collaborator_name | default: customer.first_name | default: 'Creator'
+  assign total_earnings = customer.metafields.custom.total_earnings | default: 0
+  assign total_orders = customer.metafields.custom.total_orders | default: 0
+  assign conversion_rate = customer.metafields.custom.conversion_rate | default: 0
+  assign social_followers = customer.metafields.custom.social_followers | default: 0
+-%}
+
+<!-- Collaborator Portal Styles -->
+<style>
+  .collaborator-portal {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 2rem 0;
+  }
+
+  .portal-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .portal-header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-info h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .header-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover, #333);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid var(--primary-color, #000);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  /* Dashboard Navigation */
+  .dashboard-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .nav-tab {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav-tab:hover {
+    color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .nav-tab.active {
+    color: var(--primary-color, #000);
+    border-bottom-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  /* Tab Content */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Dashboard Overview */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-change {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .metric-change.positive {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .metric-change.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  /* Charts and Analytics */
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+
+  /* Active Drops */
+  .drops-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .drop-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .drop-card:hover {
+    border-color: var(--primary-color, #000);
+    transform: translateY(-2px);
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+
+  .drop-content {
+    padding: 1rem;
+  }
+
+  .drop-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .drop-progress {
+    margin-bottom: 1rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* AI Recommendations */
+  .ai-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .ai-toggle-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color, #000);
+  }
+
+  .ai-content {
+    display: none;
+  }
+
+  .ai-content.active {
+    display: block;
+  }
+
+  .ai-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-metric {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .ai-metric-value {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-metric-label {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .recommendations-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .recommendation-card {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color, #000);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .recommendation-header {
+    display: flex;
+    justify-content: between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .recommendation-type {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .recommendation-urgency {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .urgency-high {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  .urgency-medium {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+  }
+
+  .urgency-low {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .recommendation-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .recommendation-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    background: var(--primary-hover, #333);
+  }
+
+  .action-btn.secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid #ddd;
+  }
+
+  .action-btn.secondary:hover {
+    border-color: var(--primary-color, #000);
+  }
+
+  /* Asset Upload */
+  .upload-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .upload-zone {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .upload-zone.dragover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-hint {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .asset-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .asset-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .asset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .asset-item:hover .asset-overlay {
+    opacity: 1;
+  }
+
+  .asset-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .asset-action {
+    background: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Settings */
+  .settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .settings-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .form-input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #000);
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .color-picker-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .color-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .analytics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portal-container {
+      padding: 0 1rem;
+    }
+
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+    }
+
+    .nav-tab {
+      text-align: left;
+      border-bottom: none;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-tab.active {
+      border-bottom: none;
+      border-left-color: var(--primary-color, #000);
+    }
+
+    .overview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .drops-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Collaborator Portal HTML -->
+<div class="collaborator-portal">
+  <div class="portal-container">
+    
+    <!-- Portal Header -->
+    <div class="portal-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1>Welcome back, {{ collaborator_name }}!</h1>
+          <p class="header-subtitle">Manage your drops, track performance, and grow your brand</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="btn btn-secondary" onclick="exportData()">
+            📊 Export Data
+          </a>
+          <a href="/collections/all" class="btn btn-primary">
+            🚀 View Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Navigation -->
+    <div class="dashboard-nav">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="overview">📈 Overview</button>
+        <button class="nav-tab" data-tab="drops">🛍️ My Drops</button>
+        <button class="nav-tab" data-tab="ai-insights">🤖 AI Insights</button>
+        <button class="nav-tab" data-tab="assets">📁 Assets</button>
+        <button class="nav-tab" data-tab="analytics">📊 Analytics</button>
+        <button class="nav-tab" data-tab="settings">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <!-- Overview Tab -->
+    <div class="tab-pane active" id="overview-tab">
+      <div class="overview-grid">
+        <div class="metric-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-value">${{ total_earnings | money_without_currency }}</div>
+          <div class="metric-label">Total Earnings</div>
+          <div class="metric-change positive">+12.5% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📦</div>
+          <div class="metric-value">{{ total_orders }}</div>
+          <div class="metric-label">Total Orders</div>
+          <div class="metric-change positive">+8.3% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-value">{{ conversion_rate }}%</div>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-change positive">+2.1% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-value">{{ social_followers | divided_by: 1000 }}K</div>
+          <div class="metric-label">Followers</div>
+          <div class="metric-change positive">+5.7% this month</div>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Trend</h3>
+            <select class="form-input" style="width: auto;">
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Last year</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenue-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Top Products</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="products-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="drops-section">
+        <h2 class="section-title">
+          Recent Activity
+          <a href="#" class="btn btn-secondary btn-sm">View All</a>
+        </h2>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>New order received</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Courtside Confidence Hoodie - Size L</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">$89.00</div>
+              <div style="font-size: 0.8rem; color: #666;">2 min ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>Drop milestone reached</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Training Essentials reached 75% allocation</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">75%</div>
+              <div style="font-size: 0.8rem; color: #666;">1 hour ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>AI recommendation</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Post Instagram story for 15% conversion boost</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">📱</div>
+              <div style="font-size: 0.8rem; color: #666;">3 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Drops Tab -->
+    <div class="tab-pane" id="drops-tab">
+      <div class="drops-section">
+        <h2 class="section-title">
+          Active Drops
+          <a href="#" class="btn btn-primary">🚀 Create New Drop</a>
+        </h2>
+        
+        <div class="drops-grid">
+          {% for product in collections.all.products limit: 6 %}
+            {%- liquid
+              assign allocation_target = product.metafields.custom.allocation_target | default: 100
+              assign current_reservations = product.metafields.custom.current_reservations | default: 0
+              assign allocation_percentage = 0
+              if allocation_target > 0
+                assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+              endif
+            -%}
+            
+            <div class="drop-card">
+              <div class="drop-image">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 300 | image_tag: 
+                     alt: product.title, 
+                     loading: 'lazy' }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                    {{ product.title }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="drop-content">
+                <h3 class="drop-title">{{ product.title }}</h3>
+                
+                <div class="drop-meta">
+                  <span>From ${{ product.price_min | money_without_currency }}</span>
+                  <span>{{ current_reservations }} orders</span>
+                </div>
+                
+                <div class="drop-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ allocation_percentage }}%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span>{{ allocation_percentage | round: 1 }}% filled</span>
+                    <span>{{ current_reservations }}/{{ allocation_target }}</span>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <a href="{{ product.url }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 0.5rem;">View</a>
+                  <button class="btn btn-primary" style="flex: 1;" onclick="editDrop('{{ product.id }}')">Edit</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights Tab -->
+    <div class="tab-pane" id="ai-insights-tab">
+      <div class="ai-section">
+        <h2 class="section-title">AI-Powered Insights</h2>
+        
+        <div class="ai-toggle">
+          <button class="ai-toggle-btn active" data-ai="strategist">🎯 Drop Strategist</button>
+          <button class="ai-toggle-btn" data-ai="marketing">📱 Marketing AI</button>
+        </div>
+
+        <!-- Drop Strategist AI -->
+        <div class="ai-content active" id="strategist-ai">
+          <div class="ai-overview">
+            <div class="ai-metric">
+              <div class="ai-metric-value">47%</div>
+              <div class="ai-metric-label">Allocation Progress</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">$2,847</div>
+              <div class="ai-metric-label">Projected Revenue</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">3.2%</div>
+              <div class="ai-metric-label">Conversion Rate</div>
+            </div>
+            <div class="ai-metric">
+              <div + currentValue.toLocaleString();
+        } else if (originalText.includes('%')) {
+          element.textContent = currentValue + '%';
+        } else if (originalText.includes('K')) {
+          element.textContent = (currentValue / 1000).toFixed(1) + 'K';
+        } else {
+          element.textContent = currentValue.toLocaleString();
+        }
+        
+        if (progress < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          element.textContent = originalText;
+        }
+      };
+      window.requestAnimationFrame(step);
+    }
+
+    onTabChange(tab) {
+      // Refresh charts when analytics tab is opened
+      if (tab === 'analytics') {
+        setTimeout(() => {
+          this.initializeCharts();
+        }, 100);
+      }
+    }
+
+    showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#27ae60' : '#3498db'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+      `;
+      notification.textContent = message;
+
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+  }
+
+  // Global functions for AI recommendations
+  function implementDiscount() {
+    alert('Creating 15% flash discount... This would integrate with your pricing system.');
+  }
+
+  function viewDetails() {
+    alert('Opening detailed AI analysis... This would show comprehensive data and projections.');
+  }
+
+  function addProduct() {
+    alert('Adding complementary product... This would open product creation wizard.');
+  }
+
+  function extendDrop() {
+    if (confirm('Extend drop by 3 days?')) {
+      alert('Drop extended successfully!');
+    }
+  }
+
+  function schedulePost() {
+    alert('Scheduling TikTok post for 7:30 PM... This would integrate with social media APIs.');
+  }
+
+  function generateScript() {
+    alert('AI-generated script: "Behind the scenes of creating the Courtside Confidence collection..."');
+  }
+
+  function createUGC() {
+    alert('Creating UGC story... This would pull customer photos and create Instagram stories.');
+  }
+
+  function tweetUpdate() {
+    alert('Posting tweet: "🔥 Only 53 spots left in the Courtside Confidence drop! Reserve yours before it\'s too late!"');
+  }
+
+  function editDrop(productId) {
+    alert(`Editing drop ${productId}... This would open the drop editor.`);
+  }
+
+  function exportData() {
+    alert('Exporting data... This would generate a CSV/PDF report with all analytics.');
+  }
+
+  function editAsset(fileName) {
+    alert(`Editing ${fileName}... This would open the asset editor.`);
+  }
+
+  function downloadAsset(fileName) {
+    alert(`Downloading ${fileName}... This would trigger the download.`);
+  }
+
+  function deleteAsset(fileName) {
+    if (confirm(`Delete ${fileName}?`)) {
+      // Remove the asset from the grid
+      const assetItems = document.querySelectorAll('.asset-item');
+      assetItems.forEach(item => {
+        if (item.textContent.includes(fileName)) {
+          item.remove();
+        }
+      });
+      alert(`${fileName} deleted successfully!`);
+    }
+  }
+</script>
+
+<!-- Portal SEO and Meta -->
+<meta name="robots" content="noindex, nofollow">
+<title>{{ collaborator_name }} - Collaborator Portal | Studio Sivad</title>
+<meta name="description" content="Manage your Studio Sivad collaboration, track performance, and access AI-powered insights.">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Studio Sivad Collaborator Portal",
+  "description": "Dashboard for managing fashion collaborations and drops",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Drop Management",
+    "AI-Powered Insights", 
+    "Performance Analytics",
+    "Asset Management",
+    "Revenue Tracking"
+  ]
+}
+</script>{% comment %}
+  Studio Sivad - Collaborator Portal Template
+  Complete dashboard for collaborators with AI recommendations
+  Version: 1.0.0
+{% endcomment %}
+
+{% comment %} Access Control {% endcomment %}
+{% unless customer and customer.tags contains 'collaborator' %}
+  {% assign redirect_url = '/account/login' %}
+  <script>
+    alert('Access denied. Please log in with a collaborator account.');
+    window.location.href = '{{ redirect_url }}';
+  </script>
+  {% break %}
+{% endunless %}
+
+{%- liquid
+  assign collaborator_name = settings.collaborator_name | default: customer.first_name | default: 'Creator'
+  assign total_earnings = customer.metafields.custom.total_earnings | default: 0
+  assign total_orders = customer.metafields.custom.total_orders | default: 0
+  assign conversion_rate = customer.metafields.custom.conversion_rate | default: 0
+  assign social_followers = customer.metafields.custom.social_followers | default: 0
+-%}
+
+<!-- Collaborator Portal Styles -->
+<style>
+  .collaborator-portal {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 2rem 0;
+  }
+
+  .portal-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .portal-header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .header-info h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .header-subtitle {
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-primary {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-hover, #333);
+    color: white;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid var(--primary-color, #000);
+  }
+
+  .btn-secondary:hover {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  /* Dashboard Navigation */
+  .dashboard-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .nav-tab {
+    background: none;
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav-tab:hover {
+    color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .nav-tab.active {
+    color: var(--primary-color, #000);
+    border-bottom-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  /* Tab Content */
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Dashboard Overview */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .metric-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .metric-value {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-change {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+
+  .metric-change.positive {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .metric-change.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  /* Charts and Analytics */
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    position: relative;
+  }
+
+  /* Active Drops */
+  .drops-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .drops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .drop-card {
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .drop-card:hover {
+    border-color: var(--primary-color, #000);
+    transform: translateY(-2px);
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+
+  .drop-content {
+    padding: 1rem;
+  }
+
+  .drop-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  .drop-progress {
+    margin-bottom: 1rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .progress-text {
+    font-size: 0.8rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* AI Recommendations */
+  .ai-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle {
+    display: flex;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 0.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+
+  .ai-toggle-btn.active {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color, #000);
+  }
+
+  .ai-content {
+    display: none;
+  }
+
+  .ai-content.active {
+    display: block;
+  }
+
+  .ai-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .ai-metric {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .ai-metric-value {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .ai-metric-label {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .recommendations-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .recommendation-card {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color, #000);
+    padding: 1rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .recommendation-header {
+    display: flex;
+    justify-content: between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .recommendation-type {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .recommendation-urgency {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .urgency-high {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  .urgency-medium {
+    background: rgba(243, 156, 18, 0.1);
+    color: #f39c12;
+  }
+
+  .urgency-low {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .recommendation-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .recommendation-description {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .recommendation-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    background: var(--primary-hover, #333);
+  }
+
+  .action-btn.secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid #ddd;
+  }
+
+  .action-btn.secondary:hover {
+    border-color: var(--primary-color, #000);
+  }
+
+  /* Asset Upload */
+  .upload-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .upload-zone {
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+  }
+
+  .upload-zone:hover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .upload-zone.dragover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+  }
+
+  .upload-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+
+  .upload-hint {
+    font-size: 0.9rem;
+    color: #999;
+  }
+
+  .asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .asset-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1;
+  }
+
+  .asset-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .asset-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .asset-item:hover .asset-overlay {
+    opacity: 1;
+  }
+
+  .asset-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .asset-action {
+    background: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Settings */
+  .settings-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+  }
+
+  .settings-form {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .form-input {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--primary-color, #000);
+  }
+
+  .form-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .color-picker-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .color-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .color-input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .analytics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .portal-container {
+      padding: 0 1rem;
+    }
+
+    .header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .nav-tabs {
+      flex-direction: column;
+    }
+
+    .nav-tab {
+      text-align: left;
+      border-bottom: none;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-tab.active {
+      border-bottom: none;
+      border-left-color: var(--primary-color, #000);
+    }
+
+    .overview-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .drops-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Collaborator Portal HTML -->
+<div class="collaborator-portal">
+  <div class="portal-container">
+    
+    <!-- Portal Header -->
+    <div class="portal-header">
+      <div class="header-content">
+        <div class="header-info">
+          <h1>Welcome back, {{ collaborator_name }}!</h1>
+          <p class="header-subtitle">Manage your drops, track performance, and grow your brand</p>
+        </div>
+        <div class="header-actions">
+          <a href="#" class="btn btn-secondary" onclick="exportData()">
+            📊 Export Data
+          </a>
+          <a href="/collections/all" class="btn btn-primary">
+            🚀 View Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Navigation -->
+    <div class="dashboard-nav">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="overview">📈 Overview</button>
+        <button class="nav-tab" data-tab="drops">🛍️ My Drops</button>
+        <button class="nav-tab" data-tab="ai-insights">🤖 AI Insights</button>
+        <button class="nav-tab" data-tab="assets">📁 Assets</button>
+        <button class="nav-tab" data-tab="analytics">📊 Analytics</button>
+        <button class="nav-tab" data-tab="settings">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <!-- Overview Tab -->
+    <div class="tab-pane active" id="overview-tab">
+      <div class="overview-grid">
+        <div class="metric-card">
+          <div class="metric-icon">💰</div>
+          <div class="metric-value">${{ total_earnings | money_without_currency }}</div>
+          <div class="metric-label">Total Earnings</div>
+          <div class="metric-change positive">+12.5% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📦</div>
+          <div class="metric-value">{{ total_orders }}</div>
+          <div class="metric-label">Total Orders</div>
+          <div class="metric-change positive">+8.3% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-value">{{ conversion_rate }}%</div>
+          <div class="metric-label">Conversion Rate</div>
+          <div class="metric-change positive">+2.1% this month</div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-value">{{ social_followers | divided_by: 1000 }}K</div>
+          <div class="metric-label">Followers</div>
+          <div class="metric-change positive">+5.7% this month</div>
+        </div>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Revenue Trend</h3>
+            <select class="form-input" style="width: auto;">
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Last year</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="revenue-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Top Products</h3>
+          </div>
+          <div class="chart-container">
+            <canvas id="products-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="drops-section">
+        <h2 class="section-title">
+          Recent Activity
+          <a href="#" class="btn btn-secondary btn-sm">View All</a>
+        </h2>
+        <div style="display: grid; gap: 1rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>New order received</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Courtside Confidence Hoodie - Size L</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">$89.00</div>
+              <div style="font-size: 0.8rem; color: #666;">2 min ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>Drop milestone reached</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Training Essentials reached 75% allocation</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">75%</div>
+              <div style="font-size: 0.8rem; color: #666;">1 hour ago</div>
+            </div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+            <div>
+              <strong>AI recommendation</strong>
+              <p style="margin: 0; color: #666; font-size: 0.9rem;">Post Instagram story for 15% conversion boost</p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-weight: 500;">📱</div>
+              <div style="font-size: 0.8rem; color: #666;">3 hours ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Drops Tab -->
+    <div class="tab-pane" id="drops-tab">
+      <div class="drops-section">
+        <h2 class="section-title">
+          Active Drops
+          <a href="#" class="btn btn-primary">🚀 Create New Drop</a>
+        </h2>
+        
+        <div class="drops-grid">
+          {% for product in collections.all.products limit: 6 %}
+            {%- liquid
+              assign allocation_target = product.metafields.custom.allocation_target | default: 100
+              assign current_reservations = product.metafields.custom.current_reservations | default: 0
+              assign allocation_percentage = 0
+              if allocation_target > 0
+                assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+              endif
+            -%}
+            
+            <div class="drop-card">
+              <div class="drop-image">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 300 | image_tag: 
+                     alt: product.title, 
+                     loading: 'lazy' }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                    {{ product.title }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="drop-content">
+                <h3 class="drop-title">{{ product.title }}</h3>
+                
+                <div class="drop-meta">
+                  <span>From ${{ product.price_min | money_without_currency }}</span>
+                  <span>{{ current_reservations }} orders</span>
+                </div>
+                
+                <div class="drop-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ allocation_percentage }}%"></div>
+                  </div>
+                  <div class="progress-text">
+                    <span>{{ allocation_percentage | round: 1 }}% filled</span>
+                    <span>{{ current_reservations }}/{{ allocation_target }}</span>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                  <a href="{{ product.url }}" class="btn btn-secondary" style="flex: 1; text-align: center; padding: 0.5rem;">View</a>
+                  <button class="btn btn-primary" style="flex: 1;" onclick="editDrop('{{ product.id }}')">Edit</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Insights Tab -->
+    <div class="tab-pane" id="ai-insights-tab">
+      <div class="ai-section">
+        <h2 class="section-title">AI-Powered Insights</h2>
+        
+        <div class="ai-toggle">
+          <button class="ai-toggle-btn active" data-ai="strategist">🎯 Drop Strategist</button>
+          <button class="ai-toggle-btn" data-ai="marketing">📱 Marketing AI</button>
+        </div>
+
+        <!-- Drop Strategist AI -->
+        <div class="ai-content active" id="strategist-ai">
+          <div class="ai-overview">
+            <div class="ai-metric">
+              <div class="ai-metric-value">47%</div>
+              <div class="ai-metric-label">Allocation Progress</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">$2,847</div>
+              <div class="ai-metric-label">Projected Revenue</div>
+            </div>
+            <div class="ai-metric">
+              <div class="ai-metric-value">3.2%</div>
+              <div class="ai-metric-label">Conversion Rate</div>
+            </div>
+            <div class="ai-metric">
+              <div
