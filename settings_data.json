@@ -1,0 +1,214 @@
+{
+    "current": {
+      "collaborator_name": "Creator",
+      "store_title": "Creator Collection",
+      "store_tagline": "Luxury fashion meets authentic creativity",
+      "about_text": "Passionate about creating unique, high-quality fashion that tells a story. Every piece is crafted with intention and designed to make you feel confident and authentic.",
+      "show_studio_sivad_branding": true,
+      "partnership_text": "In collaboration with Studio Sivad",
+      
+      "primary_color": "#000000",
+      "secondary_color": "#333333",
+      "accent_color": "#007bff",
+      "background_color": "#ffffff",
+      "text_color": "#333333",
+      "text_secondary": "#666666",
+      "type_header_font": "assistant_n4",
+      "type_body_font": "assistant_n4",
+      
+      "hero_subtitle": "Luxury fashion meets authentic creativity",
+      "show_stats": true,
+      "show_live_drops": true,
+      "show_about": true,
+      "show_newsletter": true,
+      
+      "default_drop_duration": 14,
+      "default_allocation_target": 100,
+      "enable_countdown_timers": true,
+      "enable_allocation_progress": true,
+      "enable_urgency_messaging": true,
+      "drop_page_layout": "2-1",
+      "enable_product_tabs": true,
+      
+      "collaborator_revenue_split": 42.5,
+      "studio_revenue_split": 42.5,
+      "designer_revenue_split": 15,
+      "enable_performance_bonuses": true,
+      "max_performance_bonus": 10,
+      "max_split_difference": 20,
+      
+      "show_social_links": true,
+      "enable_social_sharing": true,
+      "social_share_text": "Check out this exclusive drop from",
+      
+      "enable_collaborator_portal": true,
+      "enable_ai_recommendations": true,
+      "enable_live_chat": true,
+      "enable_analytics_tracking": true,
+      "enable_size_selector": true,
+      "enable_edition_selector": true,
+      "enable_wishlist": false,
+      "enable_notifications": true,
+      
+      "enable_lazy_loading": true,
+      "enable_preloading": true,
+      "enable_low_stock_alerts": true,
+      "low_stock_threshold": 85,
+      "enable_urgency_notifications": true,
+      "urgency_threshold_hours": 24,
+      "enable_debug_mode": false,
+      
+      "welcome_email_text": "Welcome to my exclusive collection! You'll be the first to know about new drops and special offers.",
+      "drop_launch_email_text": "🚀 My new collection just dropped! Limited quantities available - reserve yours now.",
+      "low_stock_email_text": "⚡ Only a few pieces left! Don't miss your chance to get this exclusive piece.",
+      "send_drop_notifications": true,
+      "send_restock_notifications": true,
+      "send_milestone_notifications": true,
+      "email_frequency": "immediate",
+      
+      "enable_mobile_optimizations": true,
+      "enable_touch_gestures": true,
+      "enable_mobile_notifications": false,
+      "mobile_breakpoint": 768,
+      "tablet_breakpoint": 1024,
+      "mobile_drop_layout": "stacked",
+      "enable_mobile_sticky_cta": true,
+      
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "show_collaborator_name": true,
+            "show_studio_sivad_link": true,
+            "header_style": "minimal"
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "settings": {
+            "show_social_links": true,
+            "show_studio_sivad_credit": true,
+            "footer_text": "© 2025 Studio Sivad. All rights reserved."
+          }
+        }
+      },
+      
+      "blocks": {
+        "hero_section": {
+          "type": "hero",
+          "settings": {
+            "show_hero": true,
+            "hero_height": "medium",
+            "hero_overlay_opacity": 30
+          }
+        },
+        "stats_section": {
+          "type": "stats",
+          "settings": {
+            "stats_layout": "grid",
+            "show_trends": true,
+            "animate_counters": true
+          }
+        },
+        "drops_section": {
+          "type": "drops",
+          "settings": {
+            "drops_layout": "grid",
+            "show_progress": true,
+            "show_countdown": true,
+            "max_drops": 6
+          }
+        },
+        "about_section": {
+          "type": "about",
+          "settings": {
+            "about_layout": "centered",
+            "show_social_links": true
+          }
+        },
+        "newsletter_section": {
+          "type": "newsletter",
+          "settings": {
+            "newsletter_style": "minimal",
+            "newsletter_bg_color": "#000000"
+          }
+        }
+      },
+      
+      "content_for_index": [
+        "hero_section",
+        "stats_section", 
+        "drops_section",
+        "about_section",
+        "newsletter_section"
+      ]
+    },
+    "presets": {
+      "Minimal Black": {
+        "primary_color": "#000000",
+        "secondary_color": "#333333",
+        "accent_color": "#666666",
+        "background_color": "#ffffff",
+        "text_color": "#000000",
+        "text_secondary": "#666666",
+        "hero_subtitle": "Minimalist luxury meets authentic creativity",
+        "partnership_text": "A Studio Sivad collaboration"
+      },
+      "Bold Blue": {
+        "primary_color": "#1e3a8a",
+        "secondary_color": "#3b82f6",
+        "accent_color": "#60a5fa",
+        "background_color": "#ffffff",
+        "text_color": "#1f2937",
+        "text_secondary": "#6b7280",
+        "hero_subtitle": "Bold designs for bold creators",
+        "partnership_text": "Powered by Studio Sivad"
+      },
+      "Warm Earth": {
+        "primary_color": "#92400e",
+        "secondary_color": "#d97706",
+        "accent_color": "#f59e0b",
+        "background_color": "#fffbeb",
+        "text_color": "#78350f",
+        "text_secondary": "#a16207",
+        "hero_subtitle": "Sustainable luxury fashion",
+        "partnership_text": "Created with Studio Sivad"
+      },
+      "Electric Purple": {
+        "primary_color": "#7c2d92",
+        "secondary_color": "#a855f7",
+        "accent_color": "#c084fc",
+        "background_color": "#ffffff",
+        "text_color": "#581c87",
+        "text_secondary": "#7c3aed",
+        "hero_subtitle": "Electric creativity meets luxury craft",
+        "partnership_text": "Studio Sivad × Creator"
+      },
+      "Forest Green": {
+        "primary_color": "#14532d",
+        "secondary_color": "#16a34a",
+        "accent_color": "#22c55e",
+        "background_color": "#f0fdf4",
+        "text_color": "#15803d",
+        "text_secondary": "#166534",
+        "hero_subtitle": "Sustainable fashion for conscious creators",
+        "partnership_text": "Sustainably made with Studio Sivad"
+      },
+      "Sunset Orange": {
+        "primary_color": "#ea580c",
+        "secondary_color": "#fb923c",
+        "accent_color": "#fdba74",
+        "background_color": "#fff7ed",
+        "text_color": "#c2410c",
+        "text_secondary": "#ea580c",
+        "hero_subtitle": "Vibrant designs for dynamic creators",
+        "partnership_text": "Vibrant collaboration with Studio Sivad"
+      }
+    },
+    "platform_customizations": {
+      "custom_css": "",
+      "custom_javascript": "",
+      "head_additional_scripts": "",
+      "body_additional_scripts": ""
+    }
+  }
