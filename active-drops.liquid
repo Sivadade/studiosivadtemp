@@ -1,0 +1,1174 @@
+{% comment %}
+  Studio Sivad - Active Drops Snippet
+  Reusable component for displaying active drops with real-time allocation tracking
+  Version: 1.0.0
+  
+  Usage:
+  {% render 'active-drops', 
+     collection: collections.featured,
+     layout: 'grid',
+     show_progress: true,
+     limit: 6,
+     collaborator_filter: customer.id %}
+{% endcomment %}
+
+{%- liquid
+  assign drops_collection = collection | default: collections.all
+  assign drops_layout = layout | default: 'grid'
+  assign show_progress = show_progress | default: true
+  assign show_countdown = show_countdown | default: true
+  assign show_actions = show_actions | default: true
+  assign show_collaborator = show_collaborator | default: false
+  assign drops_limit = limit | default: 6
+  assign collaborator_filter = collaborator_filter | default: null
+  assign status_filter = status_filter | default: 'active'
+  assign sort_by = sort_by | default: 'allocation'
+  assign card_size = card_size | default: 'default'
+-%}
+
+<!-- Active Drops Styles -->
+<style>
+  .active-drops {
+    width: 100%;
+  }
+
+  .drops-container {
+    position: relative;
+  }
+
+  .drops-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .drops-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin: 0;
+  }
+
+  .drops-controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .drops-filter {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: white;
+    cursor: pointer;
+  }
+
+  .drops-sort {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: white;
+    cursor: pointer;
+  }
+
+  .drops-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .drops-grid.layout-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .drops-grid.layout-masonry {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: auto;
+  }
+
+  .drops-grid.layout-list {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .drops-grid.layout-carousel {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .drops-grid.card-size-compact {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .drops-grid.card-size-large {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .drop-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+    position: relative;
+    scroll-snap-align: start;
+  }
+
+  .drop-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color, #000);
+  }
+
+  .drop-card.card-size-compact {
+    border-radius: 8px;
+  }
+
+  .drop-card.card-size-large {
+    border-radius: 16px;
+  }
+
+  .drop-card.layout-list {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .drop-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: #f8f9fa;
+    transition: transform 0.3s ease;
+  }
+
+  .drop-image.card-size-compact {
+    height: 150px;
+  }
+
+  .drop-image.card-size-large {
+    height: 250px;
+  }
+
+  .layout-list .drop-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .drop-card:hover .drop-image {
+    transform: scale(1.05);
+  }
+
+  .drop-status-badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .drop-status-badge.status-live {
+    background: rgba(231, 76, 60, 0.9);
+    color: white;
+    animation: pulse 2s infinite;
+  }
+
+  .drop-status-badge.status-active {
+    background: rgba(39, 174, 96, 0.9);
+    color: white;
+  }
+
+  .drop-status-badge.status-upcoming {
+    background: rgba(243, 156, 18, 0.9);
+    color: white;
+  }
+
+  .drop-status-badge.status-ending {
+    background: rgba(155, 89, 182, 0.9);
+    color: white;
+    animation: flash 1s infinite;
+  }
+
+  .drop-allocation-overlay {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+  }
+
+  .drop-content {
+    padding: 1.5rem;
+  }
+
+  .drop-content.card-size-compact {
+    padding: 1rem;
+  }
+
+  .drop-content.card-size-large {
+    padding: 2rem;
+  }
+
+  .layout-list .drop-content {
+    flex: 1;
+    padding: 0 1rem;
+  }
+
+  .drop-header {
+    margin-bottom: 1rem;
+  }
+
+  .layout-list .drop-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .drop-collaborator {
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+  }
+
+  .drop-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .drop-title.card-size-compact {
+    font-size: 1rem;
+  }
+
+  .drop-title.card-size-large {
+    font-size: 1.3rem;
+  }
+
+  .layout-list .drop-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .drop-description {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+
+  .layout-list .drop-description {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .layout-list .drop-meta {
+    margin-bottom: 0.75rem;
+  }
+
+  .drop-price {
+    font-weight: 600;
+    color: var(--primary-color, #000);
+  }
+
+  .drop-orders {
+    color: #666;
+  }
+
+  .drop-progress-section {
+    margin-bottom: 1rem;
+  }
+
+  .layout-list .drop-progress-section {
+    margin-bottom: 0.75rem;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .progress-label {
+    color: #666;
+    font-weight: 500;
+  }
+
+  .progress-percentage {
+    color: var(--primary-color, #000);
+    font-weight: 600;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar.card-size-compact {
+    height: 4px;
+  }
+
+  .progress-bar.card-size-large {
+    height: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 3px;
+    transition: width 0.8s ease-out;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .progress-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #666;
+  }
+
+  .countdown-section {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .layout-list .countdown-section {
+    margin-bottom: 0.75rem;
+  }
+
+  .countdown-label {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .layout-list .countdown-timer {
+    gap: 0.25rem;
+  }
+
+  .countdown-unit {
+    text-align: center;
+  }
+
+  .countdown-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    line-height: 1;
+  }
+
+  .countdown-value.card-size-compact {
+    font-size: 1rem;
+  }
+
+  .countdown-value.card-size-large {
+    font-size: 1.4rem;
+  }
+
+  .layout-list .countdown-value {
+    font-size: 0.9rem;
+  }
+
+  .countdown-unit-label {
+    font-size: 0.65rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .drop-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .layout-list .drop-actions {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .drop-action-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .drop-action-btn.card-size-compact {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .drop-action-btn.card-size-large {
+    padding: 1rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .layout-list .drop-action-btn {
+    flex: none;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .drop-action-btn.primary {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .drop-action-btn.primary:hover {
+    background: var(--primary-hover, #333);
+    transform: translateY(-1px);
+    color: white;
+  }
+
+  .drop-action-btn.secondary {
+    background: white;
+    color: var(--primary-color, #000);
+    border: 1px solid var(--primary-color, #000);
+  }
+
+  .drop-action-btn.secondary:hover {
+    background: var(--primary-color, #000);
+    color: white;
+  }
+
+  .drop-action-btn.ghost {
+    background: transparent;
+    color: #666;
+    border: 1px solid #ddd;
+  }
+
+  .drop-action-btn.ghost:hover {
+    background: #f8f9fa;
+    border-color: var(--primary-color, #000);
+    color: var(--primary-color, #000);
+  }
+
+  /* Loading and Empty States */
+  .drops-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #666;
+  }
+
+  .drops-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #666;
+  }
+
+  .drops-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .drops-empty-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .drops-empty-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* Animations */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes flash {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .drop-card.fade-in {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .drops-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .drops-controls {
+      justify-content: space-between;
+    }
+
+    .drops-grid.layout-grid,
+    .drops-grid.layout-masonry {
+      grid-template-columns: 1fr;
+    }
+
+    .drops-grid.layout-carousel {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .drop-card.layout-list {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .layout-list .drop-image {
+      width: 100%;
+      height: 150px;
+      border-radius: 0;
+      margin-bottom: 1rem;
+    }
+
+    .layout-list .drop-content {
+      padding: 1rem;
+    }
+
+    .layout-list .drop-actions {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+
+    .countdown-timer {
+      gap: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .drop-actions {
+      flex-direction: column;
+    }
+
+    .countdown-timer {
+      gap: 0.5rem;
+    }
+
+    .countdown-value {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+<!-- Active Drops HTML -->
+<div class="active-drops">
+  <div class="drops-container">
+    
+    <!-- Header with Controls -->
+    <div class="drops-header">
+      <h2 class="drops-title">
+        {% if status_filter == 'live' %}
+          🔴 Live Drops
+        {% elsif status_filter == 'upcoming' %}
+          ⏰ Upcoming Drops
+        {% elsif status_filter == 'ending' %}
+          ⚡ Ending Soon
+        {% else %}
+          🚀 Active Drops
+        {% endif %}
+      </h2>
+      
+      <div class="drops-controls">
+        <select class="drops-filter" id="status-filter" onchange="filterDrops(this.value)">
+          <option value="active" {% if status_filter == 'active' %}selected{% endif %}>All Active</option>
+          <option value="live" {% if status_filter == 'live' %}selected{% endif %}>Live Now</option>
+          <option value="upcoming" {% if status_filter == 'upcoming' %}selected{% endif %}>Upcoming</option>
+          <option value="ending" {% if status_filter == 'ending' %}selected{% endif %}>Ending Soon</option>
+        </select>
+        
+        <select class="drops-sort" id="drops-sort" onchange="sortDrops(this.value)">
+          <option value="allocation" {% if sort_by == 'allocation' %}selected{% endif %}>By Progress</option>
+          <option value="time" {% if sort_by == 'time' %}selected{% endif %}>By Time Left</option>
+          <option value="orders" {% if sort_by == 'orders' %}selected{% endif %}>By Orders</option>
+          <option value="revenue" {% if sort_by == 'revenue' %}selected{% endif %}>By Revenue</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Drops Grid -->
+    <div class="drops-grid layout-{{ drops_layout }} card-size-{{ card_size }}" id="drops-grid">
+      
+      {% assign drops_count = 0 %}
+      {% for product in drops_collection.products limit: drops_limit %}
+        
+        {%- liquid
+          # Filter by collaborator if specified
+          if collaborator_filter and product.metafields.custom.collaborator_id != collaborator_filter
+            continue
+          endif
+          
+          # Get drop data
+          assign drop_status = product.metafields.custom.drop_status | default: 'active'
+          assign allocation_target = product.metafields.custom.allocation_target | default: 100
+          assign current_reservations = product.metafields.custom.current_reservations | default: 0
+          assign drop_end_date = product.metafields.custom.drop_end_date
+          assign collaborator_name = product.metafields.custom.collaborator_name | default: 'Creator'
+          
+          # Filter by status if specified
+          if status_filter != 'active' and drop_status != status_filter
+            continue
+          endif
+          
+          # Calculate allocation percentage
+          assign allocation_percentage = 0
+          if allocation_target > 0
+            assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+          endif
+          
+          # Determine urgency level
+          assign urgency_class = ''
+          if allocation_percentage >= 90
+            assign urgency_class = 'high'
+          elsif allocation_percentage >= 70
+            assign urgency_class = 'medium'
+          else
+            assign urgency_class = 'low'
+          endif
+          
+          assign drops_count = drops_count | plus: 1
+        -%}
+
+        <div class="drop-card layout-{{ drops_layout }} card-size-{{ card_size }} fade-in" 
+             data-status="{{ drop_status }}" 
+             data-allocation="{{ allocation_percentage }}"
+             data-orders="{{ current_reservations }}"
+             data-revenue="{{ current_reservations | times: product.price_min }}"
+             data-end-date="{{ drop_end_date }}"
+             style="animation-delay: {{ forloop.index | times: 0.1 }}s">
+          
+          {% unless drops_layout == 'list' %}
+            <div class="drop-image-container">
+              {% if product.featured_media %}
+                {{ product.featured_media | image_url: width: 400 | image_tag: 
+                   class: 'drop-image card-size-' | append: card_size,
+                   alt: product.title,
+                   loading: 'lazy' }}
+              {% else %}
+                <div class="drop-image card-size-{{ card_size }}" style="background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.9rem;">
+                  {{ product.title }}
+                </div>
+              {% endif %}
+              
+              <div class="drop-status-badge status-{{ drop_status }}">
+                {% case drop_status %}
+                  {% when 'live' %}
+                    ● Live
+                  {% when 'upcoming' %}
+                    Upcoming
+                  {% when 'ending' %}
+                    Ending Soon
+                  {% else %}
+                    Active
+                {% endcase %}
+              </div>
+              
+              {% if show_progress %}
+                <div class="drop-allocation-overlay">
+                  {{ allocation_percentage | round: 1 }}%
+                </div>
+              {% endif %}
+            </div>
+          {% endunless %}
+
+          <div class="drop-content card-size-{{ card_size }}">
+            
+            {% if drops_layout == 'list' %}
+              {% if product.featured_media %}
+                {{ product.featured_media | image_url: width: 200 | image_tag: 
+                   class: 'drop-image',
+                   alt: product.title,
+                   loading: 'lazy' }}
+              {% else %}
+                <div class="drop-image" style="background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999; font-size: 0.8rem;">
+                  {{ product.title }}
+                </div>
+              {% endif %}
+            {% endif %}
+
+            <div class="drop-header">
+              {% if show_collaborator %}
+                <div class="drop-collaborator">{{ collaborator_name }}</div>
+              {% endif %}
+              
+              <h3 class="drop-title card-size-{{ card_size }}">{{ product.title }}</h3>
+              
+              {% unless drops_layout == 'list' %}
+                {% if product.description != blank %}
+                  <p class="drop-description">{{ product.description | strip_html | truncate: 80 }}</p>
+                {% endif %}
+              {% endunless %}
+            </div>
+
+            <div class="drop-meta">
+              <span class="drop-price">From ${{ product.price_min | money_without_currency }}</span>
+              <span class="drop-orders">{{ current_reservations }} orders</span>
+            </div>
+
+            {% if show_progress %}
+              <div class="drop-progress-section">
+                <div class="progress-header">
+                  <span class="progress-label">Allocation Progress</span>
+                  <span class="progress-percentage">{{ allocation_percentage | round: 1 }}%</span>
+                </div>
+                <div class="progress-bar card-size-{{ card_size }}">
+                  <div class="progress-fill" style="width: {{ allocation_percentage }}%" data-percentage="{{ allocation_percentage }}"></div>
+                </div>
+                <div class="progress-stats">
+                  <span>{{ current_reservations }} reserved</span>
+                  <span>{{ allocation_target }} target</span>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if show_countdown and drop_end_date %}
+              <div class="countdown-section">
+                <div class="countdown-label">Time Remaining</div>
+                <div class="countdown-timer" data-end-date="{{ drop_end_date }}">
+                  <div class="countdown-unit">
+                    <span class="countdown-value card-size-{{ card_size }} days">0</span>
+                    <span class="countdown-unit-label">Days</span>
+                  </div>
+                  <div class="countdown-unit">
+                    <span class="countdown-value card-size-{{ card_size }} hours">0</span>
+                    <span class="countdown-unit-label">Hrs</span>
+                  </div>
+                  <div class="countdown-unit">
+                    <span class="countdown-value card-size-{{ card_size }} minutes">0</span>
+                    <span class="countdown-unit-label">Min</span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if show_actions %}
+              <div class="drop-actions">
+                <a href="{{ product.url }}" class="drop-action-btn primary card-size-{{ card_size }}">
+                  {% if drop_status == 'live' or drop_status == 'active' %}
+                    🛒 Reserve Now
+                  {% elsif drop_status == 'upcoming' %}
+                    👀 Preview
+                  {% else %}
+                    📱 View Details
+                  {% endif %}
+                </a>
+                
+                {% if customer and customer.tags contains 'collaborator' %}
+                  <button class="drop-action-btn secondary card-size-{{ card_size }}" onclick="manageDrop('{{ product.id }}')">
+                    ⚙️ Manage
+                  </button>
+                {% else %}
+                  <button class="drop-action-btn ghost card-size-{{ card_size }}" onclick="shareDrop('{{ product.url }}', '{{ product.title }}')">
+                    📤 Share
+                  </button>
+                {% endif %}
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+      {% endfor %}
+
+      <!-- Empty State -->
+      {% if drops_count == 0 %}
+        <div class="drops-empty">
+          <div class="drops-empty-icon">🚀</div>
+          <h3 class="drops-empty-title">No Active Drops</h3>
+          <p class="drops-empty-text">
+            {% if status_filter == 'live' %}
+              No drops are currently live. Check back soon for new releases!
+            {% elsif status_filter == 'upcoming' %}
+              No upcoming drops scheduled. Follow your favorite creators for updates.
+            {% elsif status_filter == 'ending' %}
+              No drops are ending soon. Browse our active collections instead.
+            {% else %}
+              No active drops at the moment. New collections launch regularly!
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
+
+    </div>
+
+    <!-- Load More Button (if applicable) -->
+    {% if drops_collection.products.size > drops_limit %}
+      <div style="text-align: center; margin-top: 2rem;">
+        <button class="drop-action-btn primary" onclick="loadMoreDrops()">
+          Load More Drops
+        </button>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<!-- Active Drops JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initializeActiveDrops();
+  });
+
+  function initializeActiveDrops() {
+    updateCountdowns();
+    animateProgressBars();
+    
+    // Update countdowns every minute
+    setInterval(updateCountdowns, 60000);
+    
+    // Animate cards on scroll
+    observeDropCards();
+  }
+
+  function updateCountdowns() {
+    const countdownTimers = document.querySelectorAll('.countdown-timer');
+    
+    countdownTimers.forEach(timer => {
+      const endDate = new Date(timer.dataset.endDate);
+      if (!endDate || isNaN(endDate.getTime())) return;
+      
+      const now = new Date().getTime();
+      const distance = endDate.getTime() - now;
+      
+      if (distance < 0) {
+        timer.innerHTML = '<span style="color: #e74c3c; font-weight: 500;">Drop Ended</span>';
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      
+      const daysElement = timer.querySelector('.days');
+      const hoursElement = timer.querySelector('.hours');
+      const minutesElement = timer.querySelector('.minutes');
+      
+      if (daysElement) daysElement.textContent = days;
+      if (hoursElement) hoursElement.textContent = hours;
+      if (minutesElement) minutesElement.textContent = minutes;
+      
+      // Add urgency styling for final hours
+      const card = timer.closest('.drop-card');
+      if (distance < 24 * 60 * 60 * 1000) { // Less than 24 hours
+        card.classList.add('urgent');
+        timer.style.color = '#e74c3c';
+      }
+    });
+  }
+
+  function animateProgressBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const progressBar = entry.target;
+          const percentage = progressBar.dataset.percentage || 0;
+          
+          // Animate the progress bar
+          setTimeout(() => {
+            progressBar.style.width = percentage + '%';
+          }, 200);
+          
+          observer.unobserve(progressBar);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    progressBars.forEach(bar => {
+      bar.style.width = '0%'; // Start from 0
+      observer.observe(bar);
+    });
+  }
+
+  function observeDropCards() {
+    const dropCards = document.querySelectorAll('.drop-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    dropCards.forEach(card => observer.observe(card));
+  }
+
+  function filterDrops(status) {
+    const dropsGrid = document.getElementById('drops-grid');
+    const dropCards = dropsGrid.querySelectorAll('.drop-card');
+    
+    dropCards.forEach(card => {
+      const cardStatus = card.dataset.status;
+      
+      if (status === 'active' || cardStatus === status) {
+        card.style.display = 'block';
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 50);
+      } else {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          card.style.display = 'none';
+        }, 300);
+      }
+    });
+    
+    // Update header title
+    const dropsTitle = document.querySelector('.drops-title');
+    const titleMap = {
+      'active': '🚀 Active Drops',
+      'live': '🔴 Live Drops',
+      'upcoming': '⏰ Upcoming Drops',
+      'ending': '⚡ Ending Soon'
+    };
+    dropsTitle.textContent = titleMap[status] || '🚀 Active Drops';
+    
+    // Check if any cards are visible
+    setTimeout(() => {
+      const visibleCards = Array.from(dropCards).filter(card => 
+        card.style.display !== 'none' && card.dataset.status === status || status === 'active'
+      );
+      
+      const emptyState = dropsGrid.querySelector('.drops-empty');
+      if (visibleCards.length === 0 && !emptyState) {
+        showEmptyState(status);
+      } else if (visibleCards.length > 0 && emptyState) {
+        emptyState.remove();
+      }
+    }, 350);
+  }
+
+  function sortDrops(sortBy) {
+    const dropsGrid = document.getElementById('drops-grid');
+    const dropCards = Array.from(dropsGrid.querySelectorAll('.drop-card')).filter(card => 
+      !card.classList.contains('drops-empty')
+    );
+    
+    dropCards.sort((a, b) => {
+      switch (sortBy) {
+        case 'allocation':
+          return parseFloat(b.dataset.allocation) - parseFloat(a.dataset.allocation);
+        case 'time':
+          const aTime = new Date(a.dataset.endDate).getTime();
+          const bTime = new Date(b.dataset.endDate).getTime();
+          return aTime - bTime; // Soonest first
+        case 'orders':
+          return parseInt(b.dataset.orders) - parseInt(a.dataset.orders);
+        case 'revenue':
+          return parseInt(b.dataset.revenue) - parseInt(a.dataset.revenue);
+        default:
+          return 0;
+      }
+    });
+    
+    // Re-append sorted cards
+    dropCards.forEach((card, index) => {
+      card.style.animationDelay = (index * 0.1) + 's';
+      dropsGrid.appendChild(card);
+    });
+  }
+
+  function showEmptyState(status) {
+    const dropsGrid = document.getElementById('drops-grid');
+    const emptyMessages = {
+      'live': 'No drops are currently live. Check back soon for new releases!',
+      'upcoming': 'No upcoming drops scheduled. Follow your favorite creators for updates.',
+      'ending': 'No drops are ending soon. Browse our active collections instead.',
+      'active': 'No active drops at the moment. New collections launch regularly!'
+    };
+    
+    const emptyState = document.createElement('div');
+    emptyState.className = 'drops-empty';
+    emptyState.innerHTML = `
+      <div class="drops-empty-icon">🚀</div>
+      <h3 class="drops-empty-title">No ${status === 'active' ? 'Active' : status.charAt(0).toUpperCase() + status.slice(1)} Drops</h3>
+      <p class="drops-empty-text">${emptyMessages[status]}</p>
+    `;
+    
+    dropsGrid.appendChild(emptyState);
+  }
+
+  function manageDrop(productId) {
+    // Redirect to drop management interface
+    window.location.href = `/admin/products/${productId}`;
+  }
+
+  function shareDrop(productUrl, productTitle) {
+    if (navigator.share) {
+      navigator.share({
+        title: productTitle,
+        text: `Check out this exclusive drop: ${productTitle}`,
+        url: productUrl
+      }).catch(err => console.log('Error sharing:', err));
+    } else {
+      // Fallback to clipboard
+      const fullUrl = window.location.origin + productUrl;
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showNotification('Link copied to clipboard!', 'success');
+      }).catch(() => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = fullUrl;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showNotification('Link copied to clipboard!', 'success');
+      });
+    }
+  }
+
+  function loadMoreDrops() {
+    // In a real implementation, this would load more drops via AJAX
+    showNotification('Loading more drops...', 'info');
+    
+    // Simulate loading delay
+    setTimeout(() => {
+      showNotification('No more drops to load', 'info');
+    }, 1500);
+  }
+
+  function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      max-width: 300px;
+      font-size: 0.9rem;
+    `;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    setTimeout(() => {
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }, 3000);
+  }
+
+  // Refresh drops data
+  function refreshActiveDrops() {
+    // In a real implementation, this would fetch updated data
+    updateCountdowns();
+    animateProgressBars();
+    showNotification('Drops data refreshed', 'success');
+  }
+
+  // Auto-refresh every 5 minutes
+  setInterval(refreshActiveDrops, 300000);
+
+  // Export functions for external use
+  window.filterDrops = filterDrops;
+  window.sortDrops = sortDrops;
+  window.refreshActiveDrops = refreshActiveDrops;
+</script>
