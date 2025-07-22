@@ -1,0 +1,38 @@
+<div class="size-selector">
+  <h3>{{ section.settings.size_title | default: 'Size' }}</h3>
+
+  <div class="size-grid">
+    {% assign sizes = 'XS,S,M,L,XL,XXL' | split: ',' %}
+    {% for size in sizes %}
+      <button class="size-option" data-size="{{ size }}">
+        {{ size }}
+      </button>
+    {% endfor %}
+  </div>
+
+  <input type="hidden" name="properties[Size]" value="" id="selected-size-input">
+</div>
+
+<script>
+  document.querySelectorAll('.size-option').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('.size-option').forEach(b => b.classList.remove('selected'));
+      button.classList.add('selected');
+      document.getElementById('selected-size-input').value = button.dataset.size;
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Size Selector",
+  "settings": [
+    {
+      "type": "text",
+      "id": "size_title",
+      "label": "Size Title",
+      "default": "Size"
+    }
+  ]
+}
+{% endschema %}
