@@ -1,0 +1,969 @@
+{% comment %}
+  Studio Sivad - Homepage Template
+  Main landing page for collaborator stores
+  Version: 1.0.0
+{% endcomment %}
+
+{%- liquid
+  assign featured_collection = collections[settings.featured_collection] | default: collections.all
+  assign collaborator_name = settings.collaborator_name | default: 'Creator'
+  assign store_title = settings.store_title | default: shop.name
+  assign show_live_drops = settings.show_live_drops | default: true
+  assign show_stats = settings.show_stats | default: true
+  assign show_about = settings.show_about | default: true
+-%}
+
+<!-- Homepage Styles -->
+<style>
+  .homepage {
+    min-height: 100vh;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(135deg, var(--primary-color, #000) 0%, var(--secondary-color, #333) 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{{ settings.hero_background | img_url: "2000x" }}') center/cover;
+    opacity: 0.3;
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .btn-primary {
+    background: white;
+    color: var(--primary-color, #000);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    color: var(--primary-color, #000);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    padding: 1rem 2rem;
+    border: 2px solid white;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-secondary:hover {
+    background: white;
+    color: var(--primary-color, #000);
+    transform: translateY(-2px);
+  }
+
+  /* Stats Section */
+  .stats-section {
+    background: var(--background-light, #f8f9fa);
+    padding: 3rem 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  /* Featured Drops Section */
+  .featured-drops {
+    padding: 4rem 0;
+    background: white;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 2rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary, #666);
+    line-height: 1.6;
+  }
+
+  .drops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .drop-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-light, #f0f0f0);
+  }
+
+  .drop-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  }
+
+  .drop-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    background: var(--background-light, #f8f9fa);
+    position: relative;
+  }
+
+  .drop-status {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .drop-status.live {
+    background: #e74c3c;
+    animation: pulse 2s infinite;
+  }
+
+  .drop-status.upcoming {
+    background: #f39c12;
+  }
+
+  .drop-content {
+    padding: 2rem;
+  }
+
+  .drop-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .drop-description {
+    color: var(--text-secondary, #666);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .drop-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .drop-price {
+    font-weight: 600;
+    color: var(--primary-color, #000);
+    font-size: 1.1rem;
+  }
+
+  .drop-allocation {
+    color: var(--text-secondary, #666);
+  }
+
+  .allocation-bar {
+    height: 4px;
+    background: var(--border-light, #f0f0f0);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+
+  .allocation-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .drop-cta {
+    text-align: center;
+  }
+
+  .view-drop-btn {
+    display: inline-block;
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+  }
+
+  .view-drop-btn:hover {
+    background: var(--primary-hover, #333);
+    transform: translateY(-2px);
+    color: white;
+  }
+
+  /* About Section */
+  .about-section {
+    background: var(--background-light, #f8f9fa);
+    padding: 4rem 0;
+  }
+
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    text-align: center;
+  }
+
+  .about-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 2rem;
+    border: 4px solid white;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .about-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary, #666);
+    margin-bottom: 2rem;
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    color: var(--primary-color, #000);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    color: var(--primary-color, #000);
+  }
+
+  /* Newsletter Section */
+  .newsletter-section {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+  }
+
+  .newsletter-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .newsletter-title {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-subtitle {
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    outline: none;
+  }
+
+  .newsletter-btn {
+    background: white;
+    color: var(--primary-color, #000);
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+  }
+
+  .newsletter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Animations */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-cta {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .drops-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+
+    .social-links {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<!-- Homepage Content -->
+<div class="homepage">
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">{{ store_title }}</h1>
+      <p class="hero-subtitle">
+        {{ settings.hero_subtitle | default: 'Luxury fashion meets authentic creativity' }}
+      </p>
+      
+      {% if featured_collection.products.size > 0 %}
+        <div class="hero-cta">
+          <a href="{{ featured_collection.url }}" class="btn-primary">
+            Shop Collection
+          </a>
+          {% if settings.show_live_section %}
+            <a href="#live" class="btn-secondary">
+              Watch Live
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  {% if show_stats %}
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card fade-in-up">
+          <div class="stat-number" data-count="{{ customer.metafields.custom.total_orders | default: 0 }}">
+            {{ customer.metafields.custom.total_orders | default: 0 }}
+          </div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+        
+        <div class="stat-card fade-in-up">
+          <div class="stat-number" data-count="{{ customer.metafields.custom.conversion_rate | default: 0 }}">
+            {{ customer.metafields.custom.conversion_rate | default: 0 }}%
+          </div>
+          <div class="stat-label">Conversion Rate</div>
+        </div>
+        
+        <div class="stat-card fade-in-up">
+          <div class="stat-number" data-count="{{ customer.metafields.custom.social_followers | default: 0 }}">
+            {{ customer.metafields.custom.social_followers | default: 0 | divided_by: 1000 }}K
+          </div>
+          <div class="stat-label">Followers</div>
+        </div>
+        
+        <div class="stat-card fade-in-up">
+          <div class="stat-number" data-count="{{ customer.metafields.custom.total_earnings | default: 0 | money_without_currency }}">
+            ${{ customer.metafields.custom.total_earnings | default: 0 | money_without_currency }}
+          </div>
+          <div class="stat-label">Total Earnings</div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Featured Drops Section -->
+  {% if show_live_drops and featured_collection.products.size > 0 %}
+    <section class="featured-drops">
+      <div class="section-header">
+        <h2 class="section-title">Live Drops</h2>
+        <p class="section-subtitle">
+          Exclusive, limited-time collections crafted in collaboration with Studio Sivad
+        </p>
+      </div>
+
+      <div class="drops-grid">
+        {% for product in featured_collection.products limit: 3 %}
+          {%- liquid
+            assign drop_status = product.metafields.custom.drop_status | default: 'active'
+            assign allocation_target = product.metafields.custom.allocation_target | default: 100
+            assign current_reservations = product.metafields.custom.current_reservations | default: 0
+            assign drop_end_date = product.metafields.custom.drop_end_date
+            
+            assign allocation_percentage = 0
+            if allocation_target > 0
+              assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+            endif
+          -%}
+
+          <div class="drop-card fade-in-up">
+            <div class="drop-image">
+              {% if product.featured_media %}
+                {{ product.featured_media | image_url: width: 500 | image_tag: 
+                   loading: 'lazy', 
+                   alt: product.title,
+                   class: 'drop-image' }}
+              {% else %}
+                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                  No Image
+                </div>
+              {% endif %}
+              
+              <div class="drop-status {{ drop_status }}">
+                {% case drop_status %}
+                  {% when 'live' %}
+                    ● Live
+                  {% when 'upcoming' %}
+                    Upcoming
+                  {% when 'ended' %}
+                    Ended
+                  {% else %}
+                    Active
+                {% endcase %}
+              </div>
+            </div>
+
+            <div class="drop-content">
+              <h3 class="drop-title">{{ product.title }}</h3>
+              
+              {% if product.description != blank %}
+                <p class="drop-description">
+                  {{ product.description | strip_html | truncate: 120 }}
+                </p>
+              {% endif %}
+
+              <div class="drop-meta">
+                <span class="drop-price">
+                  From ${{ product.price_min | money_without_currency }}
+                </span>
+                <span class="drop-allocation">
+                  {{ current_reservations }}/{{ allocation_target }} reserved
+                </span>
+              </div>
+
+              {% if allocation_target > 0 %}
+                <div class="allocation-bar">
+                  <div class="allocation-fill" style="width: {{ allocation_percentage }}%"></div>
+                </div>
+              {% endif %}
+
+              <div class="drop-cta">
+                <a href="{{ product.url }}" class="view-drop-btn">
+                  {% if drop_status == 'live' or drop_status == 'active' %}
+                    Reserve Now
+                  {% elsif drop_status == 'upcoming' %}
+                    Learn More
+                  {% else %}
+                    View Details
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if featured_collection.products.size > 3 %}
+        <div style="text-align: center; margin-top: 3rem;">
+          <a href="{{ featured_collection.url }}" class="btn-primary">
+            View All Drops
+          </a>
+        </div>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  <!-- About Section -->
+  {% if show_about %}
+    <section class="about-section">
+      <div class="about-content">
+        <div class="section-header">
+          <h2 class="section-title">About {{ collaborator_name }}</h2>
+        </div>
+
+        {% if settings.collaborator_image %}
+          {{ settings.collaborator_image | image_url: width: 300 | image_tag: 
+             class: 'about-image',
+             alt: collaborator_name }}
+        {% endif %}
+
+        <div class="about-text">
+          {{ settings.about_text | default: 'Passionate about creating unique, high-quality fashion that tells a story. Every piece is crafted with intention and designed to make you feel confident and authentic.' }}
+        </div>
+
+        <div class="social-links">
+          {% if settings.instagram_handle %}
+            <a href="https://instagram.com/{{ settings.instagram_handle }}" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07zm0-2.16c-3.26 0-3.67.01-4.95.07-1.28.06-2.16.27-2.93.57-.79.31-1.46.72-2.13 1.39-.67.67-1.08 1.34-1.39 2.13-.3.77-.51 1.65-.57 2.93-.06 1.28-.07 1.69-.07 4.95s.01 3.67.07 4.95c.06 1.28.27 2.16.57 2.93.31.79.72 1.46 1.39 2.13.67.67 1.34 1.08 2.13 1.39.77.3 1.65.51 2.93.57 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.28-.06 2.16-.27 2.93-.57.79-.31 1.46-.72 2.13-1.39.67-.67 1.08-1.34 1.39-2.13.3-.77.51-1.65.57-2.93.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.28-.27-2.16-.57-2.93-.31-.79-.72-1.46-1.39-2.13-.67-.67-1.34-1.08-2.13-1.39-.77-.3-1.65-.51-2.93-.57-1.28-.06-1.69-.07-4.95-.07z"/>
+                <path d="M12 5.84c-3.4 0-6.16 2.76-6.16 6.16s2.76 6.16 6.16 6.16 6.16-2.76 6.16-6.16-2.76-6.16-6.16-6.16zm0 10.16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+                <circle cx="18.41" cy="5.59" r="1.44"/>
+              </svg>
+            </a>
+          {% endif %}
+
+          {% if settings.tiktok_handle %}
+            <a href="https://tiktok.com/@{{ settings.tiktok_handle }}" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+              </svg>
+            </a>
+          {% endif %}
+
+          {% if settings.twitter_handle %}
+            <a href="https://twitter.com/{{ settings.twitter_handle }}" target="_blank" class="social-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.32 4.56c-.85.38-1.78.64-2.75.76 1-.6 1.76-1.55 2.12-2.68-.93.55-1.96.95-3.06 1.17-.88-.94-2.13-1.53-3.51-1.53-2.66 0-4.81 2.16-4.81 4.81 0 .38.04.75.13 1.1-4-.2-7.57-2.11-9.94-5.02-.42.72-.66 1.55-.66 2.44 0 1.67.85 3.14 2.14 4-.79-.02-1.53-.24-2.18-.6v.06c0 2.33 1.66 4.28 3.86 4.72-.4.11-.83.17-1.27.17-.31 0-.62-.03-.92-.08.62 1.94 2.42 3.35 4.55 3.39-1.67 1.31-3.77 2.09-6.05 2.09-.39 0-.78-.02-1.17-.07 2.18 1.4 4.77 2.21 7.55 2.21 9.06 0 14.01-7.5 14.01-14.01 0-.21 0-.42-.01-.63.96-.69 1.8-1.56 2.46-2.55z"/>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Newsletter Section -->
+  {% if settings.show_newsletter %}
+    <section class="newsletter-section">
+      <div class="newsletter-content">
+        <h2 class="newsletter-title">Stay Updated</h2>
+        <p class="newsletter-subtitle">
+          Be the first to know about new drops, exclusive previews, and behind-the-scenes content.
+        </p>
+        
+        <form class="newsletter-form" action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data">
+          <input type="email" 
+                 class="newsletter-input" 
+                 name="contact[email]" 
+                 placeholder="Enter your email"
+                 required>
+          <button type="submit" class="newsletter-btn">
+            Subscribe
+          </button>
+        </form>
+      </div>
+    </section>
+  {% endif %}
+
+</div>
+
+<!-- Homepage JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize homepage functionality
+    initializeHomepage();
+  });
+
+  function initializeHomepage() {
+    animateStats();
+    initializeNewsletterForm();
+    initializeLazyLoading();
+  }
+
+  function animateStats() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const target = entry.target;
+          const finalValue = parseInt(target.dataset.count) || 0;
+          animateValue(target, 0, finalValue, 2000);
+          observer.unobserve(target);
+        }
+      });
+    });
+
+    statNumbers.forEach(stat => observer.observe(stat));
+  }
+
+  function animateValue(element, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+      const currentValue = Math.floor(progress * (end - start) + start);
+      
+      // Format the value based on the stat type
+      if (element.parentElement.querySelector('.stat-label').textContent.includes('Earnings')) {
+        element.textContent = ' + currentValue.toLocaleString();
+      } else if (element.parentElement.querySelector('.stat-label').textContent.includes('Conversion')) {
+        element.textContent = currentValue + '%';
+      } else if (element.parentElement.querySelector('.stat-label').textContent.includes('Followers')) {
+        element.textContent = (currentValue / 1000).toFixed(1) + 'K';
+      } else {
+        element.textContent = currentValue.toLocaleString();
+      }
+      
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      }
+    };
+    window.requestAnimationFrame(step);
+  }
+
+  function initializeNewsletterForm() {
+    const form = document.querySelector('.newsletter-form');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = form.querySelector('input[type="email"]').value;
+      const button = form.querySelector('.newsletter-btn');
+      const originalText = button.textContent;
+      
+      // Show loading state
+      button.textContent = 'Subscribing...';
+      button.disabled = true;
+
+      // Submit to Shopify customer list
+      fetch('/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `form_type=customer&utf8=✓&contact[email]=${encodeURIComponent(email)}&contact[tags]=newsletter`
+      })
+      .then(response => {
+        if (response.ok) {
+          button.textContent = '✓ Subscribed!';
+          form.querySelector('input[type="email"]').value = '';
+          
+          // Show success message
+          showNotification('Thanks for subscribing! You\'ll hear from us soon.', 'success');
+        } else {
+          throw new Error('Subscription failed');
+        }
+      })
+      .catch(error => {
+        console.error('Newsletter subscription error:', error);
+        button.textContent = 'Try Again';
+        showNotification('Something went wrong. Please try again.', 'error');
+      })
+      .finally(() => {
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.disabled = false;
+        }, 3000);
+      });
+    });
+  }
+
+  function initializeLazyLoading() {
+    const images = document.querySelectorAll('img[loading="lazy"]');
+    
+    if ('IntersectionObserver' in window) {
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src || img.src;
+            img.classList.remove('lazy');
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+
+      images.forEach(img => imageObserver.observe(img));
+    }
+  }
+
+  function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      max-width: 300px;
+      font-size: 0.9rem;
+    `;
+    notification.textContent = message;
+
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => {
+      notification.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      notification.style.transform = 'translateX(100%)';
+      setTimeout(() => {
+        if (notification.parentNode) {
+          notification.parentNode.removeChild(notification);
+        }
+      }, 300);
+    }, 5000);
+  }
+
+  // Scroll animations
+  function initializeScrollAnimations() {
+    const animatedElements = document.querySelectorAll('.fade-in-up');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    animatedElements.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease-out';
+      observer.observe(el);
+    });
+  }
+
+  // Initialize scroll animations
+  document.addEventListener('DOMContentLoaded', initializeScrollAnimations);
+
+  // Live drop updates
+  function initializeLiveUpdates() {
+    const dropCards = document.querySelectorAll('.drop-card');
+    
+    if (dropCards.length === 0) return;
+
+    // Update allocation bars every 30 seconds
+    setInterval(() => {
+      updateAllocationBars();
+    }, 30000);
+  }
+
+  function updateAllocationBars() {
+    fetch('/collections/all.json')
+      .then(response => response.json())
+      .then(data => {
+        data.products.forEach(product => {
+          const productCard = document.querySelector(`[href="${product.url}"]`)?.closest('.drop-card');
+          if (!productCard) return;
+
+          const allocationBar = productCard.querySelector('.allocation-fill');
+          const allocationText = productCard.querySelector('.drop-allocation');
+          
+          if (allocationBar && product.metafields && product.metafields.allocation) {
+            const percentage = (product.metafields.current_reservations / product.metafields.allocation_target) * 100;
+            allocationBar.style.width = percentage + '%';
+            
+            if (allocationText) {
+              allocationText.textContent = `${product.metafields.current_reservations}/${product.metafields.allocation_target} reserved`;
+            }
+          }
+        });
+      })
+      .catch(error => console.log('Update error:', error));
+  }
+
+  // Initialize all homepage features
+  document.addEventListener('DOMContentLoaded', function() {
+    initializeHomepage();
+    initializeLiveUpdates();
+  });
+
+</script>
+
+<!-- Structured Data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ collaborator_name }}",
+  "url": "{{ shop.url }}",
+  "description": "{{ settings.about_text | strip_html | truncate: 160 }}",
+  {% if settings.collaborator_image %}
+  "image": "{{ settings.collaborator_image | image_url: width: 500 }}",
+  {% endif %}
+  "sameAs": [
+    {% if settings.instagram_handle %}"https://instagram.com/{{ settings.instagram_handle }}"{% endif %}
+    {% if settings.tiktok_handle %}{% if settings.instagram_handle %},{% endif %}"https://tiktok.com/@{{ settings.tiktok_handle }}"{% endif %}
+    {% if settings.twitter_handle %}{% if settings.instagram_handle or settings.tiktok_handle %},{% endif %}"https://twitter.com/{{ settings.twitter_handle }}"{% endif %}
+  ],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Studio Sivad",
+    "url": "https://studiosivad.com"
+  }
+}
+</script>

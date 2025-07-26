@@ -1,0 +1,1574 @@
+{% comment %}
+  Studio Sivad - Product Drop Template
+  2/3 content + 1/3 drop structure layout as designed
+  Version: 1.0.0
+{% endcomment %}
+
+{%- liquid
+  assign collaborator_name = settings.collaborator_name | default: 'Creator'
+  assign drop_status = product.metafields.custom.drop_status | default: 'active'
+  assign allocation_target = product.metafields.custom.allocation_target | default: 100
+  assign current_reservations = product.metafields.custom.current_reservations | default: 0
+  assign drop_end_date = product.metafields.custom.drop_end_date
+  assign enable_live_chat = settings.enable_live_chat | default: false
+  
+  assign allocation_percentage = 0
+  if allocation_target > 0
+    assign allocation_percentage = current_reservations | times: 100.0 | divided_by: allocation_target
+  endif
+-%}
+
+<!-- Product Drop Styles -->
+<style>
+  .product-drop {
+    min-height: 100vh;
+    background: #ffffff;
+  }
+
+  .drop-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Left 2/3 - Content Area */
+  .drop-content {
+    background: #ffffff;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .content-tabs {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #f0f0f0;
+    z-index: 10;
+  }
+
+  .tab-nav {
+    display: flex;
+    padding: 0 2rem;
+    gap: 0;
+  }
+
+  .tab-button {
+    background: none;
+    border: none;
+    padding: 1.25rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tab-button:hover {
+    color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .tab-button.active {
+    color: var(--primary-color, #000);
+    border-bottom-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.03);
+  }
+
+  .tab-content {
+    display: none;
+    padding: 2rem;
+    min-height: calc(100vh - 80px);
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Story Tab */
+  .story-content {
+    max-width: 700px;
+  }
+
+  .hero-video {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    background: #f8f9fa;
+    position: relative;
+  }
+
+  .hero-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    color: #666;
+    font-size: 1.1rem;
+  }
+
+  .story-header {
+    margin-bottom: 2rem;
+  }
+
+  .collaboration-badge {
+    display: inline-block;
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  .story-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .story-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .story-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 2rem;
+  }
+
+  .design-process {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
+  }
+
+  .process-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .process-steps {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .process-step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .step-number {
+    background: var(--primary-color, #000);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .step-content h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .step-content p {
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* Products Tab */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .product-card {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .product-card:hover {
+    border-color: var(--primary-color, #000);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-card.selected {
+    border-color: var(--primary-color, #000);
+    background: #f8f9fa;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: #f8f9fa;
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color, #000);
+  }
+
+  .product-price-range {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-allocation {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .allocation-mini-bar {
+    height: 3px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+
+  .allocation-mini-fill {
+    height: 100%;
+    background: var(--primary-color, #000);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+  }
+
+  .selected-product-details {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+  }
+
+  .selected-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #000);
+  }
+
+  .selected-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .editions-preview {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .edition-chip {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  /* Lifestyle Tab */
+  .lifestyle-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .lifestyle-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #f8f9fa;
+  }
+
+  .lifestyle-caption {
+    padding: 1rem 0;
+    font-size: 0.95rem;
+    color: #666;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .collection-inspiration {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+  }
+
+  .inspiration-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--primary-color, #000);
+  }
+
+  .inspiration-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #666;
+  }
+
+  /* Live Tab */
+  .live-container {
+    text-align: center;
+  }
+
+  .live-video-window {
+    width: 100%;
+    height: 400px;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  .live-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .live-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #333, #555);
+    color: white;
+  }
+
+  .live-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #e74c3c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .viewer-count {
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    color: #666;
+  }
+
+  .chat-container {
+    background: #f8f9fa;
+    border-radius: 12px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chat-header {
+    background: var(--primary-color, #000);
+    color: white;
+    padding: 1rem;
+    font-weight: 500;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .chat-message {
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .chat-username {
+    font-weight: 500;
+    color: var(--primary-color, #000);
+  }
+
+  .chat-input-container {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .chat-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+  }
+
+  .chat-send {
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  /* Right 1/3 - Drop Structure Sidebar */
+  .drop-sidebar {
+    background: #f8f9fa;
+    border-left: 1px solid #f0f0f0;
+    padding: 2rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .sidebar-section {
+    margin-bottom: 2rem;
+  }
+
+  /* Allocation Progress */
+  .allocation-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .allocation-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .allocation-progress {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
+  }
+
+  .progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+  }
+
+  .progress-ring {
+    transform: rotate(-90deg);
+  }
+
+  .progress-ring-bg {
+    fill: none;
+    stroke: #f0f0f0;
+    stroke-width: 8;
+  }
+
+  .progress-ring-fill {
+    fill: none;
+    stroke: var(--primary-color, #000);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease;
+  }
+
+  .progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .progress-percentage {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .progress-label {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .allocation-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  /* Countdown Timer */
+  .countdown-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .countdown-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .countdown-timer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .time-unit {
+    text-align: center;
+  }
+
+  .time-value {
+    display: block;
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .time-label {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .urgency-message {
+    font-size: 0.85rem;
+    color: #e74c3c;
+    font-weight: 500;
+    padding: 0.5rem;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 6px;
+  }
+
+  /* Edition Selector */
+  .edition-section {
+    margin-bottom: 2rem;
+  }
+
+  .edition-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .edition-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .edition-option {
+    background: white;
+    border: 2px solid #f0f0f0;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+  }
+
+  .edition-option:hover {
+    border-color: var(--primary-color, #000);
+  }
+
+  .edition-option.selected {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .edition-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.25rem;
+  }
+
+  .edition-price {
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+  }
+
+  .edition-stock {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  /* Size Selector */
+  .size-section {
+    margin-bottom: 2rem;
+  }
+
+  .size-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .size-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .size-option {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .size-option:hover {
+    border-color: var(--primary-color, #000);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  .size-option.selected {
+    background: var(--primary-color, #000);
+    color: white;
+    border-color: var(--primary-color, #000);
+  }
+
+  .size-option.unavailable {
+    opacity: 0.4;
+    cursor: not-allowed;
+    position: relative;
+  }
+
+  .size-option.unavailable::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: #e74c3c;
+    transform: rotate(-45deg);
+  }
+
+  /* Reserve Button */
+  .reserve-section {
+    position: sticky;
+    bottom: 0;
+    background: #f8f9fa;
+    padding-top: 1rem;
+    margin-top: auto;
+  }
+
+  .reserve-button {
+    width: 100%;
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+  }
+
+  .reserve-button:hover {
+    background: var(--primary-hover, #333);
+    transform: translateY(-2px);
+  }
+
+  .reserve-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .reserve-details {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 1024px) {
+    .drop-container {
+      grid-template-columns: 1fr;
+    }
+
+    .drop-sidebar {
+      position: relative;
+      height: auto;
+      border-left: none;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .products-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .tab-nav {
+      padding: 0 1rem;
+    }
+
+    .tab-button {
+      padding: 1rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .tab-content {
+      padding: 1.5rem;
+    }
+
+    .story-title {
+      font-size: 2rem;
+    }
+
+    .countdown-timer {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+    }
+
+    .size-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+
+<!-- Product Drop HTML -->
+<div class="product-drop">
+  <div class="drop-container">
+    
+    <!-- Left 2/3 - Content Area -->
+    <div class="drop-content">
+      <div class="content-tabs">
+        <nav class="tab-nav">
+          <button class="tab-button active" data-tab="story">Story</button>
+          <button class="tab-button" data-tab="products">Products</button>
+          <button class="tab-button" data-tab="lifestyle">Lifestyle</button>
+          {% if enable_live_chat %}
+            <button class="tab-button" data-tab="live">Live</button>
+          {% endif %}
+        </nav>
+      </div>
+
+      <!-- Story Tab -->
+      <div class="tab-content active" id="story-tab">
+        <div class="story-content">
+          <div class="hero-video">
+            {% if product.metafields.custom.hero_video %}
+              <video controls poster="{{ product.featured_media | image_url: width: 800 }}">
+                <source src="{{ product.metafields.custom.hero_video }}" type="video/mp4">
+              </video>
+            {% else %}
+              <div class="video-placeholder">
+                {% if product.featured_media %}
+                  {{ product.featured_media | image_url: width: 800 | image_tag: alt: product.title }}
+                {% else %}
+                  🎥 Hero Video Coming Soon
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="story-header">
+            <div class="collaboration-badge">
+              Studio Sivad × {{ collaborator_name }}
+            </div>
+            
+            <h1 class="story-title">{{ product.title }}</h1>
+            
+            <p class="story-subtitle">
+              {{ product.metafields.custom.story_subtitle | default: 'A collaborative journey from inspiration to creation' }}
+            </p>
+          </div>
+
+          <div class="story-text">
+            {{ product.description | default: 'This exclusive collaboration represents the perfect fusion of authentic creativity and luxury craftsmanship. Every detail has been carefully considered to create pieces that not only look exceptional but tell a meaningful story.' }}
+          </div>
+
+          <div class="design-process">
+            <h3 class="process-title">Design Process</h3>
+            <div class="process-steps">
+              <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>Inspiration & Concept</h4>
+                  <p>{{ product.metafields.custom.process_step_1 | default: 'Drawing inspiration from personal experiences and authentic moments that shaped the creative vision.' }}</p>
+                </div>
+              </div>
+              
+              <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>Collaborative Design</h4>
+                  <p>{{ product.metafields.custom.process_step_2 | default: 'Working closely with Studio Sivad designers to translate ideas into wearable art with premium materials.' }}</p>
+                </div>
+              </div>
+              
+              <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>Luxury Production</h4>
+                  <p>{{ product.metafields.custom.process_step_3 | default: 'Meticulously crafted using the finest materials and production techniques to ensure exceptional quality.' }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Tab -->
+      <div class="tab-content" id="products-tab">
+        <div class="products-grid">
+          {% for variant in product.variants limit: 4 %}
+            {%- liquid
+              assign variant_allocation = variant.metafields.custom.allocation_target | default: 25
+              assign variant_reservations = variant.metafields.custom.current_reservations | default: 0
+              assign variant_percentage = 0
+              if variant_allocation > 0
+                assign variant_percentage = variant_reservations | times: 100.0 | divided_by: variant_allocation
+              endif
+            -%}
+            
+            <div class="product-card" data-variant-id="{{ variant.id }}" data-product-name="{{ variant.title }}">
+              <div class="product-image">
+                {% if variant.image %}
+                  {{ variant.image | image_url: width: 400 | image_tag: 
+                     alt: variant.title, 
+                     loading: 'lazy' }}
+                {% else %}
+                  <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                    {{ variant.title }}
+                  </div>
+                {% endif %}
+              </div>
+              
+              <div class="product-info">
+                <h3 class="product-name">{{ variant.title }}</h3>
+                <div class="product-price-range">${{ variant.price | money_without_currency }}</div>
+                <div class="product-allocation">{{ variant_reservations }} of {{ variant_allocation }} reserved</div>
+                <div class="allocation-mini-bar">
+                  <div class="allocation-mini-fill" style="width: {{ variant_percentage }}%"></div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="selected-product-details" id="selected-product-details">
+          <h3 class="selected-title">Select a product to see details</h3>
+          <p class="selected-description">Click on any product above to view detailed information, editions, and reserve your piece.</p>
+        </div>
+      </div>
+
+      <!-- Lifestyle Tab -->
+      <div class="tab-content" id="lifestyle-tab">
+        <div class="lifestyle-gallery">
+          {% assign lifestyle_images = product.metafields.custom.lifestyle_images | split: ',' %}
+          {% if lifestyle_images.size > 0 %}
+            {% for image_url in lifestyle_images limit: 6 %}
+              <div>
+                <img src="{{ image_url | strip }}" alt="Lifestyle" class="lifestyle-image" loading="lazy">
+                <div class="lifestyle-caption">
+                  Living the {{ product.title }} lifestyle
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <!-- Default lifestyle content -->
+            {% for i in (1..4) %}
+              <div>
+                <div class="lifestyle-image" style="background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999;">
+                  Lifestyle Photo {{ i }}
+                </div>
+                <div class="lifestyle-caption">
+                  Experience {{ product.title }} in your daily life
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="collection-inspiration">
+          <h3 class="inspiration-title">Collection Inspiration</h3>
+          <div class="inspiration-text">
+            {{ product.metafields.custom.collection_inspiration | default: 'This collection draws inspiration from moments of authentic self-expression and the confidence that comes from wearing pieces that truly represent who you are. Each design element has been carefully considered to create versatile pieces that transition seamlessly from everyday moments to special occasions, embodying both comfort and luxury.' }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Tab -->
+      {% if enable_live_chat %}
+        <div class="tab-content" id="live-tab">
+          <div class="live-container">
+            <div class="live-video-window">
+              {% if product.metafields.custom.live_stream_active %}
+                <video class="live-video" controls autoplay muted>
+                  <source src="{{ product.metafields.custom.live_stream_url }}" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              {% else %}
+                <div class="live-placeholder">
+                  <div class="live-status">
+                    <span class="live-dot"></span>
+                    {% if product.metafields.custom.next_live_date %}
+                      Next Live: {{ product.metafields.custom.next_live_date | date: '%B %d at %I:%M %p' }}
+                    {% else %}
+                      Live Stream Coming Soon
+                    {% endif %}
+                  </div>
+                  <p>{{ collaborator_name }} will be live soon to talk about the collection, answer questions, and connect with fans.</p>
+                  <button class="btn-secondary" onclick="joinWaitlist()">Join Waitlist</button>
+                </div>
+              {% endif %}
+            </div>
+
+            {% if product.metafields.custom.live_stream_active %}
+              <div class="viewer-count">
+                <strong>{{ product.metafields.custom.live_viewer_count | default: 247 }}</strong> people watching
+              </div>
+            {% endif %}
+
+            <div class="chat-container">
+              <div class="chat-header">
+                Live Chat
+              </div>
+              
+              <div class="chat-messages" id="chat-messages">
+                <div class="chat-message">
+                  <span class="chat-username">StyleFan23:</span> Love this collection! 🔥
+                </div>
+                <div class="chat-message">
+                  <span class="chat-username">FashionForward:</span> When will the hoodie be back in stock?
+                </div>
+                <div class="chat-message">
+                  <span class="chat-username">{{ collaborator_name }}:</span> Thanks everyone! More stock coming tomorrow 🙌
+                </div>
+                <div class="chat-message">
+                  <span class="chat-username">DropHunter:</span> Quality looks amazing from the photos
+                </div>
+                <div class="chat-message">
+                  <span class="chat-username">CreativeVibes:</span> The design process video was so cool!
+                </div>
+              </div>
+              
+              <div class="chat-input-container">
+                <input type="text" class="chat-input" placeholder="Type a message..." id="chat-input">
+                <button class="chat-send" onclick="sendChatMessage()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Right 1/3 - Drop Structure Sidebar -->
+    <div class="drop-sidebar">
+      
+      <!-- Allocation Progress -->
+      <div class="allocation-section">
+        <h3 class="allocation-title">Drop Progress</h3>
+        <div class="allocation-progress">
+          <div class="progress-circle">
+            <svg class="progress-ring" width="120" height="120">
+              <circle class="progress-ring-bg" cx="60" cy="60" r="52"></circle>
+              <circle class="progress-ring-fill" cx="60" cy="60" r="52" 
+                      stroke-dasharray="327" 
+                      stroke-dashoffset="{{ 327 | minus: allocation_percentage | times: 3.27 }}"></circle>
+            </svg>
+            <div class="progress-text">
+              <div class="progress-percentage">{{ allocation_percentage | round: 1 }}%</div>
+              <div class="progress-label">Allocated</div>
+            </div>
+          </div>
+          <div class="allocation-stats">
+            <span>{{ current_reservations }} reserved</span>
+            <span>{{ allocation_target }} total</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countdown Timer -->
+      {% if drop_end_date %}
+        <div class="countdown-section">
+          <h3 class="countdown-title">Time Remaining</h3>
+          <div class="countdown-timer" data-end-date="{{ drop_end_date }}">
+            <div class="time-unit">
+              <span class="time-value days">0</span>
+              <span class="time-label">Days</span>
+            </div>
+            <div class="time-unit">
+              <span class="time-value hours">0</span>
+              <span class="time-label">Hours</span>
+            </div>
+            <div class="time-unit">
+              <span class="time-value minutes">0</span>
+              <span class="time-label">Mins</span>
+            </div>
+          </div>
+          <div class="urgency-message" id="urgency-message" style="display: none;">
+            ⚡ Less than 24 hours remaining!
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Edition Selector -->
+      <div class="edition-section">
+        <h3 class="edition-title">Choose Edition</h3>
+        <div class="edition-options">
+          {% for variant in product.variants limit: 3 %}
+            {%- liquid
+              assign edition_name = variant.metafields.custom.edition_name | default: variant.title
+              assign variant_allocation = variant.metafields.custom.allocation_target | default: 25
+              assign variant_reservations = variant.metafields.custom.current_reservations | default: 0
+              assign variant_available = variant_allocation | minus: variant_reservations
+            -%}
+            
+            <div class="edition-option" data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}">
+              <div class="edition-name">{{ edition_name }}</div>
+              <div class="edition-price">${{ variant.price | money_without_currency }}</div>
+              <div class="edition-stock">{{ variant_available }} of {{ variant_allocation }} available</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Size Selector -->
+      <div class="size-section">
+        <h3 class="size-title">Select Size</h3>
+        <div class="size-grid">
+          {% assign sizes = 'XS,S,M,L,XL,XXL' | split: ',' %}
+          {% for size in sizes %}
+            {% assign size_available = true %}
+            {% comment %} Simulate some sizes being unavailable {% endcomment %}
+            {% assign random_check = forloop.index | modulo: 7 %}
+            {% if random_check == 0 %}
+              {% assign size_available = false %}
+            {% endif %}
+            
+            <div class="size-option{% unless size_available %} unavailable{% endunless %}" 
+                 data-size="{{ size }}" 
+                 data-available="{{ size_available }}">
+              {{ size }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Reserve Section -->
+      <div class="reserve-section">
+        <button class="reserve-button" id="reserve-btn" disabled>
+          Select Edition & Size
+        </button>
+        
+        <div class="reserve-details">
+          <p><strong>No payment until production starts</strong></p>
+          <p>Reserve your spot now • Production begins when allocation target is met</p>
+          <p>Estimated delivery: {{ product.metafields.custom.estimated_delivery | default: '4-6 weeks after production' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Product Drop JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const productDrop = new ProductDropManager();
+  });
+
+  class ProductDropManager {
+    constructor() {
+      this.selectedVariant = null;
+      this.selectedSize = null;
+      this.selectedProduct = null;
+      this.init();
+    }
+
+    init() {
+      this.initializeTabs();
+      this.initializeProductSelection();
+      this.initializeEditionSelection();
+      this.initializeSizeSelection();
+      this.initializeCountdown();
+      this.initializeReserveButton();
+      this.initializeLiveFeatures();
+      this.initializeProgressAnimation();
+    }
+
+    initializeTabs() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const targetTab = button.dataset.tab;
+          
+          // Remove active class from all tabs and buttons
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // Add active class to clicked button and corresponding content
+          button.classList.add('active');
+          document.getElementById(targetTab + '-tab').classList.add('active');
+        });
+      });
+    }
+
+    initializeProductSelection() {
+      const productCards = document.querySelectorAll('.product-card');
+      
+      productCards.forEach(card => {
+        card.addEventListener('click', () => {
+          // Remove previous selection
+          productCards.forEach(c => c.classList.remove('selected'));
+          
+          // Add selection to clicked card
+          card.classList.add('selected');
+          
+          // Update sidebar with selected product info
+          this.updateSidebarForProduct(card);
+          
+          // Update detailed view
+          this.updateProductDetails(card);
+        });
+      });
+    }
+
+    updateProductDetails(card) {
+      const productName = card.dataset.productName;
+      const variantId = card.dataset.variantId;
+      
+      const detailsContainer = document.getElementById('selected-product-details');
+      detailsContainer.innerHTML = `
+        <h3 class="selected-title">${productName}</h3>
+        <div class="selected-description">
+          Premium quality construction with attention to every detail. This piece represents the perfect fusion of style and comfort.
+        </div>
+        <div class="editions-preview">
+          <div class="edition-chip">Standard Edition</div>
+          <div class="edition-chip">Premium Edition</div>
+          <div class="edition-chip">Exclusive Edition</div>
+        </div>
+        <p><strong>Materials:</strong> Premium cotton blend, reinforced stitching</p>
+        <p><strong>Care:</strong> Machine wash cold, hang dry</p>
+      `;
+    }
+
+    updateSidebarForProduct(card) {
+      const variantId = card.dataset.variantId;
+      // Update sidebar to show selected product's editions
+      this.selectedProduct = variantId;
+      this.updateReserveButtonState();
+    }
+
+    initializeEditionSelection() {
+      const editionOptions = document.querySelectorAll('.edition-option');
+      
+      editionOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          // Remove previous selection
+          editionOptions.forEach(opt => opt.classList.remove('selected'));
+          
+          // Add selection to clicked option
+          option.classList.add('selected');
+          
+          // Store selected variant
+          this.selectedVariant = option.dataset.variantId;
+          this.updateReserveButtonState();
+        });
+      });
+    }
+
+    initializeSizeSelection() {
+      const sizeOptions = document.querySelectorAll('.size-option');
+      
+      sizeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          if (option.classList.contains('unavailable')) return;
+          
+          // Remove previous selection
+          sizeOptions.forEach(opt => opt.classList.remove('selected'));
+          
+          // Add selection to clicked option
+          option.classList.add('selected');
+          
+          // Store selected size
+          this.selectedSize = option.dataset.size;
+          this.updateReserveButtonState();
+        });
+      });
+    }
+
+    updateReserveButtonState() {
+      const reserveBtn = document.getElementById('reserve-btn');
+      
+      if (this.selectedVariant && this.selectedSize) {
+        reserveBtn.disabled = false;
+        reserveBtn.textContent = 'Reserve Now';
+        reserveBtn.onclick = () => this.handleReservation();
+      } else if (this.selectedVariant && !this.selectedSize) {
+        reserveBtn.disabled = true;
+        reserveBtn.textContent = 'Select Size';
+      } else if (!this.selectedVariant && this.selectedSize) {
+        reserveBtn.disabled = true;
+        reserveBtn.textContent = 'Select Edition';
+      } else {
+        reserveBtn.disabled = true;
+        reserveBtn.textContent = 'Select Edition & Size';
+      }
+    }
+
+    handleReservation() {
+      if (!this.selectedVariant || !this.selectedSize) {
+        alert('Please select both edition and size');
+        return;
+      }
+
+      const reserveBtn = document.getElementById('reserve-btn');
+      const originalText = reserveBtn.textContent;
+      
+      // Show loading state
+      reserveBtn.textContent = 'Reserving...';
+      reserveBtn.disabled = true;
+
+      // Add to cart via Shopify AJAX
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: this.selectedVariant,
+          quantity: 1,
+          properties: {
+            'Size': this.selectedSize,
+            'Type': 'Reservation'
+          }
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Success
+        reserveBtn.textContent = '✓ Reserved!';
+        
+        // Show success notification
+        this.showNotification('Successfully reserved! You\'ll be charged when production begins.', 'success');
+        
+        // Update allocation display
+        this.updateAllocationDisplay();
+        
+        setTimeout(() => {
+          reserveBtn.textContent = originalText;
+          reserveBtn.disabled = false;
+        }, 3000);
+      })
+      .catch(error => {
+        console.error('Reservation error:', error);
+        reserveBtn.textContent = 'Try Again';
+        this.showNotification('Something went wrong. Please try again.', 'error');
+        
+        setTimeout(() => {
+          reserveBtn.textContent = originalText;
+          reserveBtn.disabled = false;
+        }, 3000);
+      });
+    }
+
+    initializeCountdown() {
+      const countdownElement = document.querySelector('.countdown-timer');
+      if (!countdownElement) return;
+
+      const endDate = new Date(countdownElement.dataset.endDate);
+      
+      const updateCountdown = () => {
+        const now = new Date().getTime();
+        const distance = endDate.getTime() - now;
+
+        if (distance < 0) {
+          countdownElement.innerHTML = '<div style="text-align: center; color: #e74c3c;">Drop Ended</div>';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+        countdownElement.querySelector('.days').textContent = days;
+        countdownElement.querySelector('.hours').textContent = hours;
+        countdownElement.querySelector('.minutes').textContent = minutes;
+
+        // Show urgency message if less than 24 hours
+        const urgencyMessage = document.getElementById('urgency-message');
+        if (distance < 24 * 60 * 60 * 1000) {
+          urgencyMessage.style.display = 'block';
+        }
+      };
+
+      updateCountdown();
+      setInterval(updateCountdown, 60000); // Update every minute
+    }
+
+    initializeReserveButton() {
+      // Initial state
+      this.updateReserveButtonState();
+    }
+
+    initializeLiveFeatures() {
+      // Chat functionality
+      const chatInput = document.getElementById('chat-input');
+      if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            this.sendChatMessage();
+          }
+        });
+      }
+    }
+
+    sendChatMessage() {
+      const chatInput = document.getElementById('chat-input');
+      const chatMessages = document.getElementById('chat-messages');
+      
+      if (!chatInput || !chatMessages) return;
+      
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      // Add message to chat
+      const messageElement = document.createElement('div');
+      messageElement.className = 'chat-message';
+      messageElement.innerHTML = `<span class="chat-username">You:</span> ${message}`;
+      
+      chatMessages.appendChild(messageElement);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      
+      // Clear input
+      chatInput.value = '';
+    }
+
+    initializeProgressAnimation() {
+      // Animate progress circle
+      const progressRing = document.querySelector('.progress-ring-fill');
+      if (progressRing) {
+        const percentage = {{ allocation_percentage | round: 1 }};
+        const circumference = 2 * Math.PI * 52;
+        const offset = circumference - (percentage / 100) * circumference;
+        
+        progressRing.style.strokeDasharray = circumference;
+        progressRing.style.strokeDashoffset = offset;
+      }
+    }
+
+    updateAllocationDisplay() {
+      // In a real implementation, this would fetch updated data
+      // For now, we'll simulate an increment
+      const currentReservations = {{ current_reservations }} + 1;
+      const target = {{ allocation_target }};
+      const newPercentage = (currentReservations / target) * 100;
+      
+      // Update progress circle
+      const progressRing = document.querySelector('.progress-ring-fill');
+      const progressText = document.querySelector('.progress-percentage');
+      const allocationStats = document.querySelector('.allocation-stats');
+      
+      if (progressRing && progressText && allocationStats) {
+        const circumference = 2 * Math.PI * 52;
+        const offset = circumference - (newPercentage / 100) * circumference;
+        
+        progressRing.style.strokeDashoffset = offset;
+        progressText.textContent = newPercentage.toFixed(1) + '%';
+        allocationStats.innerHTML = `<span>${currentReservations} reserved</span><span>${target} total</span>`;
+      }
+    }
+
+    showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        max-width: 300px;
+        font-size: 0.9rem;
+      `;
+      notification.textContent = message;
+
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 5000);
+    }
+  }
+
+  // Global functions for live features
+  function joinWaitlist() {
+    const email = prompt('Enter your email to join the live stream waitlist:');
+    if (email) {
+      // In a real implementation, this would submit to your backend
+      alert('Thanks! You\'ll be notified when the next live stream starts.');
+    }
+  }
+
+  function sendChatMessage() {
+    // This is handled by the ProductDropManager class
+    if (window.productDropManager) {
+      window.productDropManager.sendChatMessage();
+    }
+  }
+
+  // Store manager instance globally for access
+  document.addEventListener('DOMContentLoaded', function() {
+    window.productDropManager = new ProductDropManager();
+  });
+</script>
+
+<!-- SEO and Social Meta -->
+<meta property="og:title" content="{{ product.title }} - {{ collaborator_name }} × Studio Sivad">
+<meta property="og:description" content="{{ product.description | strip_html | truncate: 160 }}">
+<meta property="og:image" content="{{ product.featured_media | image_url: width: 1200 }}">
+<meta property="og:type" content="product">
+<meta property="product:price:amount" content="{{ product.price_min | money_without_currency }}">
+<meta property="product:price:currency" content="{{ cart.currency.iso_code }}">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.title }}",
+  "description": "{{ product.description | strip_html }}",
+  "image": "{{ product.featured_media | image_url: width: 800 }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "Studio Sivad × {{ collaborator_name }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price_min | money_without_currency }}",
+    "priceCurrency": "{{ cart.currency.iso_code }}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "url": "{{ shop.url }}{{ product.url }}"
+  }
+}
+</script>
