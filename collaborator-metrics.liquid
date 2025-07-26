@@ -1,0 +1,705 @@
+{% comment %}
+  Studio Sivad - Collaborator Metrics Snippet
+  Reusable component for displaying collaborator performance metrics
+  Version: 1.0.0
+  
+  Usage:
+  {% render 'collaborator-metrics', 
+     customer: customer, 
+     layout: 'grid', 
+     show_trends: true,
+     period: '30d' %}
+{% endcomment %}
+
+{%- liquid
+  assign metrics_customer = customer | default: customer
+  assign metrics_layout = layout | default: 'grid'
+  assign show_trends = show_trends | default: true
+  assign period = period | default: '30d'
+  assign show_charts = show_charts | default: false
+  assign size = size | default: 'default'
+  
+  # Get metrics from customer metafields
+  assign total_earnings = metrics_customer.metafields.custom.total_earnings | default: 0
+  assign total_orders = metrics_customer.metafields.custom.total_orders | default: 0
+  assign conversion_rate = metrics_customer.metafields.custom.conversion_rate | default: 0
+  assign social_followers = metrics_customer.metafields.custom.social_followers | default: 0
+  assign lifetime_revenue = metrics_customer.metafields.custom.lifetime_revenue | default: 0
+  assign active_drops = metrics_customer.metafields.custom.active_drops | default: 0
+  assign avg_order_value = metrics_customer.metafields.custom.avg_order_value | default: 0
+  assign customer_retention = metrics_customer.metafields.custom.customer_retention | default: 0
+  
+  # Calculate trends (simulated - in real implementation, these would come from analytics)
+  assign earnings_trend = 12.5
+  assign orders_trend = 8.3
+  assign conversion_trend = 2.1
+  assign followers_trend = 5.7
+  assign revenue_trend = 15.2
+  assign drops_trend = 0
+  assign aov_trend = 3.4
+  assign retention_trend = -1.2
+-%}
+
+<!-- Collaborator Metrics Styles -->
+<style>
+  .collaborator-metrics {
+    width: 100%;
+  }
+
+  .metrics-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .metrics-grid.layout-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .metrics-grid.layout-list {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-grid.layout-horizontal {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .metrics-grid.size-compact {
+    gap: 0.75rem;
+  }
+
+  .metrics-grid.size-large {
+    gap: 1.5rem;
+  }
+
+  .metric-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color, #000);
+  }
+
+  .metric-card.size-compact {
+    padding: 0.75rem;
+  }
+
+  .metric-card.size-large {
+    padding: 1.5rem;
+  }
+
+  .metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .metric-icon {
+    font-size: 1.5rem;
+    opacity: 0.8;
+  }
+
+  .metric-icon.size-compact {
+    font-size: 1.2rem;
+  }
+
+  .metric-icon.size-large {
+    font-size: 2rem;
+  }
+
+  .metric-trend {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .metric-trend.positive {
+    background: rgba(39, 174, 96, 0.1);
+    color: #27ae60;
+  }
+
+  .metric-trend.negative {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+  }
+
+  .metric-trend.neutral {
+    background: rgba(149, 165, 166, 0.1);
+    color: #95a5a6;
+  }
+
+  .metric-value {
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .metric-value.size-compact {
+    font-size: 1.4rem;
+  }
+
+  .metric-value.size-large {
+    font-size: 2.2rem;
+  }
+
+  .metric-label {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-label.size-compact {
+    font-size: 0.75rem;
+  }
+
+  .metric-label.size-large {
+    font-size: 0.9rem;
+  }
+
+  .metric-sublabel {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 0.25rem;
+    font-weight: normal;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  .metric-chart {
+    margin-top: 1rem;
+    height: 40px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .metric-chart-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    width: 0%;
+    transition: width 1s ease-out;
+    border-radius: 4px;
+  }
+
+  .metric-chart-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-color, #000);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1s ease-out;
+  }
+
+  /* List Layout Specific */
+  .metrics-grid.layout-list .metric-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .metrics-grid.layout-list .metric-header {
+    margin-bottom: 0;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+  }
+
+  .metrics-grid.layout-list .metric-icon {
+    margin-bottom: 0.25rem;
+  }
+
+  .metrics-grid.layout-list .metric-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .metrics-grid.layout-list .metric-value {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  .metrics-grid.layout-list .metric-chart {
+    width: 100px;
+    margin-top: 0;
+    margin-left: 1rem;
+  }
+
+  /* Animation Classes */
+  .metric-card.animate-in {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .metric-value.counting {
+    animation: pulse 0.3s ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .metrics-grid.layout-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .metrics-grid.layout-horizontal {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .metric-value {
+      font-size: 1.4rem;
+    }
+
+    .metrics-grid.layout-list .metric-card {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .metrics-grid.layout-list .metric-content {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .metrics-grid.layout-grid,
+    .metrics-grid.layout-horizontal {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<!-- Collaborator Metrics HTML -->
+<div class="collaborator-metrics" data-period="{{ period }}">
+  <div class="metrics-grid layout-{{ metrics_layout }} size-{{ size }}">
+    
+    <!-- Total Earnings -->
+    <div class="metric-card size-{{ size }}" data-metric="earnings">
+      <div class="metric-header">
+        <div class="metric-icon size-{{ size }}">💰</div>
+        {% if show_trends and earnings_trend != 0 %}
+          <div class="metric-trend {% if earnings_trend > 0 %}positive{% elsif earnings_trend < 0 %}negative{% else %}neutral{% endif %}">
+            {% if earnings_trend > 0 %}↗{% elsif earnings_trend < 0 %}↘{% else %}→{% endif %}
+            {{ earnings_trend | abs }}%
+          </div>
+        {% endif %}
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        <div class="metric-content">
+      {% endif %}
+      
+      <div class="metric-value size-{{ size }}" data-value="{{ total_earnings | money_without_currency }}">
+        ${{ total_earnings | money_without_currency }}
+      </div>
+      <div class="metric-label size-{{ size }}">
+        Total Earnings
+        <div class="metric-sublabel">Last {{ period }}</div>
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        </div>
+      {% endif %}
+      
+      {% if show_charts %}
+        <div class="metric-chart">
+          <div class="metric-chart-bar" data-percentage="{{ earnings_trend | abs | times: 5 | at_most: 100 }}"></div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Total Orders -->
+    <div class="metric-card size-{{ size }}" data-metric="orders">
+      <div class="metric-header">
+        <div class="metric-icon size-{{ size }}">📦</div>
+        {% if show_trends and orders_trend != 0 %}
+          <div class="metric-trend {% if orders_trend > 0 %}positive{% elsif orders_trend < 0 %}negative{% else %}neutral{% endif %}">
+            {% if orders_trend > 0 %}↗{% elsif orders_trend < 0 %}↘{% else %}→{% endif %}
+            {{ orders_trend | abs }}%
+          </div>
+        {% endif %}
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        <div class="metric-content">
+      {% endif %}
+      
+      <div class="metric-value size-{{ size }}" data-value="{{ total_orders }}">
+        {{ total_orders }}
+      </div>
+      <div class="metric-label size-{{ size }}">
+        Total Orders
+        <div class="metric-sublabel">Last {{ period }}</div>
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        </div>
+      {% endif %}
+      
+      {% if show_charts %}
+        <div class="metric-chart">
+          <div class="metric-chart-bar" data-percentage="{{ orders_trend | abs | times: 8 | at_most: 100 }}"></div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Conversion Rate -->
+    <div class="metric-card size-{{ size }}" data-metric="conversion">
+      <div class="metric-header">
+        <div class="metric-icon size-{{ size }}">📈</div>
+        {% if show_trends and conversion_trend != 0 %}
+          <div class="metric-trend {% if conversion_trend > 0 %}positive{% elsif conversion_trend < 0 %}negative{% else %}neutral{% endif %}">
+            {% if conversion_trend > 0 %}↗{% elsif conversion_trend < 0 %}↘{% else %}→{% endif %}
+            {{ conversion_trend | abs }}%
+          </div>
+        {% endif %}
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        <div class="metric-content">
+      {% endif %}
+      
+      <div class="metric-value size-{{ size }}" data-value="{{ conversion_rate }}">
+        {{ conversion_rate }}%
+      </div>
+      <div class="metric-label size-{{ size }}">
+        Conversion Rate
+        <div class="metric-sublabel">Last {{ period }}</div>
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        </div>
+      {% endif %}
+      
+      {% if show_charts %}
+        <div class="metric-chart">
+          <div class="metric-chart-line" data-percentage="{{ conversion_rate | times: 10 | at_most: 100 }}"></div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Social Followers -->
+    <div class="metric-card size-{{ size }}" data-metric="followers">
+      <div class="metric-header">
+        <div class="metric-icon size-{{ size }}">👥</div>
+        {% if show_trends and followers_trend != 0 %}
+          <div class="metric-trend {% if followers_trend > 0 %}positive{% elsif followers_trend < 0 %}negative{% else %}neutral{% endif %}">
+            {% if followers_trend > 0 %}↗{% elsif followers_trend < 0 %}↘{% else %}→{% endif %}
+            {{ followers_trend | abs }}%
+          </div>
+        {% endif %}
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        <div class="metric-content">
+      {% endif %}
+      
+      <div class="metric-value size-{{ size }}" data-value="{{ social_followers | divided_by: 1000 }}">
+        {{ social_followers | divided_by: 1000 }}K
+      </div>
+      <div class="metric-label size-{{ size }}">
+        Social Followers
+        <div class="metric-sublabel">Total across platforms</div>
+      </div>
+      
+      {% if metrics_layout == 'list' %}
+        </div>
+      {% endif %}
+      
+      {% if show_charts %}
+        <div class="metric-chart">
+          <div class="metric-chart-bar" data-percentage="{{ followers_trend | abs | times: 10 | at_most: 100 }}"></div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Lifetime Revenue (Optional) -->
+    {% if lifetime_revenue > 0 %}
+      <div class="metric-card size-{{ size }}" data-metric="lifetime-revenue">
+        <div class="metric-header">
+          <div class="metric-icon size-{{ size }}">💎</div>
+          {% if show_trends and revenue_trend != 0 %}
+            <div class="metric-trend {% if revenue_trend > 0 %}positive{% elsif revenue_trend < 0 %}negative{% else %}neutral{% endif %}">
+              {% if revenue_trend > 0 %}↗{% elsif revenue_trend < 0 %}↘{% else %}→{% endif %}
+              {{ revenue_trend | abs }}%
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          <div class="metric-content">
+        {% endif %}
+        
+        <div class="metric-value size-{{ size }}" data-value="{{ lifetime_revenue | money_without_currency }}">
+          ${{ lifetime_revenue | money_without_currency }}
+        </div>
+        <div class="metric-label size-{{ size }}">
+          Lifetime Revenue
+          <div class="metric-sublabel">All-time total</div>
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          </div>
+        {% endif %}
+        
+        {% if show_charts %}
+          <div class="metric-chart">
+            <div class="metric-chart-bar" data-percentage="{{ revenue_trend | abs | times: 3 | at_most: 100 }}"></div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Active Drops (Optional) -->
+    {% if active_drops >= 0 %}
+      <div class="metric-card size-{{ size }}" data-metric="active-drops">
+        <div class="metric-header">
+          <div class="metric-icon size-{{ size }}">🚀</div>
+          {% if show_trends and drops_trend != 0 %}
+            <div class="metric-trend {% if drops_trend > 0 %}positive{% elsif drops_trend < 0 %}negative{% else %}neutral{% endif %}">
+              {% if drops_trend > 0 %}↗{% elsif drops_trend < 0 %}↘{% else %}→{% endif %}
+              {{ drops_trend | abs }}%
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          <div class="metric-content">
+        {% endif %}
+        
+        <div class="metric-value size-{{ size }}" data-value="{{ active_drops }}">
+          {{ active_drops }}
+        </div>
+        <div class="metric-label size-{{ size }}">
+          Active Drops
+          <div class="metric-sublabel">Currently live</div>
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          </div>
+        {% endif %}
+        
+        {% if show_charts %}
+          <div class="metric-chart">
+            <div class="metric-chart-line" data-percentage="{{ active_drops | times: 25 | at_most: 100 }}"></div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Average Order Value (Optional) -->
+    {% if avg_order_value > 0 %}
+      <div class="metric-card size-{{ size }}" data-metric="aov">
+        <div class="metric-header">
+          <div class="metric-icon size-{{ size }}">🛒</div>
+          {% if show_trends and aov_trend != 0 %}
+            <div class="metric-trend {% if aov_trend > 0 %}positive{% elsif aov_trend < 0 %}negative{% else %}neutral{% endif %}">
+              {% if aov_trend > 0 %}↗{% elsif aov_trend < 0 %}↘{% else %}→{% endif %}
+              {{ aov_trend | abs }}%
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          <div class="metric-content">
+        {% endif %}
+        
+        <div class="metric-value size-{{ size }}" data-value="{{ avg_order_value | money_without_currency }}">
+          ${{ avg_order_value | money_without_currency }}
+        </div>
+        <div class="metric-label size-{{ size }}">
+          Avg Order Value
+          <div class="metric-sublabel">Last {{ period }}</div>
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          </div>
+        {% endif %}
+        
+        {% if show_charts %}
+          <div class="metric-chart">
+            <div class="metric-chart-bar" data-percentage="{{ aov_trend | abs | times: 15 | at_most: 100 }}"></div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- Customer Retention (Optional) -->
+    {% if customer_retention > 0 %}
+      <div class="metric-card size-{{ size }}" data-metric="retention">
+        <div class="metric-header">
+          <div class="metric-icon size-{{ size }}">🔄</div>
+          {% if show_trends and retention_trend != 0 %}
+            <div class="metric-trend {% if retention_trend > 0 %}positive{% elsif retention_trend < 0 %}negative{% else %}neutral{% endif %}">
+              {% if retention_trend > 0 %}↗{% elsif retention_trend < 0 %}↘{% else %}→{% endif %}
+              {{ retention_trend | abs }}%
+            </div>
+          {% endif %}
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          <div class="metric-content">
+        {% endif %}
+        
+        <div class="metric-value size-{{ size }}" data-value="{{ customer_retention }}">
+          {{ customer_retention }}%
+        </div>
+        <div class="metric-label size-{{ size }}">
+          Customer Retention
+          <div class="metric-sublabel">Repeat purchase rate</div>
+        </div>
+        
+        {% if metrics_layout == 'list' %}
+          </div>
+        {% endif %}
+        
+        {% if show_charts %}
+          <div class="metric-chart">
+            <div class="metric-chart-line" data-percentage="{{ customer_retention }}"></div>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+<!-- Metrics Animation Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initializeCollaboratorMetrics();
+  });
+
+  function initializeCollaboratorMetrics() {
+    const metricsContainer = document.querySelector('.collaborator-metrics');
+    if (!metricsContainer) return;
+
+    // Animate metric cards on load
+    const metricCards = metricsContainer.querySelectorAll('.metric-card');
+    metricCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add('animate-in');
+      }, index * 100);
+    });
+
+    // Animate metric values
+    const metricValues = metricsContainer.querySelectorAll('.metric-value');
+    setTimeout(() => {
+      metricValues.forEach(value => {
+        animateMetricValue(value);
+      });
+    }, 500);
+
+    // Animate charts if present
+    const chartBars = metricsContainer.querySelectorAll('.metric-chart-bar');
+    const chartLines = metricsContainer.querySelectorAll('.metric-chart-line');
+    
+    setTimeout(() => {
+      chartBars.forEach(bar => {
+        const percentage = bar.dataset.percentage || 0;
+        bar.style.width = percentage + '%';
+      });
+      
+      chartLines.forEach(line => {
+        const percentage = line.dataset.percentage || 0;
+        line.style.transform = `scaleX(${percentage / 100})`;
+      });
+    }, 800);
+  }
+
+  function animateMetricValue(element) {
+    const finalValue = parseFloat(element.dataset.value) || 0;
+    const text = element.textContent;
+    const duration = 1500;
+    
+    if (finalValue === 0) return;
+    
+    let start = null;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const currentValue = Math.floor(progress * finalValue);
+      
+      // Add counting animation class
+      if (progress < 1) {
+        element.classList.add('counting');
+      } else {
+        element.classList.remove('counting');
+      }
+      
+      // Format value based on original text
+      if (text.includes('$')) {
+        element.textContent = '$' + currentValue.toLocaleString();
+      } else if (text.includes('%')) {
+        element.textContent = (currentValue / 10).toFixed(1) + '%';
+      } else if (text.includes('K')) {
+        element.textContent = (currentValue / 10).toFixed(1) + 'K';
+      } else {
+        element.textContent = currentValue.toLocaleString();
+      }
+      
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        // Restore original text
+        element.textContent = text;
+      }
+    };
+    
+    requestAnimationFrame(step);
+  }
+
+  // Refresh metrics data
+  function refreshCollaboratorMetrics(period = '30d') {
+    const metricsContainer = document.querySelector('.collaborator-metrics');
+    if (!metricsContainer) return;
+    
+    metricsContainer.dataset.period = period;
+    
+    // In a real implementation, this would fetch updated data
+    // For now, we'll just re-animate the existing values
+    const metricValues = metricsContainer.querySelectorAll('.metric-value');
+    metricValues.forEach(value => {
+      animateMetricValue(value);
+    });
+  }
+
+  // Export function for external use
+  window.refreshCollaboratorMetrics = refreshCollaboratorMetrics;
+</script>

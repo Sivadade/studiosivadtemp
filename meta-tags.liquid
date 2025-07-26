@@ -1,0 +1,31 @@
+<link rel="canonical" href="{{ canonical_url }}">
+
+{%- if settings.favicon != blank -%}
+  <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+{%- endif -%}
+
+{%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+  <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+{%- endunless -%}
+
+{%- if settings.predictive_search_enabled -%}
+  <link rel="preload" as="fetch" href="{{ routes.predictive_search_url }}?resources[type]=query&resources[limit]=4&resources[options][fields]=title,product_type,variants.title&q=" crossorigin>
+{%- endif -%}
+
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | default: shop.name }}">
+<meta property="og:type" content="website">
+<meta property="og:description" content="{{ page_description | default: shop.description | default: shop.name }}">
+
+{%- if page_image -%}
+  <meta property="og:image" content="http:{{ page_image | img_url: '1200x1200' }}">
+  <meta property="og:image:secure_url" content="https:{{ page_image | img_url: '1200x1200' }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+{%- endif -%}
+
+<meta name="twitter:site" content="@{{ settings.twitter_handle }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | default: shop.name }}">
+<meta name="twitter:description" content="{{ page_description | default: shop.description | default: shop.name }}">

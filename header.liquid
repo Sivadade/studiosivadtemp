@@ -1,0 +1,186 @@
+<header class="site-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="brand-info">
+        {% if settings.collaborator_logo %}
+          <img src="{{ settings.collaborator_logo | img_url: '80x80' }}" alt="{{ settings.collaborator_name }}" class="collaborator-logo">
+        {% else %}
+          <div class="logo-placeholder">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="currentColor">
+              <path d="M20 0L25 15H40L28.5 23.5L32.5 40L20 30L7.5 40L11.5 23.5L0 15H15L20 0Z"/>
+            </svg>
+          </div>
+        {% endif %}
+          
+        <div class="brand-text">
+          <h1 class="store-title">{{ settings.store_title | default: shop.name }}</h1>
+          <p class="collaborator-name">by {{ settings.collaborator_name | default: 'Creator' }}</p>
+        </div>
+      </div>
+        
+      <nav class="main-nav">
+        <a href="/">Home</a>
+        <a href="/collections/all">Products</a>
+        {% if settings.enable_live_chat %}
+          <a href="#live">Live</a>
+        {% endif %}
+      </nav>
+        
+      <div class="header-actions">
+        {% if customer %}
+          {% if customer.tags contains 'collaborator' %}
+            <a href="/pages/collaborator-portal" class="btn btn-secondary">Dashboard</a>
+          {% endif %}
+          <a href="/account">Account</a>
+          <a href="/account/logout">Logout</a>
+        {% else %}
+          <a href="/account/login">Login</a>
+        {% endif %}
+          
+        <a href="/cart" class="cart-link">
+          Cart (<span class="cart-count">{{ cart.item_count }}</span>)
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    background: var(--background-color, #fff);
+    border-bottom: 1px solid #f0f0f0;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .brand-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .collaborator-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .logo-placeholder {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary, #000);
+  }
+
+  .store-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--color-primary, #000);
+  }
+
+  .collaborator-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    margin: 0;
+  }
+
+  .main-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .main-nav a {
+    text-decoration: none;
+    color: var(--text-color, #333);
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .main-nav a:hover {
+    color: var(--color-primary, #000);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .header-actions a {
+    text-decoration: none;
+    color: var(--text-color, #333);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .header-actions a:hover {
+    color: var(--color-primary, #000);
+  }
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary {
+    background: var(--color-primary, #000);
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-secondary, #333);
+    color: white;
+  }
+
+  .cart-link {
+    position: relative;
+  }
+
+  .cart-count {
+    font-weight: 600;
+  }
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .main-nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      padding-top: 1rem;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .container {
+      padding: 0 1rem;
+    }
+  }
+</style>
