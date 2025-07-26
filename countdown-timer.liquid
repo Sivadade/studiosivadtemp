@@ -1,0 +1,850 @@
+{% comment %}
+  Studio Sivad - Countdown Timer Section
+  Displays real-time countdown for drop end date
+  Version: 1.0.0
+{% endcomment %}
+
+{%- liquid
+  assign drop_end_date = product.metafields.custom.drop_end_date
+  assign drop_status = product.metafields.custom.drop_status | default: 'active'
+  assign timer_style = section.settings.timer_style | default: 'modern'
+  assign show_labels = section.settings.show_labels | default: true
+  assign show_seconds = section.settings.show_seconds | default: false
+-%}
+
+{% if drop_end_date and drop_status == 'active' %}
+<section class="countdown-section {{ timer_style }}-style" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="countdown-content">
+      
+      {% comment %} Section Header {% endcomment %}
+      {% if section.settings.timer_title != blank %}
+        <div class="countdown-header">
+          <h3 class="countdown-title">{{ section.settings.timer_title }}</h3>
+          {% if section.settings.timer_subtitle != blank %}
+            <p class="countdown-subtitle">{{ section.settings.timer_subtitle }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} Main Countdown Timer {% endcomment %}
+      <div class="countdown-timer {{ timer_style }}" 
+           data-end-date="{{ drop_end_date }}"
+           data-show-seconds="{{ show_seconds }}"
+           data-timezone="{{ shop.timezone }}">
+        
+        <div class="time-unit days-unit">
+          <div class="time-display">
+            <span class="time-value days">00</span>
+            {% if show_labels %}
+              <label class="time-label">{{ section.settings.days_label | default: 'Days' }}</label>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="time-separator">:</div>
+        
+        <div class="time-unit hours-unit">
+          <div class="time-display">
+            <span class="time-value hours">00</span>
+            {% if show_labels %}
+              <label class="time-label">{{ section.settings.hours_label | default: 'Hours' }}</label>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="time-separator">:</div>
+        
+        <div class="time-unit minutes-unit">
+          <div class="time-display">
+            <span class="time-value minutes">00</span>
+            {% if show_labels %}
+              <label class="time-label">{{ section.settings.minutes_label | default: 'Minutes' }}</label>
+            {% endif %}
+          </div>
+        </div>
+        
+        {% if show_seconds %}
+          <div class="time-separator">:</div>
+          
+          <div class="time-unit seconds-unit">
+            <div class="time-display">
+              <span class="time-value seconds">00</span>
+              {% if show_labels %}
+                <label class="time-label">{{ section.settings.seconds_label | default: 'Seconds' }}</label>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Countdown Status Messages {% endcomment %}
+      <div class="countdown-status" style="display: none;">
+        <div class="status-message drop-ended" style="display: none;">
+          <div class="status-icon">⏰</div>
+          <h4>{{ section.settings.ended_title | default: 'Drop Has Ended' }}</h4>
+          <p>{{ section.settings.ended_message | default: 'This exclusive drop is no longer available for reservation.' }}</p>
+        </div>
+        
+        <div class="status-message drop-ending-soon" style="display: none;">
+          <div class="status-icon">🔥</div>
+          <h4>{{ section.settings.urgent_title | default: 'Ending Soon!' }}</h4>
+          <p>{{ section.settings.urgent_message | default: 'Less than 1 hour remaining - secure your spot now!' }}</p>
+        </div>
+      </div>
+
+      {% comment %} Action Buttons {% endcomment %}
+      {% if section.settings.show_action_buttons %}
+        <div class="countdown-actions">
+          {% if section.settings.primary_button_text != blank %}
+            <a href="{{ section.settings.primary_button_link | default: '#reserve' }}" 
+               class="btn btn-primary countdown-cta">
+              {{ section.settings.primary_button_text }}
+            </a>
+          {% endif %}
+          
+          {% if section.settings.secondary_button_text != blank %}
+            <a href="{{ section.settings.secondary_button_link | default: '#details' }}" 
+               class="btn btn-secondary countdown-cta">
+              {{ section.settings.secondary_button_text }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% comment %} Progress Indicator {% endcomment %}
+      {% if section.settings.show_progress %}
+        <div class="countdown-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" data-progress="0"></div>
+          </div>
+          <div class="progress-labels">
+            <span class="progress-start">Drop Started</span>
+            <span class="progress-end">Drop Ends</span>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% elsif drop_status == 'upcoming' and drop_end_date %}
+  {% comment %} Upcoming Drop Timer {% endcomment %}
+  <section class="countdown-section upcoming-style">
+    <div class="container">
+      <div class="countdown-content">
+        <div class="countdown-header">
+          <h3 class="countdown-title">{{ section.settings.upcoming_title | default: 'Drop Launches In' }}</h3>
+        </div>
+        
+        <div class="countdown-timer upcoming" data-end-date="{{ drop_end_date }}">
+          <div class="time-unit">
+            <span class="time-value days">00</span>
+            <label class="time-label">Days</label>
+          </div>
+          <div class="time-unit">
+            <span class="time-value hours">00</span>
+            <label class="time-label">Hours</label>
+          </div>
+          <div class="time-unit">
+            <span class="time-value minutes">00</span>
+            <label class="time-label">Minutes</label>
+          </div>
+        </div>
+        
+        <div class="upcoming-message">
+          <p>{{ section.settings.upcoming_message | default: 'Get notified when this exclusive drop goes live.' }}</p>
+          {% if section.settings.notify_button_text != blank %}
+            <button class="btn btn-primary notify-btn" data-product-id="{{ product.id }}">
+              {{ section.settings.notify_button_text }}
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% elsif drop_status == 'ended' %}
+  {% comment %} Ended Drop Message {% endcomment %}
+  <section class="countdown-section ended-style">
+    <div class="container">
+      <div class="countdown-content">
+        <div class="countdown-header">
+          <h3 class="countdown-title">{{ section.settings.ended_title | default: 'Drop Has Ended' }}</h3>
+          <p class="countdown-subtitle">{{ section.settings.ended_message | default: 'This exclusive collaboration is no longer available.' }}</p>
+        </div>
+        
+        <div class="ended-status">
+          <div class="status-icon">✅</div>
+          <p>Thank you to everyone who participated in this exclusive drop!</p>
+          {% if section.settings.next_drop_text != blank %}
+            <a href="{{ section.settings.next_drop_link }}" class="btn btn-primary">
+              {{ section.settings.next_drop_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+<style>
+  .countdown-section {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-2xl);
+    padding: var(--spacing-2xl);
+    margin: var(--spacing-xl) 0;
+    text-align: center;
+  }
+
+  .countdown-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .countdown-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+  }
+
+  .countdown-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Modern Timer Style */
+  .countdown-timer.modern {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+  }
+
+  .countdown-timer.modern .time-unit {
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .countdown-timer.modern .time-display {
+    background: var(--primary-color);
+    color: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .countdown-timer.modern .time-display::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+    animation: shine 3s infinite;
+  }
+
+  .countdown-timer.modern .time-value {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .countdown-timer.modern .time-label {
+    display: block;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  .countdown-timer.modern .time-separator {
+    font-size: var(--font-size-2xl);
+    font-weight: 300;
+    color: var(--text-secondary);
+  }
+
+  /* Minimal Timer Style */
+  .countdown-timer.minimal {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: var(--font-size-4xl);
+    font-weight: 300;
+    color: var(--primary-color);
+    margin: var(--spacing-xl) 0;
+  }
+
+  .countdown-timer.minimal .time-unit {
+    text-align: center;
+  }
+
+  .countdown-timer.minimal .time-value {
+    display: block;
+    line-height: 1;
+  }
+
+  .countdown-timer.minimal .time-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+    font-family: var(--font-family-base);
+  }
+
+  /* Elegant Timer Style */
+  .countdown-timer.elegant {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 600px;
+    margin: var(--spacing-xl) auto;
+  }
+
+  .countdown-timer.elegant .time-unit {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: all var(--transition-base);
+  }
+
+  .countdown-timer.elegant .time-unit:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+  }
+
+  .countdown-timer.elegant .time-value {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .countdown-timer.elegant .time-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Status Messages */
+  .countdown-status {
+    margin: var(--spacing-xl) 0;
+  }
+
+  .status-message {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .status-message.drop-ended {
+    border-color: var(--error-color);
+    background: rgba(239, 68, 68, 0.05);
+  }
+
+  .status-message.drop-ending-soon {
+    border-color: var(--warning-color);
+    background: rgba(245, 158, 11, 0.05);
+    animation: pulse-border 2s infinite;
+  }
+
+  .status-icon {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .status-message h4 {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+  }
+
+  .status-message p {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Action Buttons */
+  .countdown-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+    flex-wrap: wrap;
+  }
+
+  /* Progress Indicator */
+  .countdown-progress {
+    margin: var(--spacing-xl) 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .countdown-progress .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .countdown-progress .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    border-radius: var(--radius-md);
+    transition: width 1s ease;
+  }
+
+  .countdown-progress .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+  }
+
+  /* Upcoming Style */
+  .countdown-section.upcoming-style {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid #f59e0b;
+  }
+
+  .countdown-timer.upcoming .time-unit {
+    background: #f59e0b;
+    color: white;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .upcoming-message {
+    margin-top: var(--spacing-xl);
+  }
+
+  .upcoming-message p {
+    font-size: var(--font-size-lg);
+    color: #92400e;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Ended Style */
+  .countdown-section.ended-style {
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    border: 2px solid #6b7280;
+  }
+
+  .ended-status {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-xl) 0;
+  }
+
+  .ended-status .status-icon {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* Animations */
+  @keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { border-color: var(--warning-color); }
+    50% { border-color: var(--error-color); }
+  }
+
+  @keyframes countdown-flash {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.5; }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .countdown-section {
+      padding: var(--spacing-xl);
+    }
+
+    .countdown-timer.modern {
+      gap: var(--spacing-md);
+    }
+
+    .countdown-timer.modern .time-unit {
+      min-width: 60px;
+    }
+
+    .countdown-timer.modern .time-value {
+      font-size: var(--font-size-2xl);
+    }
+
+    .countdown-timer.modern .time-separator {
+      font-size: var(--font-size-xl);
+    }
+
+    .countdown-timer.minimal {
+      font-size: var(--font-size-3xl);
+    }
+
+    .countdown-timer.elegant {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .countdown-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .countdown-actions .btn {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .countdown-timer.modern .time-value {
+      font-size: var(--font-size-xl);
+    }
+
+    .countdown-timer.elegant {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const timers = document.querySelectorAll('.countdown-timer[data-end-date]');
+    
+    timers.forEach(timer => {
+      const endDate = new Date(timer.dataset.endDate);
+      const showSeconds = timer.dataset.showSeconds === 'true';
+      const dropStartDate = new Date('{{ product.created_at }}'); // Approximate start date
+      
+      function updateTimer() {
+        const now = new Date();
+        const timeLeft = endDate - now;
+        const totalDuration = endDate - dropStartDate;
+        const elapsed = now - dropStartDate;
+        
+        // Update progress bar if exists
+        const progressFill = timer.parentElement.querySelector('.progress-fill');
+        if (progressFill && totalDuration > 0) {
+          const progressPercent = Math.min((elapsed / totalDuration) * 100, 100);
+          progressFill.style.width = progressPercent + '%';
+          progressFill.dataset.progress = progressPercent;
+        }
+        
+        if (timeLeft <= 0) {
+          handleTimerExpired(timer);
+          return;
+        }
+        
+        // Calculate time units
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        // Update display
+        updateTimeDisplay(timer, 'days', days);
+        updateTimeDisplay(timer, 'hours', hours);
+        updateTimeDisplay(timer, 'minutes', minutes);
+        
+        if (showSeconds) {
+          updateTimeDisplay(timer, 'seconds', seconds);
+        }
+        
+        // Show urgency message if less than 1 hour
+        if (timeLeft < 3600000) { // 1 hour in milliseconds
+          showUrgencyMessage(timer);
+        }
+        
+        // Flash effect when very close to ending (last 60 seconds)
+        if (timeLeft < 60000) {
+          timer.style.animation = 'countdown-flash 1s infinite';
+        }
+      }
+      
+      function updateTimeDisplay(timer, unit, value) {
+        const element = timer.querySelector(`.${unit}`);
+        if (element) {
+          const formattedValue = value.toString().padStart(2, '0');
+          if (element.textContent !== formattedValue) {
+            element.textContent = formattedValue;
+            // Add flash effect on change
+            element.style.animation = 'countdown-flash 0.5s';
+            setTimeout(() => {
+              element.style.animation = '';
+            }, 500);
+          }
+        }
+      }
+      
+      function handleTimerExpired(timer) {
+        timer.style.display = 'none';
+        
+        const statusContainer = timer.parentElement.querySelector('.countdown-status');
+        const endedMessage = statusContainer?.querySelector('.drop-ended');
+        
+        if (statusContainer && endedMessage) {
+          statusContainer.style.display = 'block';
+          endedMessage.style.display = 'block';
+        }
+        
+        // Disable any action buttons
+        const actionButtons = timer.parentElement.querySelectorAll('.countdown-cta');
+        actionButtons.forEach(btn => {
+          btn.disabled = true;
+          btn.textContent = 'Drop Ended';
+          btn.classList.add('btn-disabled');
+        });
+        
+        // Trigger custom event for other scripts
+        window.dispatchEvent(new CustomEvent('dropEnded', {
+          detail: { timer: timer }
+        }));
+      }
+      
+      function showUrgencyMessage(timer) {
+        const statusContainer = timer.parentElement.querySelector('.countdown-status');
+        const urgentMessage = statusContainer?.querySelector('.drop-ending-soon');
+        
+        if (statusContainer && urgentMessage) {
+          statusContainer.style.display = 'block';
+          urgentMessage.style.display = 'block';
+        }
+      }
+      
+      // Initial update
+      updateTimer();
+      
+      // Update every second if showing seconds, otherwise every minute
+      const interval = showSeconds ? 1000 : 60000;
+      setInterval(updateTimer, interval);
+    });
+    
+    // Notify button functionality
+    const notifyButtons = document.querySelectorAll('.notify-btn');
+    notifyButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const productId = this.dataset.productId;
+        
+        // Simple email collection (could be enhanced with actual email service)
+        const email = prompt('Enter your email to be notified when this drop goes live:');
+        if (email && email.includes('@')) {
+          // Here you would typically send to your notification service
+          this.textContent = 'You\'ll be notified!';
+          this.disabled = true;
+          
+          // Store in localStorage as backup
+          const notifications = JSON.parse(localStorage.getItem('dropNotifications') || '[]');
+          notifications.push({ productId, email, timestamp: Date.now() });
+          localStorage.setItem('dropNotifications', JSON.stringify(notifications));
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Timer",
+  "class": "section-countdown",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Timer Content"
+    },
+    {
+      "type": "text",
+      "id": "timer_title",
+      "label": "Timer Title",
+      "default": "Drop Closes In"
+    },
+    {
+      "type": "textarea",
+      "id": "timer_subtitle",
+      "label": "Timer Subtitle"
+    },
+    {
+      "type": "header",
+      "content": "Timer Style"
+    },
+    {
+      "type": "select",
+      "id": "timer_style",
+      "label": "Timer Style",
+      "options": [
+        { "value": "modern", "label": "Modern" },
+        { "value": "minimal", "label": "Minimal" },
+        { "value": "elegant", "label": "Elegant" }
+      ],
+      "default": "modern"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_labels",
+      "label": "Show Time Labels",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_seconds",
+      "label": "Show Seconds",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show Progress Bar",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Time Labels"
+    },
+    {
+      "type": "text",
+      "id": "days_label",
+      "label": "Days Label",
+      "default": "Days"
+    },
+    {
+      "type": "text",
+      "id": "hours_label",
+      "label": "Hours Label",
+      "default": "Hours"
+    },
+    {
+      "type": "text",
+      "id": "minutes_label",
+      "label": "Minutes Label",
+      "default": "Minutes"
+    },
+    {
+      "type": "text",
+      "id": "seconds_label",
+      "label": "Seconds Label",
+      "default": "Seconds"
+    },
+    {
+      "type": "header",
+      "content": "Action Buttons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_action_buttons",
+      "label": "Show Action Buttons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "primary_button_text",
+      "label": "Primary Button Text",
+      "default": "Reserve Now"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary Button Text"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Status Messages"
+    },
+    {
+      "type": "text",
+      "id": "ended_title",
+      "label": "Ended Title",
+      "default": "Drop Has Ended"
+    },
+    {
+      "type": "textarea",
+      "id": "ended_message",
+      "label": "Ended Message",
+      "default": "This exclusive drop is no longer available for reservation."
+    },
+    {
+      "type": "text",
+      "id": "urgent_title",
+      "label": "Urgent Title",
+      "default": "Ending Soon!"
+    },
+    {
+      "type": "textarea",
+      "id": "urgent_message",
+      "label": "Urgent Message",
+      "default": "Less than 1 hour remaining - secure your spot now!"
+    },
+    {
+      "type": "text",
+      "id": "upcoming_title",
+      "label": "Upcoming Title",
+      "default": "Drop Launches In"
+    },
+    {
+      "type": "textarea",
+      "id": "upcoming_message",
+      "label": "Upcoming Message",
+      "default": "Get notified when this exclusive drop goes live."
+    },
+    {
+      "type": "text",
+      "id": "notify_button_text",
+      "label": "Notify Button Text",
+      "default": "Notify Me"
+    },
+    {
+      "type": "text",
+      "id": "next_drop_text",
+      "label": "Next Drop Button Text"
+    },
+    {
+      "type": "url",
+      "id": "next_drop_link",
+      "label": "Next Drop Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Timer"
+    }
+  ]
+}
+{% endschema %}

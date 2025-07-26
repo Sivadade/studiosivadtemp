@@ -1,0 +1,789 @@
+{% comment %}
+  Studio Sivad - Edition Selector Section
+  Displays product variants as tiered editions with pricing and features
+  Version: 1.0.0
+{% endcomment %}
+
+{%- liquid
+  assign selector_layout = section.settings.selector_layout | default: 'cards'
+  assign show_features = section.settings.show_features | default: true
+  assign show_allocation = section.settings.show_allocation | default: true
+  assign enable_size_selector = section.settings.enable_size_selector | default: true
+  assign max_editions = section.settings.max_editions | default: 3
+-%}
+
+<!-- Edition Selector Styles -->
+<style>
+  .edition-selector {
+    padding: 2rem 0;
+    background: var(--background-color, #ffffff);
+  }
+
+  .edition-selector__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .edition-selector__title {
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+  }
+
+  .edition-selector__subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+    opacity: 0.8;
+  }
+
+  .editions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .edition-card {
+    background: #ffffff;
+    border: 1px solid var(--border-color, #e5e5e5);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .edition-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color, #000);
+  }
+
+  .edition-card.selected {
+    border-color: var(--primary-color, #000);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background: var(--selection-bg, #f8f9fa);
+  }
+
+  .edition-card.most-popular {
+    border-color: var(--accent-color, #007bff);
+    position: relative;
+  }
+
+  .edition-card.most-popular::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-color, #007bff);
+    color: white;
+    padding: 0.25rem 1rem;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .edition-card.exclusive {
+    background: linear-gradient(135deg, #000 0%, #333 100%);
+    color: white;
+    border-color: #666;
+  }
+
+  .edition-card.exclusive .edition-name {
+    color: #fff;
+  }
+
+  .edition-card.exclusive .edition-price {
+    color: #fff;
+  }
+
+  .edition-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--primary-color, #000);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .edition-badge.premium {
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    color: #000;
+  }
+
+  .edition-badge.exclusive {
+    background: linear-gradient(45deg, #000, #333);
+    color: #fff;
+  }
+
+  .edition-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.3px;
+  }
+
+  .edition-price {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--primary-color, #000);
+    margin-bottom: 1rem;
+  }
+
+  .edition-price .currency {
+    font-size: 1.2rem;
+    vertical-align: top;
+  }
+
+  .edition-allocation {
+    margin-bottom: 1.5rem;
+  }
+
+  .allocation-bar {
+    height: 4px;
+    background: var(--border-color, #e5e5e5);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+
+  .allocation-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color, #000), var(--accent-color, #333));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .allocation-text {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .allocation-status {
+    font-weight: 500;
+  }
+
+  .allocation-status.low-stock {
+    color: #e74c3c;
+  }
+
+  .allocation-status.medium-stock {
+    color: #f39c12;
+  }
+
+  .allocation-status.high-stock {
+    color: #27ae60;
+  }
+
+  .edition-features {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+    text-align: left;
+  }
+
+  .edition-features li {
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary, #666);
+    display: flex;
+    align-items: center;
+  }
+
+  .edition-features li::before {
+    content: '✓';
+    color: var(--accent-color, #27ae60);
+    font-weight: bold;
+    margin-right: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .size-selector {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color, #e5e5e5);
+  }
+
+  .size-selector__title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--primary-color, #000);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .size-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .size-option {
+    padding: 0.75rem 0.5rem;
+    border: 1px solid var(--border-color, #e5e5e5);
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s ease;
+  }
+
+  .size-option:hover {
+    border-color: var(--primary-color, #000);
+    background: var(--selection-bg, #f8f9fa);
+  }
+
+  .size-option.selected {
+    background: var(--primary-color, #000);
+    color: white;
+    border-color: var(--primary-color, #000);
+  }
+
+  .size-option.unavailable {
+    opacity: 0.4;
+    cursor: not-allowed;
+    position: relative;
+  }
+
+  .size-option.unavailable::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: #e74c3c;
+    transform: rotate(-45deg);
+  }
+
+  .edition-cta {
+    margin-top: 1.5rem;
+  }
+
+  .select-edition-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color, #000);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .select-edition-btn:hover {
+    background: var(--primary-hover, #333);
+    transform: translateY(-2px);
+  }
+
+  .select-edition-btn:disabled {
+    background: var(--border-color, #e5e5e5);
+    color: var(--text-secondary, #666);
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* List Layout */
+  .editions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .editions-list .edition-card {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 1.5rem;
+  }
+
+  .editions-list .edition-info {
+    flex: 1;
+    padding-right: 2rem;
+  }
+
+  .editions-list .edition-price {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+  }
+
+  /* Compact Layout */
+  .editions-compact {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+  }
+
+  .editions-compact .edition-card {
+    min-width: 200px;
+    max-width: 250px;
+    flex: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .editions-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .editions-list .edition-card {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .editions-list .edition-info {
+      padding-right: 0;
+      margin-bottom: 1rem;
+    }
+
+    .editions-compact {
+      flex-direction: column;
+    }
+
+    .size-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>
+
+<!-- Edition Selector HTML -->
+<div class="edition-selector" data-section-id="{{ section.id }}">
+  <div class="edition-selector__header">
+    <h2 class="edition-selector__title">{{ section.settings.title | default: 'Choose Your Edition' }}</h2>
+    {% if section.settings.subtitle %}
+      <p class="edition-selector__subtitle">{{ section.settings.subtitle }}</p>
+    {% endif %}
+  </div>
+
+  {% assign layout_class = 'editions-grid' %}
+  {% if selector_layout == 'list' %}
+    {% assign layout_class = 'editions-list' %}
+  {% elsif selector_layout == 'compact' %}
+    {% assign layout_class = 'editions-compact' %}
+  {% endif %}
+
+  <div class="{{ layout_class }}" id="editionsContainer">
+    {% assign variant_count = 0 %}
+    {% for variant in product.variants limit: max_editions %}
+      {% assign variant_count = variant_count | plus: 1 %}
+      
+      {%- liquid
+        assign edition_name = variant.metafields.custom.edition_name | default: variant.title
+        assign edition_features = variant.metafields.custom.edition_features
+        assign edition_allocation_target = variant.metafields.custom.allocation_target | default: 100
+        assign edition_current_reservations = variant.metafields.custom.current_reservations | default: 0
+        assign edition_badge = variant.metafields.custom.edition_badge
+        assign is_most_popular = variant.metafields.custom.most_popular | default: false
+        assign is_exclusive = variant.metafields.custom.exclusive | default: false
+        
+        assign allocation_percentage = 0
+        if edition_allocation_target > 0
+          assign allocation_percentage = edition_current_reservations | times: 100.0 | divided_by: edition_allocation_target
+        endif
+        
+        assign stock_status = 'high-stock'
+        if allocation_percentage >= 80
+          assign stock_status = 'low-stock'
+        elsif allocation_percentage >= 50
+          assign stock_status = 'medium-stock'
+        endif
+      -%}
+
+      <div class="edition-card{% if is_most_popular %} most-popular{% endif %}{% if is_exclusive %} exclusive{% endif %}" 
+           data-variant-id="{{ variant.id }}" 
+           data-price="{{ variant.price }}"
+           data-available="{{ variant.available }}">
+        
+        {% if is_most_popular %}
+          <!-- Most Popular badge is added via CSS ::before -->
+        {% elsif edition_badge %}
+          <div class="edition-badge{% if is_exclusive %} exclusive{% elsif variant_count == max_editions %} premium{% endif %}">
+            {{ edition_badge }}
+          </div>
+        {% endif %}
+
+        <div class="edition-info">
+          <h3 class="edition-name">{{ edition_name }}</h3>
+          
+          <div class="edition-price">
+            <span class="currency">$</span>{{ variant.price | money_without_currency }}
+          </div>
+
+          {% if show_allocation and edition_allocation_target > 0 %}
+            <div class="edition-allocation">
+              <div class="allocation-bar">
+                <div class="allocation-fill" style="width: {{ allocation_percentage }}%"></div>
+              </div>
+              <div class="allocation-text">
+                <span class="allocation-status {{ stock_status }}">
+                  {{ edition_current_reservations }} of {{ edition_allocation_target }} reserved
+                </span>
+                <span>{{ allocation_percentage | round: 1 }}%</span>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if show_features and edition_features %}
+            {% assign features_array = edition_features | split: '|' %}
+            <ul class="edition-features">
+              {% for feature in features_array limit: 4 %}
+                <li>{{ feature | strip }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+
+        {% if enable_size_selector %}
+          <div class="size-selector">
+            <div class="size-selector__title">Select Size</div>
+            <div class="size-grid" data-variant-id="{{ variant.id }}">
+              {% assign size_options = 'XS,S,M,L,XL,XXL' | split: ',' %}
+              {% for size in size_options %}
+                {% assign size_available = true %}
+                {% comment %}
+                  Note: In a real implementation, you'd check inventory for each size
+                  For now, we'll simulate some sizes being unavailable
+                {% endcomment %}
+                {% assign random_num = forloop.index | modulo: 7 %}
+                {% if random_num == 0 or random_num == 6 %}
+                  {% assign size_available = false %}
+                {% endif %}
+                
+                <div class="size-option{% unless size_available %} unavailable{% endunless %}" 
+                     data-size="{{ size }}"
+                     data-available="{{ size_available }}">
+                  {{ size }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="edition-cta">
+          <button class="select-edition-btn" 
+                  data-variant-id="{{ variant.id }}"
+                  {% unless variant.available %}disabled{% endunless %}>
+            {% if variant.available %}
+              Reserve {{ edition_name }}
+            {% else %}
+              Sold Out
+            {% endif %}
+          </button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Edition Selector JavaScript -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const editionSelector = new EditionSelector();
+  });
+
+  class EditionSelector {
+    constructor() {
+      this.selectedVariant = null;
+      this.selectedSize = null;
+      this.init();
+    }
+
+    init() {
+      this.bindEvents();
+      this.updateSelection();
+    }
+
+    bindEvents() {
+      // Edition card selection
+      document.querySelectorAll('.edition-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          if (!e.target.closest('.size-selector') && !e.target.closest('.edition-cta')) {
+            this.selectEdition(card);
+          }
+        });
+      });
+
+      // Size selection
+      document.querySelectorAll('.size-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (!option.classList.contains('unavailable')) {
+            this.selectSize(option);
+          }
+        });
+      });
+
+      // Reserve button
+      document.querySelectorAll('.select-edition-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.handleReservation(btn);
+        });
+      });
+    }
+
+    selectEdition(card) {
+      // Remove previous selection
+      document.querySelectorAll('.edition-card').forEach(c => 
+        c.classList.remove('selected')
+      );
+      
+      // Add selection to clicked card
+      card.classList.add('selected');
+      
+      // Store selected variant
+      this.selectedVariant = card.dataset.variantId;
+      
+      // Clear size selection when switching editions
+      this.selectedSize = null;
+      document.querySelectorAll('.size-option').forEach(option => 
+        option.classList.remove('selected')
+      );
+
+      this.updateSelection();
+      this.triggerVariantChange();
+    }
+
+    selectSize(option) {
+      const parentCard = option.closest('.edition-card');
+      
+      // Remove previous size selection in this card
+      parentCard.querySelectorAll('.size-option').forEach(opt => 
+        opt.classList.remove('selected')
+      );
+      
+      // Add selection to clicked size
+      option.classList.add('selected');
+      this.selectedSize = option.dataset.size;
+
+      this.updateSelection();
+      this.triggerSizeChange();
+    }
+
+    updateSelection() {
+      // Update reserve buttons state
+      document.querySelectorAll('.select-edition-btn').forEach(btn => {
+        const card = btn.closest('.edition-card');
+        const isSelected = card.classList.contains('selected');
+        const sizeSelector = card.querySelector('.size-selector');
+        const hasSize = sizeSelector ? this.selectedSize : true;
+        
+        if (isSelected && hasSize) {
+          btn.disabled = false;
+          btn.textContent = `Reserve ${card.querySelector('.edition-name').textContent}`;
+        } else if (isSelected && !hasSize) {
+          btn.disabled = true;
+          btn.textContent = 'Select Size First';
+        }
+      });
+    }
+
+    handleReservation(btn) {
+      const card = btn.closest('.edition-card');
+      const variantId = card.dataset.variantId;
+      const editionName = card.querySelector('.edition-name').textContent;
+      
+      if (!this.selectedVariant) {
+        alert('Please select an edition first');
+        return;
+      }
+
+      const sizeSelector = card.querySelector('.size-selector');
+      if (sizeSelector && !this.selectedSize) {
+        alert('Please select a size first');
+        return;
+      }
+
+      // Add to cart or trigger reservation
+      this.addToCart(variantId, this.selectedSize);
+    }
+
+    addToCart(variantId, size) {
+      // Show loading state
+      const btn = document.querySelector(`[data-variant-id="${variantId}"] .select-edition-btn`);
+      const originalText = btn.textContent;
+      btn.textContent = 'Adding...';
+      btn.disabled = true;
+
+      // Shopify AJAX add to cart
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: variantId,
+          quantity: 1,
+          properties: size ? { 'Size': size } : {}
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Success - update UI
+        btn.textContent = '✓ Added to Cart';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }, 2000);
+
+        // Update cart count
+        this.updateCartCount();
+        
+        // Trigger custom event
+        document.dispatchEvent(new CustomEvent('variant:added', {
+          detail: { variantId, size, data }
+        }));
+      })
+      .catch(error => {
+        console.error('Error adding to cart:', error);
+        btn.textContent = 'Error - Try Again';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.disabled = false;
+        }, 3000);
+      });
+    }
+
+    updateCartCount() {
+      fetch('/cart.js')
+        .then(response => response.json())
+        .then(cart => {
+          const cartCountElements = document.querySelectorAll('.cart-count');
+          cartCountElements.forEach(element => {
+            element.textContent = cart.item_count;
+          });
+        });
+    }
+
+    triggerVariantChange() {
+      // Trigger custom event for other components
+      document.dispatchEvent(new CustomEvent('variant:changed', {
+        detail: { 
+          variantId: this.selectedVariant,
+          size: this.selectedSize 
+        }
+      }));
+    }
+
+    triggerSizeChange() {
+      // Trigger custom event for size changes
+      document.dispatchEvent(new CustomEvent('size:changed', {
+        detail: { 
+          variantId: this.selectedVariant,
+          size: this.selectedSize 
+        }
+      }));
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Edition Selector",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Choose Your Edition"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "placeholder": "Optional subtitle text"
+    },
+    {
+      "type": "select",
+      "id": "selector_layout",
+      "label": "Layout Style",
+      "options": [
+        { "value": "cards", "label": "Cards (Grid)" },
+        { "value": "list", "label": "List" },
+        { "value": "compact", "label": "Compact" }
+      ],
+      "default": "cards"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Show Edition Features",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_allocation",
+      "label": "Show Allocation Progress",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_size_selector",
+      "label": "Enable Size Selector",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "max_editions",
+      "label": "Maximum Editions to Show",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#007bff"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Edition Selector",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}

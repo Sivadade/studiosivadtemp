@@ -1,0 +1,540 @@
+{% comment %}
+  Studio Sivad - Standard Product Template
+  For regular products (non-drop products use product.drop.liquid)
+{% endcomment %}
+
+<div class="product-page">
+  <div class="container">
+    <div class="product-grid">
+      
+      <!-- Product Images -->
+      <div class="product-images">
+        <div class="product-gallery">
+          {% if product.media.size > 0 %}
+            <div class="main-image">
+              <img src="{{ product.featured_media | image_url: width: 600 }}" 
+                   alt="{{ product.title }}" 
+                   id="mainProductImage">
+            </div>
+            
+            {% if product.media.size > 1 %}
+              <div class="image-thumbnails">
+                {% for media in product.media limit: 5 %}
+                  <div class="thumbnail {% if forloop.first %}active{% endif %}"
+                       data-image="{{ media | image_url: width: 600 }}">
+                    <img src="{{ media | image_url: width: 100 }}" 
+                         alt="{{ product.title }}">
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% else %}
+            <div class="product-placeholder">
+              <svg width="400" height="400" viewBox="0 0 400 400" fill="#ddd">
+                <rect width="400" height="400" fill="currentColor"/>
+                <text x="200" y="200" text-anchor="middle" fill="white" font-size="16">No Image</text>
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="product-header">
+          {% if settings.show_studio_sivad_branding %}
+            <p class="product-collaboration">
+              Studio Sivad × {{ settings.collaborator_name | default: 'Creator' }}
+            </p>
+          {% endif %}
+          
+          <h1 class="product-title">{{ product.title }}</h1>
+          
+          <div class="product-price">
+            {% if product.compare_at_price > product.price %}
+              <span class="price-sale">${{ product.price | money_without_currency }}</span>
+              <span class="price-compare">${{ product.compare_at_price | money_without_currency }}</span>
+              <span class="price-save">Save ${{ product.compare_at_price | minus: product.price | money_without_currency }}</span>
+            {% else %}
+              <span class="price">${{ product.price | money_without_currency }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="product-form">
+          <form action="/cart/add" method="post" enctype="multipart/form-data" id="product-form">
+            {% unless product.has_only_default_variant %}
+              <div class="product-variants">
+                {% for option in product.options_with_values %}
+                  <div class="variant-option">
+                    <label for="option-{{ forloop.index }}">{{ option.name }}</label>
+                    <select name="options[{{ option.name | escape }}]" id="option-{{ forloop.index }}" class="variant-select">
+                      {% for value in option.values %}
+                        <option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>
+                          {{ value }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endunless %}
+
+            <div class="product-quantity">
+              <label for="quantity">Quantity</label>
+              <div class="quantity-input">
+                <button type="button" class="quantity-btn minus">−</button>
+                <input type="number" name="quantity" id="quantity" value="1" min="1" class="quantity-field">
+                <button type="button" class="quantity-btn plus">+</button>
+              </div>
+            </div>
+
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            
+            <div class="product-actions">
+              <button type="submit" name="add" class="btn btn-primary add-to-cart-btn" 
+                      {% unless product.available %}disabled{% endunless %}>
+                {% if product.available %}
+                  Add to Cart
+                {% else %}
+                  Sold Out
+                {% endif %}
+              </button>
+              
+              <button type="button" class="btn btn-secondary wishlist-btn">
+                ♡ Add to Wishlist
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {% if product.description != blank %}
+          <div class="product-description">
+            <h3>Description</h3>
+            <div class="description-content">
+              {{ product.description }}
+            </div>
+          </div>
+        {% endif %}
+
+        <div class="product-details">
+          <div class="detail-item">
+            <h4>Product Details</h4>
+            <ul>
+              <li>Premium quality materials</li>
+              <li>Ethically manufactured</li>
+              <li>Limited edition design</li>
+              {% if product.vendor != blank %}
+                <li>Brand: {{ product.vendor }}</li>
+              {% endif %}
+            </ul>
+          </div>
+          
+          <div class="detail-item">
+            <h4>Shipping & Returns</h4>
+            <ul>
+              <li>Free shipping on orders over $100</li>
+              <li>30-day return policy</li>
+              <li>Ships within 3-5 business days</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    {% assign related_products = collections.all.products | where: 'type', product.type | where_not: 'id', product.id %}
+    {% if related_products.size > 0 %}
+      <div class="related-products">
+        <h3>You Might Also Like</h3>
+        <div class="related-grid">
+          {% for related_product in related_products limit: 4 %}
+            <div class="related-card">
+              <a href="{{ related_product.url }}" class="related-link">
+                {% if related_product.featured_media %}
+                  <img src="{{ related_product.featured_media | image_url: width: 200 }}" 
+                       alt="{{ related_product.title }}" 
+                       class="related-image">
+                {% endif %}
+                <h4>{{ related_product.title }}</h4>
+                <p>${{ related_product.price | money_without_currency }}</p>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .product-page {
+    padding: 2rem 0;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  .product-gallery {
+    position: sticky;
+    top: 2rem;
+  }
+
+  .main-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .image-thumbnails {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+  }
+
+  .thumbnail {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  .thumbnail.active {
+    border-color: var(--color-primary, #000);
+  }
+
+  .thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-collaboration {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #666);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .product-title {
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-primary, #000);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .product-price {
+    margin-bottom: 2rem;
+  }
+
+  .price, .price-sale {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-primary, #000);
+  }
+
+  .price-compare {
+    font-size: 1.2rem;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+  }
+
+  .price-save {
+    display: block;
+    font-size: 0.9rem;
+    color: #e74c3c;
+    font-weight: 500;
+    margin-top: 0.25rem;
+  }
+
+  .variant-option {
+    margin-bottom: 1rem;
+  }
+
+  .variant-option label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .variant-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .product-quantity {
+    margin: 1.5rem 0;
+  }
+
+  .quantity-input {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  .quantity-btn {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .quantity-field {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+    font-size: 1rem;
+  }
+
+  .product-actions {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .btn {
+    flex: 1;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary {
+    background: var(--color-primary, #000);
+    color: white;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-secondary, #333);
+  }
+
+  .btn-primary:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-primary, #000);
+    border: 1px solid var(--color-primary, #000);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-primary, #000);
+    color: white;
+  }
+
+  .product-description {
+    margin: 2rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .product-description h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .description-content {
+    line-height: 1.6;
+    color: var(--text-secondary, #666);
+  }
+
+  .product-details {
+    margin: 2rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .detail-item {
+    margin-bottom: 2rem;
+  }
+
+  .detail-item h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  .detail-item ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .detail-item li {
+    padding: 0.25rem 0;
+    color: var(--text-secondary, #666);
+  }
+
+  .detail-item li::before {
+    content: '•';
+    color: var(--color-primary, #000);
+    margin-right: 0.5rem;
+  }
+
+  .related-products {
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .related-products h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+  }
+
+  .related-card {
+    text-align: center;
+  }
+
+  .related-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .related-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .product-actions {
+      flex-direction: column;
+    }
+
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Image gallery functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImage = document.getElementById('mainProductImage');
+
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        // Remove active class from all thumbnails
+        thumbnails.forEach(t => t.classList.remove('active'));
+        
+        // Add active class to clicked thumbnail
+        this.classList.add('active');
+        
+        // Update main image
+        const newImageSrc = this.dataset.image;
+        if (mainImage && newImageSrc) {
+          mainImage.src = newImageSrc;
+        }
+      });
+    });
+
+    // Quantity controls
+    const quantityField = document.getElementById('quantity');
+    const plusBtn = document.querySelector('.quantity-btn.plus');
+    const minusBtn = document.querySelector('.quantity-btn.minus');
+
+    if (plusBtn && quantityField) {
+      plusBtn.addEventListener('click', () => {
+        quantityField.value = parseInt(quantityField.value) + 1;
+      });
+    }
+
+    if (minusBtn && quantityField) {
+      minusBtn.addEventListener('click', () => {
+        const currentValue = parseInt(quantityField.value);
+        if (currentValue > 1) {
+          quantityField.value = currentValue - 1;
+        }
+      });
+    }
+
+    // Variant selection
+    const variantSelects = document.querySelectorAll('.variant-select');
+    variantSelects.forEach(select => {
+      select.addEventListener('change', updateVariant);
+    });
+
+    function updateVariant() {
+      // Update selected variant based on options
+      const selectedOptions = [];
+      variantSelects.forEach(select => {
+        selectedOptions.push(select.value);
+      });
+      
+      // Find matching variant
+      const matchingVariant = {{ product.variants | json }}.find(variant => {
+        return variant.options.every((option, index) => option === selectedOptions[index]);
+      });
+
+      if (matchingVariant) {
+        document.querySelector('input[name="id"]').value = matchingVariant.id;
+        
+        // Update price
+        const priceElement = document.querySelector('.price, .price-sale');
+        if (priceElement) {
+          priceElement.textContent = '$' + (matchingVariant.price / 100).toFixed(2);
+        }
+
+        // Update availability
+        const addToCartBtn = document.querySelector('.add-to-cart-btn');
+        if (addToCartBtn) {
+          if (matchingVariant.available) {
+            addToCartBtn.disabled = false;
+            addToCartBtn.textContent = 'Add to Cart';
+          } else {
+            addToCartBtn.disabled = true;
+            addToCartBtn.textContent = 'Sold Out';
+          }
+        }
+      }
+    }
+  });
+</script>

@@ -1,0 +1,599 @@
+{% comment %}
+  Studio Sivad - Hero Drop Status Section
+  Displays allocation progress, countdown, and key drop metrics
+  Version: 1.0.0
+{% endcomment %}
+
+{%- liquid
+  assign current_reservations = product.metafields.custom.current_reservations | default: 0
+  assign allocation_target = product.metafields.custom.allocation_target | default: 100
+  assign drop_end_date = product.metafields.custom.drop_end_date
+  assign drop_status = product.metafields.custom.drop_status | default: 'active'
+  assign collaborator_name = product.vendor | default: settings.collaborator_name
+  
+  if allocation_target > 0
+    assign allocation_percentage = current_reservations | times: 100 | divided_by: allocation_target
+  else
+    assign allocation_percentage = 0
+  endif
+-%}
+
+<section class="drop-hero" data-product-id="{{ product.id }}">
+  <div class="container">
+    <div class="allocation-progress">
+      
+      {% comment %} Drop Title and Description {% endcomment %}
+      <div class="drop-header">
+        <h2>{{ section.settings.drop_title | default: product.title }}</h2>
+        {% if section.settings.drop_subtitle != blank %}
+          <p class="drop-subtitle">{{ section.settings.drop_subtitle }}</p>
+        {% elsif product.description != blank %}
+          <p class="drop-subtitle">{{ product.description | strip_html | truncate: 120 }}</p>
+        {% endif %}
+        
+        {% comment %} Collaborator Badge {% endcomment %}
+        <div class="collaborator-badge">
+          <span class="collaborator-text">A collaboration with</span>
+          <span class="collaborator-name">{{ collaborator_name }}</span>
+          <span class="studio-badge">× Studio Sivad</span>
+        </div>
+      </div>
+
+      {% comment %} Status Grid {% endcomment %}
+      <div class="status-grid">
+        <div class="status-item">
+          <div class="status-icon">🎯</div>
+          <div class="status-value">
+            <span class="reservation-count" data-count="{{ current_reservations }}">{{ current_reservations }}</span>
+          </div>
+          <div class="status-label">Reserved</div>
+        </div>
+        
+        <div class="status-item">
+          <div class="status-icon">📦</div>
+          <div class="status-value">
+            <span class="allocation-target" data-target="{{ allocation_target }}">{{ allocation_target }}</span>
+          </div>
+          <div class="status-label">Production Target</div>
+        </div>
+        
+        <div class="status-item">
+          <div class="status-icon">📈</div>
+          <div class="status-value">
+            <span class="allocation-percentage" data-percentage="{{ allocation_percentage }}">{{ allocation_percentage }}%</span>
+          </div>
+          <div class="status-label">Progress</div>
+        </div>
+        
+        {% if drop_end_date %}
+          <div class="status-item">
+            <div class="status-icon">⏰</div>
+            <div class="status-value time-remaining" data-end-date="{{ drop_end_date }}">
+              <span class="time-value">Calculating...</span>
+            </div>
+            <div class="status-label">Time Left</div>
+          </div>
+        {% endif %}
+      </div>
+      
+      {% comment %} Progress Bar {% endcomment %}
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" 
+               style="width: {{ allocation_percentage | at_most: 100 }}%" 
+               data-progress="{{ allocation_percentage }}">
+          </div>
+        </div>
+        
+        <div class="progress-labels">
+          <span class="progress-start">0 reserved</span>
+          <span class="progress-current">
+            {{ current_reservations }} of {{ allocation_target }} reserved
+          </span>
+          <span class="progress-end">{{ allocation_target }} goal</span>
+        </div>
+      </div>
+
+      {% comment %} Drop Status Badges {% endcomment %}
+      <div class="drop-status-container">
+        {% case drop_status %}
+          {% when 'active' %}
+            <div class="status-badge status-active">
+              <span class="status-dot"></span>
+              LIVE NOW
+            </div>
+          {% when 'upcoming' %}
+            <div class="status-badge status-upcoming">
+              <span class="status-dot"></span>
+              LAUNCHING SOON
+            </div>
+          {% when 'ended' %}
+            <div class="status-badge status-ended">
+              <span class="status-dot"></span>
+              DROP ENDED
+            </div>
+          {% when 'sold_out' %}
+            <div class="status-badge status-sold-out">
+              <span class="status-dot"></span>
+              SOLD OUT
+            </div>
+        {% endcase %}
+        
+        {% comment %} Quality Badge {% endcomment %}
+        <div class="quality-badge">
+          <span class="quality-icon">✨</span>
+          <span class="quality-text">Premium Quality Guaranteed</span>
+        </div>
+      </div>
+
+      {% comment %} Key Features {% endcomment %}
+      {% if section.settings.show_features %}
+        <div class="drop-features">
+          <div class="feature-item">
+            <span class="feature-icon">🏭</span>
+            <span class="feature-text">Made-to-Order Production</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🤝</span>
+            <span class="feature-text">Revenue Sharing Partnership</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🎨</span>
+            <span class="feature-text">Collaborative Design Process</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🌟</span>
+            <span class="feature-text">Limited Edition Exclusivity</span>
+          </div>
+        </div>
+      {% endif %}
+
+      {% comment %} Urgency Messaging {% endcomment %}
+      {% if allocation_percentage >= 90 %}
+        <div class="urgency-message high-demand">
+          <strong>🔥 Almost Sold Out!</strong> Only {{ allocation_target | minus: current_reservations }} spots remaining.
+        </div>
+      {% elsif allocation_percentage >= 75 %}
+        <div class="urgency-message moderate-demand">
+          <strong>⚡ High Demand!</strong> {{ allocation_percentage }}% reserved - secure your spot now.
+        </div>
+      {% elsif drop_status == 'active' and drop_end_date %}
+        <div class="urgency-message time-sensitive">
+          <strong>⏰ Limited Time!</strong> Drop ends soon - don't miss out on this exclusive collaboration.
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+
+{% comment %} Add meta tags for JavaScript access {% endcomment %}
+<meta name="product:id" content="{{ product.id }}">
+<meta name="product:reservations" content="{{ current_reservations }}">
+<meta name="product:target" content="{{ allocation_target }}">
+<meta name="product:percentage" content="{{ allocation_percentage }}">
+{% if drop_end_date %}
+  <meta name="product:end-date" content="{{ drop_end_date }}">
+{% endif %}
+
+<style>
+  .drop-hero {
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #0f172a 100%);
+    color: white;
+    padding: var(--spacing-3xl) 0;
+    border-radius: var(--radius-2xl);
+    margin-bottom: var(--spacing-3xl);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drop-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+  }
+
+  .allocation-progress {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .drop-header h2 {
+    font-size: var(--font-size-4xl);
+    font-weight: 300;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+  }
+
+  .drop-subtitle {
+    font-size: var(--font-size-lg);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--spacing-lg);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .collaborator-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    margin-bottom: var(--spacing-2xl);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .collaborator-text {
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .collaborator-name {
+    font-weight: 600;
+    color: white;
+  }
+
+  .studio-badge {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-xl);
+    margin: var(--spacing-2xl) 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .status-item {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform var(--transition-base);
+  }
+
+  .status-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .status-icon {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .status-value {
+    font-size: var(--font-size-3xl);
+    font-weight: 300;
+    margin-bottom: var(--spacing-xs);
+    line-height: 1;
+  }
+
+  .status-label {
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  .progress-container {
+    margin: var(--spacing-2xl) 0;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--spacing-md);
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #3b82f6);
+    border-radius: var(--radius-md);
+    transition: width 0.8s ease-out;
+    position: relative;
+  }
+
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .progress-current {
+    font-weight: 600;
+    color: white;
+  }
+
+  .drop-status-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+    flex-wrap: wrap;
+  }
+
+  .status-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.05em;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .status-active {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .status-active .status-dot {
+    background: #10b981;
+    animation: pulse 2s infinite;
+  }
+
+  .status-upcoming {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .status-upcoming .status-dot {
+    background: #f59e0b;
+  }
+
+  .status-ended,
+  .status-sold-out {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .status-ended .status-dot,
+  .status-sold-out .status-dot {
+    background: #ef4444;
+  }
+
+  .quality-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: rgba(147, 51, 234, 0.2);
+    color: #a855f7;
+    border: 1px solid rgba(147, 51, 234, 0.3);
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+
+  .drop-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin: var(--spacing-xl) 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-sm);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .urgency-message {
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-base);
+    text-align: center;
+  }
+
+  .urgency-message.high-demand {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+  }
+
+  .urgency-message.moderate-demand {
+    background: rgba(245, 158, 11, 0.2);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    color: #fcd34d;
+  }
+
+  .urgency-message.time-sensitive {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #93c5fd;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .drop-hero {
+      padding: var(--spacing-2xl) 0;
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .drop-header h2 {
+      font-size: var(--font-size-3xl);
+    }
+
+    .status-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .status-value {
+      font-size: var(--font-size-2xl);
+    }
+
+    .drop-features {
+      grid-template-columns: 1fr;
+    }
+
+    .drop-status-container {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .collaborator-badge {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Update time remaining if end date exists
+    const timeElement = document.querySelector('.time-remaining');
+    const endDateMeta = document.querySelector('meta[name="product:end-date"]');
+    
+    if (timeElement && endDateMeta) {
+      const endDate = new Date(endDateMeta.content);
+      
+      function updateTimeRemaining() {
+        const now = new Date();
+        const timeLeft = endDate - now;
+        
+        if (timeLeft <= 0) {
+          timeElement.querySelector('.time-value').textContent = 'Ended';
+          return;
+        }
+        
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        
+        if (days > 0) {
+          timeElement.querySelector('.time-value').textContent = `${days}d ${hours}h`;
+        } else {
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          timeElement.querySelector('.time-value').textContent = `${hours}h ${minutes}m`;
+        }
+      }
+      
+      updateTimeRemaining();
+      setInterval(updateTimeRemaining, 60000); // Update every minute
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Hero Drop Status",
+  "class": "section-drop-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Drop Information"
+    },
+    {
+      "type": "text",
+      "id": "drop_title",
+      "label": "Drop Title",
+      "info": "Override the product title if needed"
+    },
+    {
+      "type": "textarea",
+      "id": "drop_subtitle",
+      "label": "Drop Subtitle",
+      "info": "Brief description of the drop"
+    },
+    {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_features",
+      "label": "Show Drop Features",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_urgency",
+      "label": "Show Urgency Messaging",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "progress_color_start",
+      "label": "Progress Bar Start Color",
+      "default": "#10b981"
+    },
+    {
+      "type": "color",
+      "id": "progress_color_end", 
+      "label": "Progress Bar End Color",
+      "default": "#3b82f6"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Drop Status"
+    }
+  ]
+}
+{% endschema %}
