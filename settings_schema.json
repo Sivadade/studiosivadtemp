@@ -1,0 +1,738 @@
+[
+    {
+      "name": "Studio Sivad Branding",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Collaborator Information"
+        },
+        {
+          "type": "text",
+          "id": "collaborator_name",
+          "label": "Collaborator Name",
+          "default": "Creator",
+          "info": "The name of the collaborator/creator for this store"
+        },
+        {
+          "type": "text",
+          "id": "store_title",
+          "label": "Store Title",
+          "default": "Creator Collection",
+          "info": "The main title displayed on your store"
+        },
+        {
+          "type": "textarea",
+          "id": "store_tagline",
+          "label": "Store Tagline",
+          "default": "Luxury fashion meets authentic creativity",
+          "info": "A short description of your brand"
+        },
+        {
+          "type": "image_picker",
+          "id": "collaborator_logo",
+          "label": "Collaborator Logo",
+          "info": "Upload your personal/brand logo"
+        },
+        {
+          "type": "image_picker",
+          "id": "collaborator_image",
+          "label": "Collaborator Photo",
+          "info": "Your profile photo for the about section"
+        },
+        {
+          "type": "textarea",
+          "id": "about_text",
+          "label": "About Text",
+          "default": "Passionate about creating unique, high-quality fashion that tells a story. Every piece is crafted with intention and designed to make you feel confident and authentic.",
+          "info": "Tell your story - this appears in the about section"
+        },
+        {
+          "type": "header",
+          "content": "Studio Sivad Partnership"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_studio_sivad_branding",
+          "label": "Show Studio Sivad Branding",
+          "default": true,
+          "info": "Display 'Powered by Studio Sivad' messaging"
+        },
+        {
+          "type": "text",
+          "id": "partnership_text",
+          "label": "Partnership Description",
+          "default": "In collaboration with Studio Sivad",
+          "info": "How you want to describe the Studio Sivad partnership"
+        }
+      ]
+    },
+    {
+      "name": "Colors & Styling",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Brand Colors"
+        },
+        {
+          "type": "color",
+          "id": "primary_color",
+          "label": "Primary Color",
+          "default": "#000000",
+          "info": "Main brand color used for buttons, links, and accents"
+        },
+        {
+          "type": "color",
+          "id": "secondary_color",
+          "label": "Secondary Color",
+          "default": "#333333",
+          "info": "Secondary color for gradients and hover states"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent Color",
+          "default": "#007bff",
+          "info": "Accent color for highlights and badges"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background Color",
+          "default": "#ffffff",
+          "info": "Main background color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#333333",
+          "info": "Primary text color"
+        },
+        {
+          "type": "color",
+          "id": "text_secondary",
+          "label": "Secondary Text Color",
+          "default": "#666666",
+          "info": "Secondary text color for descriptions"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
+        },
+        {
+          "type": "font_picker",
+          "id": "type_header_font",
+          "label": "Heading Font",
+          "default": "assistant_n4",
+          "info": "Font used for headings and titles"
+        },
+        {
+          "type": "font_picker",
+          "id": "type_body_font",
+          "label": "Body Font",
+          "default": "assistant_n4", 
+          "info": "Font used for body text"
+        }
+      ]
+    },
+    {
+      "name": "Homepage Settings",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Hero Section"
+        },
+        {
+          "type": "text",
+          "id": "hero_title",
+          "label": "Hero Title",
+          "info": "Main headline on homepage (leave blank to use store title)"
+        },
+        {
+          "type": "textarea",
+          "id": "hero_subtitle",
+          "label": "Hero Subtitle",
+          "default": "Luxury fashion meets authentic creativity",
+          "info": "Subtitle text under the main headline"
+        },
+        {
+          "type": "image_picker",
+          "id": "hero_background",
+          "label": "Hero Background Image",
+          "info": "Background image for the hero section"
+        },
+        {
+          "type": "header",
+          "content": "Homepage Sections"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_stats",
+          "label": "Show Performance Stats",
+          "default": true,
+          "info": "Display metrics cards (earnings, orders, conversion, followers)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_live_drops",
+          "label": "Show Live Drops Section",
+          "default": true,
+          "info": "Display active drops on homepage"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_about",
+          "label": "Show About Section",
+          "default": true,
+          "info": "Display about section with collaborator info"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_newsletter",
+          "label": "Show Newsletter Signup",
+          "default": true,
+          "info": "Display email signup form"
+        },
+        {
+          "type": "collection_picker",
+          "id": "featured_collection",
+          "label": "Featured Collection",
+          "info": "Collection to display on homepage"
+        }
+      ]
+    },
+    {
+      "name": "Drop Settings",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Drop Configuration"
+        },
+        {
+          "type": "range",
+          "id": "default_drop_duration",
+          "label": "Default Drop Duration (days)",
+          "min": 1,
+          "max": 90,
+          "step": 1,
+          "default": 14,
+          "info": "Default length for new drops"
+        },
+        {
+          "type": "range",
+          "id": "default_allocation_target",
+          "label": "Default Allocation Target",
+          "min": 10,
+          "max": 1000,
+          "step": 10,
+          "default": 100,
+          "info": "Default minimum order quantity for drops"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_countdown_timers",
+          "label": "Enable Countdown Timers",
+          "default": true,
+          "info": "Show countdown timers on drop pages"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_allocation_progress",
+          "label": "Enable Allocation Progress",
+          "default": true,
+          "info": "Show allocation progress bars"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_urgency_messaging",
+          "label": "Enable Urgency Messaging",
+          "default": true,
+          "info": "Show urgency messages when drops are ending soon"
+        },
+        {
+          "type": "header",
+          "content": "Drop Page Layout"
+        },
+        {
+          "type": "select",
+          "id": "drop_page_layout",
+          "label": "Drop Page Layout",
+          "options": [
+            { "value": "2-1", "label": "2/3 Content + 1/3 Sidebar" },
+            { "value": "1-1", "label": "50/50 Split" },
+            { "value": "full", "label": "Full Width Content" }
+          ],
+          "default": "2-1",
+          "info": "Layout structure for drop product pages"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_product_tabs",
+          "label": "Enable Product Tabs",
+          "default": true,
+          "info": "Show Story, Products, Lifestyle, Live tabs"
+        }
+      ]
+    },
+    {
+      "name": "Revenue Splits",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Profit Sharing Configuration"
+        },
+        {
+          "type": "paragraph",
+          "content": "Configure how profits are split between collaborator, Studio Sivad, and designers. Total must equal 100%."
+        },
+        {
+          "type": "range",
+          "id": "collaborator_revenue_split",
+          "label": "Collaborator Revenue Split (%)",
+          "min": 20,
+          "max": 70,
+          "step": 0.5,
+          "default": 42.5,
+          "info": "Percentage of profit going to the collaborator"
+        },
+        {
+          "type": "range",
+          "id": "studio_revenue_split",
+          "label": "Studio Sivad Revenue Split (%)",
+          "min": 20,
+          "max": 70,
+          "step": 0.5,
+          "default": 42.5,
+          "info": "Percentage of profit going to Studio Sivad"
+        },
+        {
+          "type": "range",
+          "id": "designer_revenue_split",
+          "label": "Designer Revenue Split (%)",
+          "min": 5,
+          "max": 25,
+          "step": 0.5,
+          "default": 15,
+          "info": "Percentage of profit going to designers"
+        },
+        {
+          "type": "header",
+          "content": "Performance Bonuses"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_performance_bonuses",
+          "label": "Enable Performance Bonuses",
+          "default": true,
+          "info": "Allow collaborators to earn bonus percentages for good performance"
+        },
+        {
+          "type": "range",
+          "id": "max_performance_bonus",
+          "label": "Maximum Performance Bonus (%)",
+          "min": 0,
+          "max": 15,
+          "step": 0.5,
+          "default": 10,
+          "info": "Maximum additional percentage collaborators can earn"
+        },
+        {
+          "type": "range",
+          "id": "max_split_difference",
+          "label": "Maximum Split Difference (%)",
+          "min": 10,
+          "max": 30,
+          "step": 1,
+          "default": 20,
+          "info": "Maximum difference between collaborator and Studio Sivad split"
+        }
+      ]
+    },
+    {
+      "name": "Social Media",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Social Media Accounts"
+        },
+        {
+          "type": "text",
+          "id": "instagram_handle",
+          "label": "Instagram Handle",
+          "placeholder": "username",
+          "info": "Instagram username (without @)"
+        },
+        {
+          "type": "text",
+          "id": "tiktok_handle",
+          "label": "TikTok Handle",
+          "placeholder": "username",
+          "info": "TikTok username (without @)"
+        },
+        {
+          "type": "text",
+          "id": "twitter_handle",
+          "label": "Twitter Handle",
+          "placeholder": "username",
+          "info": "Twitter username (without @)"
+        },
+        {
+          "type": "text",
+          "id": "youtube_handle",
+          "label": "YouTube Channel",
+          "placeholder": "channel-name",
+          "info": "YouTube channel name"
+        },
+        {
+          "type": "text",
+          "id": "snapchat_handle",
+          "label": "Snapchat Handle",
+          "placeholder": "username",
+          "info": "Snapchat username"
+        },
+        {
+          "type": "header",
+          "content": "Social Media Integration"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_links",
+          "label": "Show Social Media Links",
+          "default": true,
+          "info": "Display social media links in header/footer"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_social_sharing",
+          "label": "Enable Social Sharing",
+          "default": true,
+          "info": "Add social sharing buttons to product pages"
+        },
+        {
+          "type": "text",
+          "id": "social_share_text",
+          "label": "Default Share Text",
+          "default": "Check out this exclusive drop from",
+          "info": "Default text for social media shares"
+        }
+      ]
+    },
+    {
+      "name": "Features",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Portal Features"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_collaborator_portal",
+          "label": "Enable Collaborator Portal",
+          "default": true,
+          "info": "Allow collaborator access to dashboard and analytics"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_ai_recommendations",
+          "label": "Enable AI Recommendations",
+          "default": true,
+          "info": "Show AI-powered drop strategy and marketing insights"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_live_chat",
+          "label": "Enable Live Chat Features",
+          "default": true,
+          "info": "Allow live streaming and chat functionality"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_analytics_tracking",
+          "label": "Enable Advanced Analytics",
+          "default": true,
+          "info": "Track detailed performance metrics and customer data"
+        },
+        {
+          "type": "header",
+          "content": "Customer Features"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_size_selector",
+          "label": "Enable Size Selector",
+          "default": true,
+          "info": "Show size selection on product pages"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_edition_selector",
+          "label": "Enable Edition Selector",
+          "default": true,
+          "info": "Allow customers to choose between different product editions"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_wishlist",
+          "label": "Enable Wishlist",
+          "default": false,
+          "info": "Allow customers to save products for later"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_notifications",
+          "label": "Enable Email Notifications",
+          "default": true,
+          "info": "Send notifications for drop updates and restocks"
+        }
+      ]
+    },
+    {
+      "name": "Advanced Settings",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Performance & SEO"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_lazy_loading",
+          "label": "Enable Lazy Loading",
+          "default": true,
+          "info": "Improve page load times by loading images as needed"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_preloading",
+          "label": "Enable Resource Preloading",
+          "default": true,
+          "info": "Preload critical resources for better performance"
+        },
+        {
+          "type": "text",
+          "id": "google_analytics_id",
+          "label": "Google Analytics ID",
+          "placeholder": "G-XXXXXXXXXX",
+          "info": "Your Google Analytics tracking ID"
+        },
+        {
+          "type": "text",
+          "id": "facebook_pixel_id",
+          "label": "Facebook Pixel ID",
+          "placeholder": "123456789012345",
+          "info": "Your Facebook Pixel ID for conversion tracking"
+        },
+        {
+          "type": "header",
+          "content": "Notifications & Alerts"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_low_stock_alerts",
+          "label": "Enable Low Stock Alerts",
+          "default": true,
+          "info": "Show alerts when drop allocation is running low"
+        },
+        {
+          "type": "range",
+          "id": "low_stock_threshold",
+          "label": "Low Stock Threshold (%)",
+          "min": 70,
+          "max": 95,
+          "step": 5,
+          "default": 85,
+          "info": "When to show low stock alerts"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_urgency_notifications",
+          "label": "Enable Urgency Notifications",
+          "default": true,
+          "info": "Show notifications when drops are ending soon"
+        },
+        {
+          "type": "range",
+          "id": "urgency_threshold_hours",
+          "label": "Urgency Threshold (hours)",
+          "min": 6,
+          "max": 72,
+          "step": 6,
+          "default": 24,
+          "info": "When to start showing urgency messages"
+        },
+        {
+          "type": "header",
+          "content": "Developer Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_debug_mode",
+          "label": "Enable Debug Mode",
+          "default": false,
+          "info": "Show additional debugging information (disable in production)"
+        },
+        {
+          "type": "text",
+          "id": "api_endpoint",
+          "label": "Custom API Endpoint",
+          "placeholder": "https://api.example.com",
+          "info": "Custom API endpoint for advanced integrations"
+        },
+        {
+          "type": "textarea",
+          "id": "custom_css",
+          "label": "Custom CSS",
+          "info": "Add custom CSS styles (advanced users only)"
+        },
+        {
+          "type": "textarea",
+          "id": "custom_javascript",
+          "label": "Custom JavaScript",
+          "info": "Add custom JavaScript code (advanced users only)"
+        }
+      ]
+    },
+    {
+      "name": "Email & Communications",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Email Templates"
+        },
+        {
+          "type": "textarea",
+          "id": "welcome_email_text",
+          "label": "Welcome Email Text",
+          "default": "Welcome to my exclusive collection! You'll be the first to know about new drops and special offers.",
+          "info": "Text for welcome emails to new subscribers"
+        },
+        {
+          "type": "textarea",
+          "id": "drop_launch_email_text",
+          "label": "Drop Launch Email Text",
+          "default": "🚀 My new collection just dropped! Limited quantities available - reserve yours now.",
+          "info": "Text for drop launch notifications"
+        },
+        {
+          "type": "textarea",
+          "id": "low_stock_email_text",
+          "label": "Low Stock Email Text",
+          "default": "⚡ Only a few pieces left! Don't miss your chance to get this exclusive piece.",
+          "info": "Text for low stock alerts"
+        },
+        {
+          "type": "header",
+          "content": "Communication Preferences"
+        },
+        {
+          "type": "checkbox",
+          "id": "send_drop_notifications",
+          "label": "Send Drop Notifications",
+          "default": true,
+          "info": "Automatically notify subscribers when new drops launch"
+        },
+        {
+          "type": "checkbox",
+          "id": "send_restock_notifications",
+          "label": "Send Restock Notifications",
+          "default": true,
+          "info": "Notify customers when out-of-stock items become available"
+        },
+        {
+          "type": "checkbox",
+          "id": "send_milestone_notifications",
+          "label": "Send Milestone Notifications",
+          "default": true,
+          "info": "Notify about drop milestones (50% funded, etc.)"
+        },
+        {
+          "type": "select",
+          "id": "email_frequency",
+          "label": "Email Frequency",
+          "options": [
+            { "value": "immediate", "label": "Immediate" },
+            { "value": "daily", "label": "Daily Digest" },
+            { "value": "weekly", "label": "Weekly Summary" }
+          ],
+          "default": "immediate",
+          "info": "How often to send non-urgent notifications"
+        }
+      ]
+    },
+    {
+      "name": "Mobile & Responsive",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Mobile Optimization"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_mobile_optimizations",
+          "label": "Enable Mobile Optimizations",
+          "default": true,
+          "info": "Apply mobile-specific optimizations for better performance"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_touch_gestures",
+          "label": "Enable Touch Gestures",
+          "default": true,
+          "info": "Enable swipe gestures for product galleries and carousels"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_mobile_notifications",
+          "label": "Enable Mobile Push Notifications",
+          "default": false,
+          "info": "Send push notifications on mobile devices (requires setup)"
+        },
+        {
+          "type": "header",
+          "content": "Responsive Breakpoints"
+        },
+        {
+          "type": "range",
+          "id": "mobile_breakpoint",
+          "label": "Mobile Breakpoint (px)",
+          "min": 320,
+          "max": 768,
+          "step": 16,
+          "default": 768,
+          "info": "Screen width where mobile styles activate"
+        },
+        {
+          "type": "range",
+          "id": "tablet_breakpoint",
+          "label": "Tablet Breakpoint (px)",
+          "min": 768,
+          "max": 1200,
+          "step": 16,
+          "default": 1024,
+          "info": "Screen width where tablet styles activate"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Layout"
+        },
+        {
+          "type": "select",
+          "id": "mobile_drop_layout",
+          "label": "Mobile Drop Page Layout",
+          "options": [
+            { "value": "stacked", "label": "Stacked (Content over Sidebar)" },
+            { "value": "tabs", "label": "Tabbed (Content and Purchase as tabs)" },
+            { "value": "sticky", "label": "Sticky Sidebar" }
+          ],
+          "default": "stacked",
+          "info": "How to display drop pages on mobile devices"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_mobile_sticky_cta",
+          "label": "Enable Sticky Mobile CTA",
+          "default": true,
+          "info": "Keep purchase button visible at bottom of mobile screen"
+        }
+      ]
+    }
+  ]
